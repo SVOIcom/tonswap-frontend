@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>SWAP</title>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/vendor.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header__container">
+            <div class="header-logo">
+                <img class="header-logo__logo" src="img/logo.png" alt="">
+                <p class="header-logo__name">Ton Swap</p>
+            </div>
+            <div class="header-menu">
+                <ul class="header-menu__list">
+                    <li class="header-menu__list-item">
+                        <a class="header-menu__list-link" href="#">Exchange</a>
+                    </li>
+                    <li class="header-menu__list-item">
+                        <a class="header-menu__list-link" href="#">To invest</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="button button_l-blue header__swap">Swap</div>
+            <div class="button button_blue header__tonswap">0 TONSWAP</div>
+            <div class="header__balance">0.007536 ETH</div>
+            <div class="header__account open-popup" data-popup="account">
+                <span>0xb8b5...5f83</span>
+                <i class="header__account-icon"></i>
+            </div>
+            <div class="button button_l-blue header__more">
+                <span>More</span>
+                <div class="header-dropdown">
+                    <ul class="header-dropdown__list">
+                        <li class="header-dropdown__list-item">
+                            <a class="header-dropdown__list-link" href="#">About</a>
+                        </li>
+                        <li class="header-dropdown__list-item">
+                            <a class="header-dropdown__list-link" href="#">Docs</a>
+                        </li>
+                        <li class="header-dropdown__list-item">
+                            <a class="header-dropdown__list-link" href="#">Code</a>
+                        </li>
+                        <li class="header-dropdown__list-item">
+                            <a class="header-dropdown__list-link" href="#">Discord</a>
+                        </li>
+                        <li class="header-dropdown__list-item">
+                            <a class="header-dropdown__list-link" href="#">Analytics</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="switch header-mode">
+                <input class="switch__input header-mode__input" type="checkbox" id="light-mode" />
+                <label class="switch__label header-mode__label" for="light-mode"></label>
+                <p class="header-mode__title">Light mode</p>
+            </div>
+        </div>
+    </header>
+    <section class="main">
+        <div class="exchange">
+            <div class="exchange-inner">
+                <div class="exchange-inner__body">
+                    <div class="exchange-settings__button">
+                        <div class="exchange-settings">
+                            <p class="exchange-settings__title">Transaction Settings</p>
+                            <p class="exchange-settings__sub-title">
+                                <i class="exchange-settings__info"></i>
+                                Slippage tolerance
+                            </p>
+                            <div class="exchange-settings__tolerance">
+                                <div class="exchange-settings__tolerance-item">0.1%</div>
+                                <div class="exchange-settings__tolerance-item exchange-settings__tolerance-item_active">0.5%</div>
+                                <div class="exchange-settings__tolerance-item">1%</div>
+                                <div class="exchange-settings__tolerance-item">0.50%</div>
+                            </div>
+                            <p class="exchange-settings__sub-title">Interface Settings</p>
+                            <div class="exchange-settings__interface">
+                                <div class="exchange-settings__interface-item">
+                                    <i class="exchange-settings__info"></i>
+                                    Toggle Expert Mode
+                                    <div class="switch switch_blue switch_on-off exchange-settings__switch">
+                                        <input class="switch__input exchange-settings__switch-input" type="checkbox" id="expert-mode" />
+                                        <label class="switch__label exchange-settings__switch-label" for="expert-mode"></label>
+                                    </div>
+                                </div>
+                                <div class="exchange-settings__interface-item">
+                                    <i class="exchange-settings__info"></i>
+                                    Disable Multihops
+                                    <div class="switch switch_blue switch_on-off exchange-settings__switch">
+                                        <input class="switch__input exchange-settings__switch-input" type="checkbox" id="disable-multihops" />
+                                        <label class="switch__label exchange-settings__switch-label" for="disable-multihops"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="exchange-form">
+                        <div class="exchange-form__field">
+                            <label class="exchange-form__label">You Pay</label>
+                            <div class="exchange-form__input-container">
+                                <div class="exchange-form__input-box">
+                                    <div class="exchange-form__input-label">From</div>
+                                    <div class="exchange-form__input-select exchange-form__input-select_selected open-popup" data-popup="select-token">
+                                        <img src="img/exchange/eth.png" alt="">
+                                        ETH
+                                        <i></i>
+                                    </div>
+                                </div>
+                                <input class="form__input exchange-form__input" type="text" placeholder="0.0">
+                            </div>
+                        </div>
+                        <div class="exchange-form__field">
+                            <div class="exchange-form__reverse"></div>
+                        </div>
+                        <div class="exchange-form__field">
+                            <label class="exchange-form__label">You Receive</label>
+                            <div class="exchange-form__input-container">
+                                <div class="exchange-form__input-box">
+                                    <div class="exchange-form__input-label">To</div>
+                                    <div class="exchange-form__input-select open-popup" data-popup="select-token">
+                                        Select a token
+                                        <i></i>
+                                    </div>
+                                </div>
+                                <input class="form__input exchange-form__input" type="text" placeholder="0.0">
+                            </div>
+                        </div>
+                        <div class="exchange-form__field">
+                            <div class="exchange-form__price">
+                                <span class="exchange-form__price-title">Price</span>
+                                <span class="exchange-form__price-value">0.000861081 ETH per USDT</span>
+                                <i class="exchange-form__price-syncing"></i>
+                            </div>
+                        </div>
+                        <div class="exchange-form__field">
+                            <div class="button button_blue button_l exchange-form__connect open-popup" data-popup="connect">
+                                <i></i>
+                                Connect Wallet
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__top">
+                <div class="button button_l-blue footer__connect open-popup" data-popup="connect">Connect to a wallet</div>
+                <div class="button button_l-blue footer__more">
+                    <span>More</span>
+                    <div class="footer-dropdown">
+                        <ul class="footer-dropdown__list">
+                            <li class="footer-dropdown__list-item">
+                                <a class="footer-dropdown__list-link" href="#">About</a>
+                            </li>
+                            <li class="footer-dropdown__list-item">
+                                <a class="footer-dropdown__list-link" href="#">Docs</a>
+                            </li>
+                            <li class="footer-dropdown__list-item">
+                                <a class="footer-dropdown__list-link" href="#">Code</a>
+                            </li>
+                            <li class="footer-dropdown__list-item">
+                                <a class="footer-dropdown__list-link" href="#">Discord</a>
+                            </li>
+                            <li class="footer-dropdown__list-item">
+                                <a class="footer-dropdown__list-link" href="#">Analytics</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="switch footer-mode">
+                <input class="switch__input footer-mode__input" type="checkbox" id="light-mode-2" />
+                <label class="switch__label footer-mode__label" for="light-mode-2"></label>
+                <p class="footer-mode__title">Light mode</p>
+            </div>
+            </div>
+            <div class="footer__bottom">
+                <div class="button button_l-blue footer__swap">Swap</div>
+                <div class="button button_blue footer__tonswap">0 TONSWAP</div>
+                <div class="footer__balance">0.007536 ETH</div>
+                <div class="footer__account open-popup" data-popup="account">
+                <span>0xb8b5...5f83</span>
+                <i class="footer__account-icon"></i>
+            </div>
+            </div>
+            <p class="footer__copyright">© Ton Swap</p>
+            <p class="footer__id">11653082 <span></span></p>
+        </div>
+    </footer>
+    <div class="messages">
+        <div class="messages-item">
+            <div class="messages-item__close"></div>
+            <div class="messages-item__text">
+                <p>An&nbsp;update is&nbsp;available for the token list &laquo;1inch&raquo; (v34.0.0 to&nbsp;v35.0.0).</p>
+                <ul>
+                    <li>BCS, XED, WOZX, DSD added</li>
+                    <li>DSD removed</li>
+                </ul>
+            </div>
+            <div class="messages-item__buttons">
+                <div class="button button_l-blue messages-item__button">Accept update</div>
+                <div class="button button_l-blue messages-item__button">Dismiss</div>
+            </div>
+        </div>
+        <div class="messages-item messages-item_theme_blue">
+            <div class="messages-item__close"></div>
+            <p class="messages-item__b-title">6 ETH <img src="img/exchange/eth.png" alt=""></p>
+            <div class="messages-item__text">
+                <p>ETH has arrived</p>
+                <p>Thanks for being part of the Ton Swap community.</p>
+            </div>
+            <div class="messages-item__buttons">
+                <div class="button button_l-blue messages-item__button">Claim your ETH tokens</div>
+            </div>
+        </div>
+        <div class="messages-item messages-item_theme_blue">
+            <div class="messages-item__close"></div>
+            <p class="messages-item__b-title">Claimed! <img src="img/exchange/eth.png" alt=""></p>
+            <div class="messages-item__text">
+                <p>Thanks for being part of the Ton Swap community.</p>
+            </div>
+        </div>
+        <div class="messages-item messages-item_theme_white">
+            <div class="messages-item__close"></div>
+            <div class="messages-item__claimed">
+                <div class="messages-item__claimed-icon"></div>
+                <p class="messages-item__claimed-title">Claimed 6 ETH</p>
+                <a class="messages-item__claimed-view" href="#">View on Explorer</a>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-select-token">
+        <div class="popup__content">
+            <div class="select-token">
+                <div class="select-token__body">
+                    <p class="select-token__title">Select a token</p>
+                    <input class="form__input select-token__input" type="text" placeholder="Search name or paste adress">
+                    <div class="select-token__list-container">
+                        <div class="select-token__list-header">
+                            <p class="select-token__list-title">Token name</p>
+                            <div class="select-token__list-arrow"></div>
+                        </div>
+                        <ul class="select-token__list">
+                            <li class="select-token__list-item select-token__list-item_selected">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ETH</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ETH</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ETH</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ETH</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ETH</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ETH</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ETH</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="select-token__footer">
+                    <button class="button button_l-blue button_m select-token__manage open-popup" data-popup="manage">Manage</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-manage">
+        <div class="popup__content">
+            <div class="manage">
+                <div class="manage__header">
+                    <div class="manage__back open-popup" data-popup="select-token"></div>
+                    <p class="manage__title">Manage</p>
+                </div>
+                <div class="manage__body">
+                    <div class="manage-tabs">
+                        <div class="manage-tabs__tab manage-tabs__tab_active" data-id="0">Lists</div>
+                        <div class="manage-tabs__tab" data-id="1">Tokens</div>
+                    </div>
+                    <div class="manage-blocks">
+                        <div class="manage-block" data-id="0">
+                            <input class="form__input manage__input" type="text" placeholder="https// or ipfs:// or ENS name">
+                            <div class="manage-list__container">
+                                <div class="manage-list">
+                                    <div class="manage-list__item">
+                                        <img class="manage-list__item-logo" src="img/exchange/eth.png" alt="">
+                                        <div class="manage-list__item-info">
+                                            <p class="manage-list__item-name">CMC DeFi</p>
+                                            <p class="manage-list__item-sub">defi.cmc.eth</p>
+                                        </div>
+                                        <div class="manage-list__item-arrow">
+                                            <div class="manage-list__item-tooltip">
+                                                <p class="manage-list__item-version">v1.3.0</p>
+                                                <a class="manage-list__item-link" href="#">View list</a>
+                                                <a class="manage-list__item-link" href="#">Remove list</a>
+                                            </div>
+                                        </div>
+                                        <div class="switch switch_blue switch_l switch_on-off manage-list__item-switch">
+                                            <input class="switch__input manage-list__item-switch-input" type="checkbox" id="manage-list-1" />
+                                            <label class="switch__label manage-list__item-switch-label" for="manage-list-1"></label>
+                                        </div>
+                                    </div>
+                                    <div class="manage-list__item">
+                                        <img class="manage-list__item-logo" src="img/exchange/eth.png" alt="">
+                                        <div class="manage-list__item-info">
+                                            <p class="manage-list__item-name">CMC DeFi</p>
+                                            <p class="manage-list__item-sub">defi.cmc.eth</p>
+                                        </div>
+                                        <div class="manage-list__item-arrow">
+                                            <div class="manage-list__item-tooltip">
+                                                <p class="manage-list__item-version">v1.3.0</p>
+                                                <a class="manage-list__item-link" href="#">View list</a>
+                                                <a class="manage-list__item-link" href="#">Remove list</a>
+                                            </div>
+                                        </div>
+                                        <div class="switch switch_blue switch_l switch_on-off manage-list__item-switch">
+                                            <input class="switch__input manage-list__item-switch-input" type="checkbox" id="manage-list-2" />
+                                            <label class="switch__label manage-list__item-switch-label" for="manage-list-2"></label>
+                                        </div>
+                                    </div>
+                                    <div class="manage-list__item">
+                                        <img class="manage-list__item-logo" src="img/exchange/eth.png" alt="">
+                                        <div class="manage-list__item-info">
+                                            <p class="manage-list__item-name">CMC DeFi</p>
+                                            <p class="manage-list__item-sub">defi.cmc.eth</p>
+                                        </div>
+                                        <div class="manage-list__item-arrow">
+                                            <div class="manage-list__item-tooltip">
+                                                <p class="manage-list__item-version">v1.3.0</p>
+                                                <a class="manage-list__item-link" href="#">View list</a>
+                                                <a class="manage-list__item-link" href="#">Remove list</a>
+                                            </div>
+                                        </div>
+                                        <div class="switch switch_blue switch_l switch_on-off manage-list__item-switch">
+                                            <input class="switch__input manage-list__item-switch-input" type="checkbox" id="manage-list-3" />
+                                            <label class="switch__label manage-list__item-switch-label" for="manage-list-3"></label>
+                                        </div>
+                                    </div>
+                                    <div class="manage-list__item">
+                                        <img class="manage-list__item-logo" src="img/exchange/eth.png" alt="">
+                                        <div class="manage-list__item-info">
+                                            <p class="manage-list__item-name">CMC DeFi</p>
+                                            <p class="manage-list__item-sub">defi.cmc.eth</p>
+                                        </div>
+                                        <div class="manage-list__item-arrow">
+                                            <div class="manage-list__item-tooltip">
+                                                <p class="manage-list__item-version">v1.3.0</p>
+                                                <a class="manage-list__item-link" href="#">View list</a>
+                                                <a class="manage-list__item-link" href="#">Remove list</a>
+                                            </div>
+                                        </div>
+                                        <div class="switch switch_blue switch_l switch_on-off manage-list__item-switch">
+                                            <input class="switch__input manage-list__item-switch-input" type="checkbox" id="manage-list-4" />
+                                            <label class="switch__label manage-list__item-switch-label" for="manage-list-4"></label>
+                                        </div>
+                                    </div>
+                                    <div class="manage-list__item">
+                                        <img class="manage-list__item-logo" src="img/exchange/eth.png" alt="">
+                                        <div class="manage-list__item-info">
+                                            <p class="manage-list__item-name">CMC DeFi</p>
+                                            <p class="manage-list__item-sub">defi.cmc.eth</p>
+                                        </div>
+                                        <div class="manage-list__item-arrow">
+                                            <div class="manage-list__item-tooltip">
+                                                <p class="manage-list__item-version">v1.3.0</p>
+                                                <a class="manage-list__item-link" href="#">View list</a>
+                                                <a class="manage-list__item-link" href="#">Remove list</a>
+                                            </div>
+                                        </div>
+                                        <div class="switch switch_blue switch_l switch_on-off manage-list__item-switch">
+                                            <input class="switch__input manage-list__item-switch-input" type="checkbox" id="manage-list-5" />
+                                            <label class="switch__label manage-list__item-switch-label" for="manage-list-5"></label>
+                                        </div>
+                                    </div>
+                                    <div class="manage-list__item">
+                                        <img class="manage-list__item-logo" src="img/exchange/eth.png" alt="">
+                                        <div class="manage-list__item-info">
+                                            <p class="manage-list__item-name">CMC DeFi</p>
+                                            <p class="manage-list__item-sub">defi.cmc.eth</p>
+                                        </div>
+                                        <div class="manage-list__item-arrow">
+                                            <div class="manage-list__item-tooltip">
+                                                <p class="manage-list__item-version">v1.3.0</p>
+                                                <a class="manage-list__item-link" href="#">View list</a>
+                                                <a class="manage-list__item-link" href="#">Remove list</a>
+                                            </div>
+                                        </div>
+                                        <div class="switch switch_blue switch_l switch_on-off manage-list__item-switch">
+                                            <input class="switch__input manage-list__item-switch-input" type="checkbox" id="manage-list-6" />
+                                            <label class="switch__label manage-list__item-switch-label" for="manage-list-6"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="manage-block" data-id="1" style="display: none;">
+                            <input class="form__input manage__input" type="text" placeholder="0xvcx2v187121b23156dfb4236d1b">
+                            <div class="manage-import">
+                                <img class="manage-import__logo" src="img/exchange/eth.png" alt="">
+                                <div class="manage-import__block">
+                                    <p class="manage-import__title">0xMR</p>
+                                    <p class="manage-import__desc">Block-chain.com token</p>
+                                    <p class="manage-import__via">via CoinGecko</p>
+                                </div>
+                                <button class="button button_s button_blue manage-import__button open-popup" data-popup="import-token">Import</button>
+                            </div>
+                            <div class="manage-tokens">
+                                <p class="manage-tokens__empty">0 Custom Tokens</p>
+                            </div>
+                            <div class="manage-tip">
+                                <p class="manage-tip__title">Tip: Custom tokens are stored locally in your browser</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-connect">
+        <div class="popup__content">
+            <div class="connect">
+                <div class="connect__header">
+                    <p class="connect__title">Connect to a wallet</p>
+                </div>
+                <div class="connect-accept">
+                    <div class="form__radio connect-accept__checkbox">
+                        <input class="form__radio-input" id="connect-accept__checkbox" type="checkbox" name="connect-accept__checkbox" checked>
+                        <label class="form__radio-label" for="connect-accept__checkbox">I accept <a href="#">Terms of Service</a>, <a href="#">Legal Disclosure</a> and <a href="#">Privacy Policy</a>.</label>
+                    </div>
+                </div>
+                <div class="connect__body">
+                    <div class="connect-items">
+                        <div class="connect-item">
+                            <div class="connect-item__logo-container">
+                                <img class="connect-item__logo" src="img/connect/logo-1.png" alt="">
+                            </div>
+                            <p class="connect-item__title">Install Metamask</p>
+                        </div>
+                        <div class="connect-item">
+                            <div class="connect-item__logo-container">
+                                <img class="connect-item__logo" src="img/connect/logo-2.png" alt="">
+                            </div>
+                            <p class="connect-item__title">WalletConnect</p>
+                        </div>
+                        <div class="connect-item">
+                            <div class="connect-item__logo-container">
+                                <img class="connect-item__logo" src="img/connect/logo-3.png" alt="">
+                            </div>
+                            <p class="connect-item__title">Coinbase Wallet</p>
+                        </div>
+                        <div class="connect-item">
+                            <div class="connect-item__logo-container">
+                                <img class="connect-item__logo" src="img/connect/logo-4.png" alt="">
+                            </div>
+                            <p class="connect-item__title">Fortmatic</p>
+                        </div>
+                        <div class="connect-item">
+                            <div class="connect-item__logo-container">
+                                <img class="connect-item__logo" src="img/connect/logo-5.png" alt="">
+                            </div>
+                            <p class="connect-item__title">Portis</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="connect__footer">
+                    <div class="connect-new">
+                        <p class="connect-new__title">New to TonSwap?</p>
+                        <button class="button button_m button_l-blue connect-new__button">Learn more about wallets</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-account">
+        <div class="popup__content">
+            <div class="account">
+                <div class="account__header">
+                    <p class="account__title">Account</p>
+                </div>
+                <div class="account__body">
+                    <div class="account-info">
+                        <p class="account-info__title">
+                                <span class="account-info__logo-container">
+                                    <img class="account-info__logo" src="img/connect/logo-1.png" alt="">
+                                </span>
+                            Connected with Metamask
+                        </p>
+                        <button class="button button_l-blue button_m account-info__change">Change</button>
+                        <div class="account-info__token">
+                            <span class="account-info__token-title">0xb8b5...5f83</span>
+                            <img class="account-info__token-icon" src="img/header/account.png" alt="">
+                        </div>
+                        <div class="account-info__buttons">
+                            <div class="account-info__button">
+                                <i class="account-info__button-icon account-info__button-icon_copy"></i>
+                                Copy Address
+                            </div>
+                            <div class="account-info__button">
+                                <i class="account-info__button-icon account-info__button-icon_view"></i>
+                                View on Explorer
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="account__footer">
+                    <!--p class="account-history__title">Your transactions waill appear here</p-->
+                    <div class="account-history">
+                        <p class="account-history__title">Recent transactions</p>
+                        <p class="account-history__clear">clear all</p>
+                        <div class="account-history__items">
+                            <div class="account-history__item">
+                                <span class="account-history__item-title">Add 2.05 ETH to 1161.36 USDT</span>
+                                <i class="account-history__item-icon account-history__item-icon_waiting"></i>
+                            </div>
+                            <div class="account-history__item">
+                                <span class="account-history__item-title">Approve USDT</span>
+                                <i class="account-history__item-icon account-history__item-icon_success"></i>
+                            </div>
+                            <div class="account-history__item">
+                                <span class="account-history__item-title">Swap 2.05 ETH to 1161.36 USDT</span>
+                                <i class="account-history__item-icon account-history__item-icon_success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-swap-confirm">
+        <div class="popup__content">
+            <div class="swap-confirm">
+                <div class="swap-confirm__body">
+                    <p class="swap-confirm__title">Confirm Swap</p>
+                    <div class="swap-confirm-info">
+                        <div class="swap-confirm-info__from">
+                            <div class="swap-confirm-info__count">
+                                <img class="swap-confirm-info__count-logo" src="img/exchange/eth.png" alt="">
+                                <p class="swap-confirm-info__count-title">0.001</p>
+                            </div>
+                            <p class="swap-confirm-info__value">ETH</p>
+                        </div>
+                        <div class="swap-confirm-info__to">
+                            <div class="swap-confirm-info__count">
+                                <img class="swap-confirm-info__count-logo" src="img/exchange/eth.png" alt="">
+                                <p class="swap-confirm-info__count-title">1161.36</p>
+                            </div>
+                            <p class="swap-confirm-info__value">USDT</p>
+                        </div>
+                        <p class="swap-confirm-info__description">Output is&nbsp;estimated. You will receive at&nbsp;least<br> 1161.36 USDT or&nbsp;the transaction will revert.</p>
+                    </div>
+                </div>
+                <div class="swap-confirm__footer">
+                    <div class="exchange-info">
+                        <div class="exchange-info__item">
+                            <span class="exchange-info__item-title">Price</span>
+                            <span class="exchange-info__item-value">0.000861081 ETH per USDT</span>
+                            <i class="exchange-form__price-syncing"></i>
+                        </div>
+                        <div class="exchange-info__item">
+                            <i class="exchange-settings__info"></i>
+                            <span class="exchange-info__item-title">Minimum received</span>
+                            <span class="exchange-info__item-value">1151 USDT</span>
+                        </div>
+                        <div class="exchange-info__item">
+                            <i class="exchange-settings__info"></i>
+                            <span class="exchange-info__item-title">Price Impact</span>
+                            <span class="exchange-info__item-value exchange-info__item-value_green"><0.01%</span>
+                        </div>
+                        <div class="exchange-info__item">
+                            <i class="exchange-settings__info"></i>
+                            <span class="exchange-info__item-title">Liquidity Provider Fee</span>
+                            <span class="exchange-info__item-value">0.003 ETH</span>
+                        </div>
+                    </div>
+                    <div class="button button_blue button_l swap-confirm__button">Confirm Swap</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-import-token">
+        <div class="popup__content">
+            <div class="import-token">
+                <div class="import-token__header">
+                    <div class="import-token__back open-popup" data-popup="manage"></div>
+                    <p class="import-token__title">Import Token</p>
+                </div>
+                <div class="import-token__body">
+                    <div class="import-token-i">
+                        <img class="import-token-i__logo" src="img/exchange/eth.png" alt="">
+                        <div class="import-token-i__block">
+                            <p class="import-token-i__title">0xMR</p>
+                            <p class="import-token-i__desc">Block-chain.com token</p>
+                            <p class="import-token-i__via">via CoinGecko</p>
+                            <p class="import-token-i__token">0x2c12xc8e51c21v2485b4n21cg63n2fn</p>
+                        </div>
+                    </div>
+                    <div class="import-token__risk">
+                        <p class="import-token__risk-title">Trade at your own risk!</p>
+                        <div class="import-token__risk-text">
+                            <p>Anyone can create a&nbsp;token, including creating fake version of&nbsp;exeisting tokens that claim to&nbsp;represent projects.</p>
+                            <p><b>If&nbsp;your purchase this token, you may not be&nbsp;able to&nbsp;sell it&nbsp;back.</b></p>
+                        </div>
+                        <div class="form__radio import-token__risk-checkbox">
+                            <input class="form__radio-input" id="import-token__risk-checkbox" type="checkbox">
+                            <label class="form__radio-label" for="import-token__risk-checkbox">I understand</label>
+                        </div>
+                    </div>
+                    <button class="button button_blue button_n import-token__button disabled">Import</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-waiting">
+        <div class="popup__content">
+            <div class="waiting">
+                <div class="waiting__icon"></div>
+                <p class="waiting__title">Waiting for confirmation</p>
+                <p class="waiting__sub-title">Swapping 0.003 ETH for 1151 USDT</p>
+                <p class="waiting__description">Confirm this transaction in your wallet</p>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-error">
+        <div class="popup__content">
+            <div class="error">
+                <div class="error__icon"></div>
+                <p class="waiting__title">Error. Transaction rejected.</p>
+                <button class="button button_blue button_n error__dismiss">Dismiss</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-success">
+        <div class="popup__content">
+            <div class="success">
+                <div class="success__icon"></div>
+                <p class="waiting__title">Transaction submitted</p>
+                <p class="success__view">View on Explorer</p>
+                <button class="button button_blue button_n success__close">Close</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-revive">
+        <div class="popup__content">
+            <div class="revive">
+                <div class="revive__header">
+                    <p class="revive__title">You will receive</p>
+                    <div class="revive__b-title">
+                        1161.36
+                        <div class="revive__logos">
+                            <img class="revive__logo" src="img/exchange/eth.png" alt="">
+                            <img class="revive__logo" src="img/exchange/eth.png" alt="">
+                        </div>
+                    </div>
+                    <p class="revive__sub-title">ETH/USDT pool tokens</p>
+                    <p class="revive__description">Output is&nbsp;estimated. If&nbsp;the price changes by&nbsp;more<br> than 0.5% your transaction will revert.</p>
+                </div>
+                <div class="revive__body">
+                    <div class="revive-items">
+                        <div class="revive-item">
+                            <span class="revive-item__title">ETH deposited</span>
+                            <span class="revive-item__value">2.05 <img src="img/exchange/eth.png" alt=""></span>
+                        </div>
+                        <div class="revive-item">
+                            <span class="revive-item__title">USDT deposited</span>
+                            <span class="revive-item__value">1161.36 <img src="img/exchange/eth.png" alt=""></span>
+                        </div>
+                        <div class="revive-item">
+                            <span class="revive-item__title">Rates</span>
+                            <span class="revive-item__value">1 ETH = 506 USDT<br> 1 USDT = 0.006 ETH</span>
+                        </div>
+                        <div class="revive-item">
+                            <span class="revive-item__title">Share of pool</span>
+                            <span class="revive-item__value">0.0117%</span>
+                        </div>
+                    </div>
+                    <button class="button button_blue button_l revive__button">Confirm supply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-creating-pool">
+        <div class="popup__content">
+            <div class="revive">
+                <div class="revive__header">
+                    <p class="revive__title">You are creating a pool</p>
+                    <div class="revive__b-title">
+                        ETH/USDT
+                        <div class="revive__logos">
+                            <img class="revive__logo" src="img/exchange/eth.png" alt="">
+                            <img class="revive__logo" src="img/exchange/eth.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="revive__body">
+                    <div class="revive-items">
+                        <div class="revive-item">
+                            <span class="revive-item__title">ETH deposited</span>
+                            <span class="revive-item__value">2.05 <img src="img/exchange/eth.png" alt=""></span>
+                        </div>
+                        <div class="revive-item">
+                            <span class="revive-item__title">USDT deposited</span>
+                            <span class="revive-item__value">1161.36 <img src="img/exchange/eth.png" alt=""></span>
+                        </div>
+                        <div class="revive-item">
+                            <span class="revive-item__title">Rates</span>
+                            <span class="revive-item__value">1 ETH = 506 USDT<br> 1 USDT = 0.006 ETH</span>
+                        </div>
+                        <div class="revive-item">
+                            <span class="revive-item__title">Share of pool</span>
+                            <span class="revive-item__value">0.0117%</span>
+                        </div>
+                    </div>
+                    <button class="button button_blue button_l revive__button">Create pool & supply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/vendor.min.js"></script>
+    <script src="js/main.min.js"></script>
+</body>
+</html>
