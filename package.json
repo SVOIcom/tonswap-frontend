@@ -1,0 +1,23 @@
+{
+  "name": "tonswap-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SVOIcom/tonswap-frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SVOIcom/tonswap-frontend/issues"
+  },
+  "homepage": "https://github.com/SVOIcom/tonswap-frontend#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "freeton": "^0.5.1"
+  }
+}
