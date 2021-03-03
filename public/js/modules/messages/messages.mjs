@@ -40,12 +40,26 @@ const TYPES = {
  * @type {{button: (function(*=, *=): {action: action, id: number, text: string}), TYPES: {simple: string}, THEMES: {white: string, blue: string, none: string}, _constructButtons: (function(*=, *): (string|string)), _simpleMessage: (function(*=): string), show: (function(*=): {waitForClose: Promise<unknown>, id: number, message: *|jQuery|HTMLElement, close: function(): void})}}
  */
 const messages = {
+
+    /**
+     * Make button
+     * @param {string} text
+     * @param {function} action
+     * @returns {{action: *, id: number, text: *}}
+     */
     button: function (text = '', action = () => {
     }) {
         let id = buttonId++;
         return {id, text, action}
     },
 
+    /**
+     * Construct buttons html and markup actions
+     * @param {array} buttons
+     * @param {number} msgId
+     * @returns {string}
+     * @private
+     */
     _constructButtons: (buttons = [], msgId) => {
         if(buttons && buttons.length === 0) {
             return '';
@@ -70,6 +84,12 @@ const messages = {
         return buttonsHtml;
     },
 
+    /**
+     * Generate simple message html
+     * @param {object} options
+     * @returns {string}
+     * @private
+     */
     _simpleMessage: function (options = {theme: THEMES.none, title: '', text: '', msgId: 0}) {
         return `<div class="messages-item ${options.theme}" style="display: none">
             <div class="messages-item__close" id="msgclose_${options.msgId}"></div>
@@ -81,6 +101,11 @@ const messages = {
         </div>`;
     },
 
+    /**
+     * Show message popup
+     * @param {object} options
+     * @returns {{waitForClose: Promise<*>, id: number, message: (*|jQuery|HTMLElement), close: close}}
+     */
     show: function (options = {
         theme: THEMES.none,
         title: '',
