@@ -1,24 +1,26 @@
-/**
-  _______ ____  _   _  _____
+/*_______ ____  _   _  _____
  |__   __/ __ \| \ | |/ ____|
     | | | |  | |  \| | (_____      ____ _ _ __
     | | | |  | | . ` |\___ \ \ /\ / / _` | '_ \
     | | | |__| | |\  |____) \ V  V / (_| | |_) |
     |_|  \____/|_| \_|_____/ \_/\_/ \__,_| .__/
                                          | |
-                                         |_|
-    @name TONSwap project - tonswap.com
-    @copyright SVOI.dev Labs - https://svoi.dev
-    @license Apache-2.0
-    @version 1.0
+                                         |_| */
+/**
+ * @name TONSwap project - tonswap.com
+ * @copyright SVOI.dev Labs - https://svoi.dev
+ * @license Apache-2.0
+ * @version 1.0
  */
 
 
 /**
- * Fancy interface things
+ * Some fancy interface things here
  */
 
 //TODO refactor this document "fancy"
+
+
 
 $(".exchange-settings__button").click(function (e) {
     if($(".exchange-settings__button").is(e.target) && !$(".exchange-settings").is(e.target) && $(".exchange-settings").has(e.target).length === 0) {
@@ -119,15 +121,14 @@ $(".vote-tabs__tab").click(function () {
     $(".vote__block[data-id=" + id + "]").fadeIn();
 });
 
-$(".messages-item__close").click(function () {
-    $(this).closest(".messages-item").fadeOut();
-});
 
 $(".header-mode__input, .footer-mode__input").on("change", function () {
     if($(this).is(":checked")) {
-        $("body").addClass("dark_theme");
+        darkside.makeDark();
+        //$("body").addClass("dark_theme");
     } else {
-        $("body").removeClass("dark_theme");
+        //$("body").removeClass("dark_theme");
+        darkside.makeLight();
     }
 });
 

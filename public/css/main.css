@@ -1,17 +1,18 @@
-/**
-  _______ ____  _   _  _____
+/*_______ ____  _   _  _____
  |__   __/ __ \| \ | |/ ____|
     | | | |  | |  \| | (_____      ____ _ _ __
     | | | |  | | . ` |\___ \ \ /\ / / _` | '_ \
     | | | |__| | |\  |____) \ V  V / (_| | |_) |
     |_|  \____/|_| \_|_____/ \_/\_/ \__,_| .__/
                                          | |
-                                         |_|
-    @name TONSwap project - tonswap.com
-    @copyright SVOI.dev Labs - https://svoi.dev
-    @license Apache-2.0
-    @version 1.0
+                                         |_| */
+/**
+ * @name TONSwap project - tonswap.com
+ * @copyright SVOI.dev Labs - https://svoi.dev
+ * @license Apache-2.0
+ * @version 1.0
  */
+
 
 
 @font-face {
@@ -4551,7 +4552,9 @@ b, strong {
 }
 
 .error__icon {
-    background-image: url("../img/error/error.svg");
+    color: #419bd2;
+    /*background-image: url("../img/error/error.svg");*/
+    font-size: 60pt;
     background-position: center center;
     background-repeat: no-repeat;
     -webkit-background-size: contain;
@@ -4559,6 +4562,11 @@ b, strong {
     width: 90px;
     height: 90px;
     margin: 0 auto;
+}
+
+.error__icon > img{
+    width: 90px;
+    height: 90px;
 }
 
 .error__title {
@@ -4608,7 +4616,8 @@ b, strong {
 }
 
 .success__icon {
-    background-image: url("../img/success/success.svg");
+    color: #419bd2;
+    font-size: 60pt;
     background-position: center center;
     background-repeat: no-repeat;
     -webkit-background-size: contain;
@@ -4616,6 +4625,11 @@ b, strong {
     width: 90px;
     height: 90px;
     margin: 0 auto;
+}
+
+.success__icon > img{
+    width: 90px;
+    height: 90px;
 }
 
 .success__title {
@@ -6197,7 +6211,7 @@ b, strong {
     max-width: -webkit-calc(100% - 40px);
     max-width: -moz-calc(100% - 40px);
     max-width: calc(100% - 40px);
-    display: none;
+   /* display: none;*/
 }
 
 .messages-item {
@@ -7821,6 +7835,25 @@ b, strong {
     color: #fff;
 }
 
+.dark_theme .messages-item{
+    background-color: #0a1e4b;
+    border: #fff 1px solid;
+}
+
+.dark_theme .messages-item_theme_blue{
+    background-color: #0a1e4b;
+    border: #85edc1 2px solid;
+}
+
+.dark_theme .messages-item_theme_white{
+    background-color: #0e255b;
+    border: #fff 2px solid;
+}
+
+.dark_theme .messages-item__close{
+    filter: invert(1);
+}
+
 .dark_theme .tokens-search__input {
     background-image: url("../img/form/search_dark.svg");
     background-repeat: no-repeat;
@@ -9059,4 +9092,10 @@ b, strong {
 /****Additionals****/
 .marginLeftAuto {
     margin-left: auto;
+}
+
+/*Fancy box fix**/
+
+.fancybox-content{
+    display: inline-block!important;
 }

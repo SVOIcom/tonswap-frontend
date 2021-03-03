@@ -223,8 +223,8 @@
 
 
 
-    <div class="messages">
-        <div class="messages-item">
+    <div class="messages" id="messagesHolder">
+       <!-- <div class="messages-item">
             <div class="messages-item__close"></div>
             <div class="messages-item__text">
                 <p>An&nbsp;update is&nbsp;available for the token list &laquo;1inch&raquo; (v34.0.0 to&nbsp;v35.0.0).</p>
@@ -263,7 +263,7 @@
                 <p class="messages-item__claimed-title">Claimed 6 ETH</p>
                 <a class="messages-item__claimed-view" href="#">View on Explorer</a>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="popup popup-select-token">
         <div class="popup__content">
@@ -669,25 +669,7 @@
             </div>
         </div>
     </div>
-    <div class="popup popup-error">
-        <div class="popup__content">
-            <div class="error">
-                <div class="error__icon"></div>
-                <p class="waiting__title">Error. Transaction rejected.</p>
-                <button class="button button_blue button_n error__dismiss">Dismiss</button>
-            </div>
-        </div>
-    </div>
-    <div class="popup popup-success">
-        <div class="popup__content">
-            <div class="success">
-                <div class="success__icon"></div>
-                <p class="waiting__title">Transaction submitted</p>
-                <p class="success__view">View on Explorer</p>
-                <button class="button button_blue button_n success__close">Close</button>
-            </div>
-        </div>
-    </div>
+
     <div class="popup popup-revive">
         <div class="popup__content">
             <div class="revive">
@@ -771,6 +753,6 @@
 
     <script src="js/vendor.min.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/app.mjs" type="module"></script>
 </body>
 </html>
