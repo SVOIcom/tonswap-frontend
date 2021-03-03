@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="css/vendor.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
-<body>
+<body class="dark_theme">
     <header class="header">
         <div class="header__container">
             <div class="header-logo">
                 <img class="header-logo__logo" src="img/logo.png" alt="">
-                <p class="header-logo__name">Ton Swap</p>
+                <p class="header-logo__name">TONSwap</p>
             </div>
             <div class="header-menu">
                 <ul class="header-menu__list">
@@ -22,15 +22,15 @@
                         <a class="header-menu__list-link" href="#">Exchange</a>
                     </li>
                     <li class="header-menu__list-item">
-                        <a class="header-menu__list-link" href="#">To invest</a>
+                        <a class="header-menu__list-link" href="#">Invest</a>
                     </li>
                 </ul>
             </div>
-            <div class="button button_l-blue header__swap">Swap</div>
-            <div class="button button_blue header__tonswap">0 TONSWAP</div>
-            <div class="header__balance">0.007536 ETH</div>
+           <!--  <div class="button button_l-blue header__swap">Swap</div> -->
+            <div class="button button_blue header__tonswap marginLeftAuto">0 TONSWAP</div>
+            <div class="header__balance tonBalance">0.0000 TON</div>
             <div class="header__account open-popup" data-popup="account">
-                <span>0xb8b5...5f83</span>
+                <span class="accountAddress">0xb8b5...5f83</span>
                 <i class="header__account-icon"></i>
             </div>
             <div class="button button_l-blue header__more">
@@ -44,7 +44,7 @@
                             <a class="header-dropdown__list-link" href="#">Docs</a>
                         </li>
                         <li class="header-dropdown__list-item">
-                            <a class="header-dropdown__list-link" href="#">Code</a>
+                            <a class="header-dropdown__list-link" href="#">GitHub</a>
                         </li>
                         <li class="header-dropdown__list-item">
                             <a class="header-dropdown__list-link" href="#">Discord</a>
@@ -56,12 +56,15 @@
                 </div>
             </div>
             <div class="switch header-mode">
-                <input class="switch__input header-mode__input" type="checkbox" id="light-mode" />
+                <input class="switch__input header-mode__input" type="checkbox" checked id="light-mode" />
                 <label class="switch__label header-mode__label" for="light-mode"></label>
-                <p class="header-mode__title">Light mode</p>
+                <p class="header-mode__title">Dark mode</p>
             </div>
         </div>
     </header>
+
+
+
     <section class="main">
         <div class="exchange">
             <div class="exchange-inner">
@@ -169,12 +172,15 @@
             </div>
         </div>
     </section>
+
+
+
     <footer class="footer">
         <div class="footer__container">
             <div class="footer__top">
-                <div class="button button_l-blue footer__connect open-popup" data-popup="connect">Connect to a wallet</div>
+              <!--  <div class="button button_l-blue footer__connect open-popup" data-popup="connect">Connect to a wallet</div> -->
                 <div class="button button_l-blue footer__more">
-                    <span>More</span>
+                    <span><i class="fas fa-bars"></i></span>
                     <div class="footer-dropdown">
                         <ul class="footer-dropdown__list">
                             <li class="footer-dropdown__list-item">
@@ -184,7 +190,7 @@
                                 <a class="footer-dropdown__list-link" href="#">Docs</a>
                             </li>
                             <li class="footer-dropdown__list-item">
-                                <a class="footer-dropdown__list-link" href="#">Code</a>
+                                <a class="footer-dropdown__list-link" href="#">GitHub</a>
                             </li>
                             <li class="footer-dropdown__list-item">
                                 <a class="footer-dropdown__list-link" href="#">Discord</a>
@@ -196,24 +202,27 @@
                     </div>
                 </div>
                 <div class="switch footer-mode">
-                <input class="switch__input footer-mode__input" type="checkbox" id="light-mode-2" />
+                <input class="switch__input footer-mode__input" type="checkbox" checked id="light-mode-2" />
                 <label class="switch__label footer-mode__label" for="light-mode-2"></label>
-                <p class="footer-mode__title">Light mode</p>
+                <p class="footer-mode__title">Dark mode</p>
             </div>
             </div>
             <div class="footer__bottom">
-                <div class="button button_l-blue footer__swap">Swap</div>
+               <!-- <div class="button button_l-blue footer__swap">Swap</div> -->
                 <div class="button button_blue footer__tonswap">0 TONSWAP</div>
-                <div class="footer__balance">0.007536 ETH</div>
+                <div class="footer__balance tonBalance">0.0000 TON</div>
                 <div class="footer__account open-popup" data-popup="account">
-                <span>0xb8b5...5f83</span>
+                <span class="accountAddress">0xb8b5...5f83</span>
                 <i class="footer__account-icon"></i>
             </div>
             </div>
-            <p class="footer__copyright">© Ton Swap</p>
-            <p class="footer__id">11653082 <span></span></p>
+            <p class="footer__copyright">© TONSwap - SVOI.dev</p>
+            <p class="footer__id blockNumber">0 <span></span></p>
         </div>
     </footer>
+
+
+
     <div class="messages">
         <div class="messages-item">
             <div class="messages-item__close"></div>
@@ -755,7 +764,13 @@
             </div>
         </div>
     </div>
+
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
     <script src="js/vendor.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
