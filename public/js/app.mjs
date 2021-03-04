@@ -17,6 +17,7 @@ import darkside from './modules/darkside.mjs';
 import popups from './modules/popups/popups.mjs';
 import {default as globalize} from './modules/provideGlobal.mjs';
 import messages from "./modules/messages/messages.mjs";
+import ExtraTon from "./modules/freeton/providers/ExtraTon/ExtraTon.mjs";
 
 
 /**
@@ -36,22 +37,21 @@ if(!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matc
     darkside.makeLight();
 }
 
-setInterval(async () => {
-    let a = messages.show({
-        theme: messages.THEMES.none,
-        type: messages.TYPES.simple,
-        title: Math.random(),
-        text: Math.random(),
-        timeout: 500000,
-        buttons: [
-            messages.button('Привет', () => {
-                alert('Привет')
-            }),
-            messages.button('мир', () => {
-                alert('мир')
-            }),
-        ]
-    });
+(async () => {
+    let TON = new ExtraTon();
+    let KingTonContract = await TON.loadContract('/contracts/Kington.json', "2");
+    let GiverContract = await TON.loadContract('/contracts/Giver.json', "2");
+    //console.log(KingTonContract);
+    console.log(GiverContract);
+    //console.log(await KingTonContract.getMessages())
+    //console.log(await KingTonContract.getMessages.deploy())
+    console.log(await GiverContract.grant.deploy({addr:"0:bb0a6daa36d2fdcdb78edd8091140e05b9b92656b0c441669ac176cccbf1909e"}))
+    /*console.log(await KingTonContract.addMessage.deploy({
+               dest: '0:bbab3302726f352371676aa889ea69e155e385c3e3e4c9fb85a5c3b64ccca60c',
+               value: '1000000000',
+               bounce: false,
+               allBalance: false,
+               payload: 'te6ccgEBAgEADgABCAAAAAABAApIZWxsbw==',
+             }))*/
 
-
-}, 5000)
+})()

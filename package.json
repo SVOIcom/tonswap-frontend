@@ -18,6 +18,6 @@
   "homepage": "https://github.com/SVOIcom/tonswap-frontend#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "freeton": "^0.5.1"
+    "freeton": "git+https://github.com/lailune/freeton.git"
   }
 }
