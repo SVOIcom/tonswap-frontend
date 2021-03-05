@@ -75,10 +75,17 @@ const popups = {
         }))
     },
 
-    waiting: function (title, subtext, subtext2) {
+    /**
+     * Waiting spinner dialog
+     * @param {string} title
+     * @param {string} subtext
+     * @param {string} subtext2
+     * @returns {Promise<*>}
+     */
+    waiting: function (title = '', subtext = '', subtext2 = '') {
         return new Promise((async resolve => {
             let popup = await this.popup((templates.waiting(title, subtext, subtext2)), {
-                  buttons:[], modal: true
+                buttons: [], modal: true
             });
             resolve(popup);
         }))

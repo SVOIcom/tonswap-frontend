@@ -131,6 +131,10 @@ class ExtraTon extends EventEmitter3 {
         return this;
     }
 
+    async acceptAccount(publicKey, seed, seedLength, seedDict) {
+        throw new Error('Accept account unsupported by extraTON provider');
+    }
+
     /**
      * Get raw extraTON provider
      * @returns {*}

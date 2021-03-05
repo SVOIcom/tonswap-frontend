@@ -15,6 +15,7 @@
 
 
 import Contract from "./Contract.mjs";
+import Account, {SEED_LENGTH, TONMnemonicDictionary} from "./Account.mjs";
 
 
 const NETWORKS = {
@@ -49,6 +50,8 @@ class TonWeb extends EventEmitter3 {
 
         this.network = 'test';
         this.networkServer = NETWORKS.test;
+
+        this.account = null;
 
 
         this.watchdogTimer = null;
@@ -101,6 +104,18 @@ class TonWeb extends EventEmitter3 {
         }, 1000);
 
         return this;
+    }
+
+    /**
+     * Accept account
+     * @param publicKey
+     * @param seed
+     * @param seedLength
+     * @param seedDict
+     * @returns {Promise<Account>}
+     */
+    async acceptAccount(publicKey, seed, seedLength, seedDict) {
+        return this.account = new Account(publicKey, seed, seedLength, seedDict);
     }
 
     /**
@@ -181,9 +196,7 @@ class TonWeb extends EventEmitter3 {
      * @returns {Promise<Contract>}
      */
     async initContract(abi, address) {
-
-
-        return new Contract( abi, address, this.ton);
+        return new Contract(abi, address, this.ton, this);
     }
 
     /**
