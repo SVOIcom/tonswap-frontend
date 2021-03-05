@@ -69,7 +69,7 @@
         <div class="exchange">
             <div class="exchange-inner">
                 <div class="exchange-inner__body">
-                    <div class="exchange-settings__button">
+                  <!--  <div class="exchange-settings__button">
                         <div class="exchange-settings">
                             <p class="exchange-settings__title">Transaction Settings</p>
                             <p class="exchange-settings__sub-title">
@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="exchange-form">
                         <div class="exchange-form__field">
                             <label class="exchange-form__label">You Pay</label>
@@ -142,9 +142,19 @@
                             </div>
                         </div>
                         <div class="exchange-form__field">
-                            <div class="button button_blue button_l exchange-form__connect open-popup" data-popup="connect">
+                            <!-- <div class="button button_blue button_l exchange-form__connect open-popup" data-popup="connect">
                                 <i></i>
                                 Connect Wallet
+                            </div>        -->
+
+                            <div class="button button_blue button_l exchange-form__connect open-popup connectWalletButton" data-popup="account">
+                                <i class="wallet-icon"></i>
+                                Connect Wallet
+                            </div>
+
+                            <div class="button button_blue button_l exchange-form__connect open-popup swapButton" style="display: none" >
+                                <i class="swap-icon"></i>
+                                Swap
                             </div>
                         </div>
                     </div>
@@ -528,32 +538,35 @@
                 </div>
                 <div class="account__body">
                     <div class="account-info">
-                        <p class="account-info__title">
+                        <p class="account-info__title connectedWithExtraTon">
                                 <span class="account-info__logo-container">
-                                    <img class="account-info__logo" src="img/connect/logo-1.png" alt="">
+                                    <img class="account-info__logo" src="img/extraton.png" alt="">
                                 </span>
-                            Connected with Metamask
+                            Connected with extraTON
                         </p>
-                        <button class="button button_l-blue button_m account-info__change">Change</button>
+                        <button class="button button_l-blue button_m account-info__change connectExtratonButton">Connect extraTON</button>
+                        <a href="https://extraton.io/" target="_blank" class="button button_l-blue button_m account-info__change installExtraton" style="display: none">Get extraTON extension</a>
                         <div class="account-info__token">
-                            <span class="account-info__token-title">0xb8b5...5f83</span>
+                            <span class="account-info__token-title accountAddress">000000...0000</span>
                             <img class="account-info__token-icon" src="img/header/account.png" alt="">
                         </div>
                         <div class="account-info__buttons">
-                            <div class="account-info__button">
+                            <!--<div class="account-info__button">
                                 <i class="account-info__button-icon account-info__button-icon_copy"></i>
                                 Copy Address
-                            </div>
+                            </div>-->
                             <div class="account-info__button">
-                                <i class="account-info__button-icon account-info__button-icon_view"></i>
-                                View on Explorer
+                                <a href="#" class="accountLink" target="_blank">
+                                    <i class="account-info__button-icon account-info__button-icon_view "></i>
+                                    View on Explorer
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="account__footer">
                     <!--p class="account-history__title">Your transactions waill appear here</p-->
-                    <div class="account-history">
+                   <!-- <div class="account-history">
                         <p class="account-history__title">Recent transactions</p>
                         <p class="account-history__clear">clear all</p>
                         <div class="account-history__items">
@@ -570,7 +583,7 @@
                                 <i class="account-history__item-icon account-history__item-icon_success"></i>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

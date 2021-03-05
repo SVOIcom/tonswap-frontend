@@ -42,7 +42,7 @@ const account = {
     async updateTONBalance(wallet) {
         $('.tonBalance').text((wallet.balance / 1000000000).toFixed(3) + ' TON');
         $('.tonBalance').attr('href', 'https://'+(await TON.getNetwork()).explorer+'/accounts/accountDetails?id='+wallet.address)
-        $('.accountAddress').attr('href', 'https://'+(await TON.getNetwork()).explorer+'/accounts/accountDetails?id='+wallet.address)
+        $('.accountLink').attr('href', 'https://'+(await TON.getNetwork()).explorer+'/accounts/accountDetails?id='+wallet.address)
     }
 
 

@@ -51,7 +51,7 @@ class Contract {
      * @returns {*}
      */
     getProvider() {
-        return this.provider;
+        return this.ton;
     }
 
     /**

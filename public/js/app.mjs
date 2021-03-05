@@ -48,10 +48,28 @@ import updater from "./modules/ui/updater.mjs";
     let TON = null;
     try {
         TON = await getProvider().init();
+        $('.connectExtratonButton').hide();
+
+        $('.connectWalletButton').hide();
+        $('.swapButton').show();
+
     } catch (e) {
         await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
         TON = await getProvider(undefined, PROVIDERS.TonWeb).init();
 
+        $('.connectedWithExtraTon').hide();
+        $('.installExtraton').show();
+
+
+        $('.connectExtratonButton').click(async ()=>{
+            try{
+                //If extraTON connected make reload
+                TON = await getProvider().init();
+                document.location.reload();
+            }catch (e){
+                await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
+            }
+        });
     }
 
     globalize.makeVisible(TON, 'TON');

@@ -2014,8 +2014,37 @@ b, strong {
     box-sizing: border-box;
 }
 
-.exchange-form__connect i {
+/*.exchange-form__connect i {
     background-image: url("../img/exchange/wallet.svg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -3px;
+    margin-right: 8px;
+}*/
+
+.exchange-form__connect .wallet-icon {
+    background-image: url("../img/exchange/wallet.svg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -3px;
+    margin-right: 8px;
+}
+
+.exchange-form__connect .swap-icon {
+    background-image: url("../img/exchange/syncing.svg");
+    filter: brightness(10);
     background-position: center center;
     background-repeat: no-repeat;
     -webkit-background-size: contain;
@@ -4483,13 +4512,13 @@ b, strong {
 }
 
 .waiting__icon {
-    background-image: url("../img/waiting/loading.svg");
+    background-image: url("../img/spinner.svg");
     background-position: center center;
     background-repeat: no-repeat;
     -webkit-background-size: contain;
     background-size: contain;
-    width: 90px;
-    height: 90px;
+    width: 150px;
+    height: 150px;
     margin: 0 auto;
 }
 
@@ -4498,7 +4527,7 @@ b, strong {
     font-size: calc(18px + 6 * ((100vw - 320px) / 960));
     line-height: calc(24px + 6 * ((100vw - 320px) / 960));
     color: #90a2ad;
-    margin-top: 40px;
+    /*margin-top: 40px;*/
     font-weight: 500;
 }
 
