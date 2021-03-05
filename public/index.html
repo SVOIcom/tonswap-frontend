@@ -280,16 +280,16 @@
             <div class="select-token">
                 <div class="select-token__body">
                     <p class="select-token__title">Select a token</p>
-                    <input class="form__input select-token__input" type="text" placeholder="Search name or paste adress">
+                    <input class="form__input select-token__input" type="text" placeholder="Search name or paste adress" id="searchCurrency" onkeyup="searchList()">
                     <div class="select-token__list-container">
                         <div class="select-token__list-header">
                             <p class="select-token__list-title">Token name</p>
                             <div class="select-token__list-arrow"></div>
                         </div>
-                        <ul class="select-token__list">
+                        <ul class="select-token__list" id="currencyList">
                             <li class="select-token__list-item select-token__list-item_selected">
                                 <img src="img/exchange/eth.png" alt="">
-                                <span>ETH</span>
+                                <span>BTC</span>
                             </li>
                             <li class="select-token__list-item">
                                 <img src="img/exchange/eth.png" alt="">
@@ -297,23 +297,23 @@
                             </li>
                             <li class="select-token__list-item">
                                 <img src="img/exchange/eth.png" alt="">
-                                <span>ETH</span>
+                                <span>ADA</span>
                             </li>
                             <li class="select-token__list-item">
                                 <img src="img/exchange/eth.png" alt="">
-                                <span>ETH</span>
+                                <span>BNB</span>
                             </li>
                             <li class="select-token__list-item">
                                 <img src="img/exchange/eth.png" alt="">
-                                <span>ETH</span>
+                                <span>DOT</span>
                             </li>
                             <li class="select-token__list-item">
                                 <img src="img/exchange/eth.png" alt="">
-                                <span>ETH</span>
+                                <span>XRP</span>
                             </li>
                             <li class="select-token__list-item">
                                 <img src="img/exchange/eth.png" alt="">
-                                <span>ETH</span>
+                                <span>UNI</span>
                             </li>
                         </ul>
                     </div>
@@ -769,5 +769,6 @@
     <script src="js/main.js"></script>
     <script src="ton/main.js"></script>
     <script src="js/app.mjs" type="module"></script>
+    <script src="js/searchList.js"></script>
 </body>
 </html>
