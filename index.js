@@ -24,6 +24,9 @@ const port = 3000;
 app.use(express.static('public'));
 
 app.use('/modules/freeton', express.static('node_modules/freeton/src'));
+app.use('/modules/ton-client-web-js', express.static('node_modules/ton-client-web-js/'));
+app.use('/ton', express.static('dist'));
+app.use('/tonclient.wasm', express.static('dist/tonclient.wasm'));
 
 
 app.get('/', (req, res) => {

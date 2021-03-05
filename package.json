@@ -18,6 +18,12 @@
   "homepage": "https://github.com/SVOIcom/tonswap-frontend#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "freeton": "git+https://github.com/lailune/freeton.git"
+    "freeton": "git+https://github.com/lailune/freeton.git",
+    "ton-client-web-js": "^0.28.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^7.0.0",
+    "webpack": "^5.24.3",
+    "webpack-cli": "^4.5.0"
   }
 }

@@ -19,11 +19,12 @@ import freeton from "/modules/freeton/index.js";
  * Contract class
  */
 class Contract {
-    constructor(provider, abi, address) {
+    constructor(provider, abi, address, ton) {
         this.provider = provider;
         this.abi = abi;
         this.address = address;
         this.contract = new freeton.Contract(provider, abi, address);
+        this.ton = ton;
 
         let that = this;
 
@@ -49,6 +50,14 @@ class Contract {
     }
 
     /**
+     * Get TON client
+     * @returns {TONClient}
+     */
+    getTONClient() {
+        return this.ton;
+    }
+
+    /**
      * Get raw contract object
      * @returns {*}
      */
@@ -59,11 +68,17 @@ class Contract {
     /**
      * Run method locally
      * @param {string} method
-     * @param {undefined|array|object} args
+     * @param {array|object} args
      * @returns {Promise<*>}
      */
-    async getMethod(method, args = undefined) {
-        return await this.contract.functions[method].runGet(args);
+    async getMethod(method, args = {}) {
+        return (await this.ton.contracts.runLocal({
+            abi: this.abi,
+            functionName: method,
+            input: args,
+            address: this.address
+        })).output;
+        //return await this.contract.functions[method].runGet(args);
     }
 
     /**

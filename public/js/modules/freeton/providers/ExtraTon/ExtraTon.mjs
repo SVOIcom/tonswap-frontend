@@ -44,14 +44,28 @@ class ExtraTon {
     constructor(options = {provider: window.freeton}) {
         this.options = options;
         this.provider = new freeton.providers.ExtensionProvider(options.provider);
+        this.ton = null
+        console.log(this.provider);
     }
 
     getProvider() {
         return this.provider;
     }
 
+    /**
+     * Get TON client
+     * @returns {TONClient}
+     */
+    getTONClient() {
+        return this.ton;
+    }
+
     async initContract(abi, address) {
-        return new Contract(await this.provider.getSigner(), abi, address);
+        this.ton = await TONClient.create({
+            servers: [(await this.provider.getNetwork()).server]
+        });
+
+        return new Contract(await this.provider.getSigner(), abi, address, this.ton);
     }
 
     async loadContract(contractJson, networkId = "1") {
