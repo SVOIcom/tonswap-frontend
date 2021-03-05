@@ -13,31 +13,9 @@
  * @version 1.0
  */
 
-import freeton from "/modules/freeton/index.js";
+
 import Contract from "./Contract.mjs";
 
-//const Kington = require('../contracts/Kington.json');
-
-/*
-(async () => {
-
-    const Kington = await ((await fetch('../contracts/Kington.json'))).json();
-
-    console.log(Kington);
-
-    const provider = new freeton.providers.ExtensionProvider(window.freeton);
-    const contract = new freeton.Contract(provider, Kington.abi, Kington.networks['2'].address);
-    console.log(contract);
-    console.time('GETFROMTON')
-    let messages;
-    try {
-        messages = await contract.functions.getMessages.runGet();
-    } catch (e) {
-        console.log(e);
-    }
-    console.timeEnd('GETFROMTON')
-    console.log('MESSAGES', messages);
-})()*/
 
 const NETWORKS = {
     main: 'main.ton.dev',
@@ -49,50 +27,44 @@ const REVERSE_NETWORKS = {
     'net.ton.dev': 'test'
 }
 
+const EXPLORERS = {
+    test: 'net.ton.live',
+    main: 'main.ton.live',
+}
+
 /**
  * extraTON provider class
  */
-class ExtraTon extends EventEmitter3 {
-    constructor(options = {provider: window.freeton}) {
+class TonWeb extends EventEmitter3 {
+    constructor(options = {provider: null}) {
         super();
         this.options = options;
-        this.provider = new freeton.providers.ExtensionProvider(options.provider);
+        //this.provider = new freeton.providers.ExtensionProvider(options.provider);
         this.ton = null
-        this.networkServer = null;
+
         this.pubkey = null;
 
         this.walletContract = null;
         this.walletBalance = 0;
 
         this.network = 'test';
+        this.networkServer = NETWORKS.test;
 
-        this.extratonVersion = '';
 
         this.watchdogTimer = null;
     }
 
     /**
      * Initialize extraTON provider
-     * @returns {Promise<ExtraTon>}
+     * @returns {Promise<TonWeb>}
      */
     async init() {
 
-        //Detect is extraTON exists
-        if(!window.freeton) {
-            throw new Error("extraTON extension not found");
-        }
-
-        //Check extraTON connection
-        try {
-            this.extratonVersion = await this.provider.getVersion();
-        } catch (e) {
-            console.error(e);
-            throw new Error("Can't access to extraTON");
-        }
+        console.log('TonWeb provider used');
 
         //Create "oldschool" ton provider
         this.ton = await TONClient.create({
-            servers: [(await this.provider.getNetwork()).server]
+            servers: [this.networkServer]
         });
 
         //Changes watchdog timer
@@ -132,6 +104,23 @@ class ExtraTon extends EventEmitter3 {
     }
 
     /**
+     * Change network
+     * @param {string} networkServer Network server address
+     * @returns {Promise<void>}
+     */
+    async setNetwork(networkServer) {
+        this.networkServer = networkServer;
+        this.network = REVERSE_NETWORKS[networkServer];
+
+        //Recreate TON provider
+        this.ton = await TONClient.create({
+            servers: [this.networkServer]
+        });
+
+        this.emit('networkChanged', this.network, this,);
+    }
+
+    /**
      * Get raw extraTON provider
      * @returns {*}
      */
@@ -152,7 +141,7 @@ class ExtraTon extends EventEmitter3 {
      * @returns {Promise<*>}
      */
     async getNetwork() {
-        return await this.provider.getNetwork();
+        return {server: this.networkServer, explorer: EXPLORERS[this.network]};
     }
 
     /**
@@ -160,8 +149,8 @@ class ExtraTon extends EventEmitter3 {
      * @returns {Promise<{public: *, secret: null}>}
      */
     async getKeypair() {
-        let publicKey = (await this.provider.getSigner()).publicKey;
-        return {public: publicKey, secret: null};
+        //let publicKey = (await this.provider.getSigner()).publicKey;
+        return {public: '00000000000000000000000000000000000000', secret: null};
     }
 
     /**
@@ -169,7 +158,7 @@ class ExtraTon extends EventEmitter3 {
      * @returns {Promise<*>}
      */
     async getWallet() {
-        let wallet = (await this.provider.getSigner()).wallet;
+        /*let wallet = (await this.provider.getSigner()).wallet;
         //Wallet exists
         if(wallet.address) {
 
@@ -180,7 +169,9 @@ class ExtraTon extends EventEmitter3 {
             wallet.contract = this.walletContract;
             wallet.balance = await this.walletContract.getBalance();
         }
-        return wallet;
+        return wallet;*/
+
+        return {address: '00000000000000000000000000000000000000', balance: 0, contract: null}
     }
 
     /**
@@ -192,7 +183,7 @@ class ExtraTon extends EventEmitter3 {
     async initContract(abi, address) {
 
 
-        return new Contract(await this.provider.getSigner(), abi, address, this.ton);
+        return new Contract( abi, address, this.ton);
     }
 
     /**
@@ -226,4 +217,4 @@ class ExtraTon extends EventEmitter3 {
     }
 }
 
-export default ExtraTon;
+export default TonWeb;
