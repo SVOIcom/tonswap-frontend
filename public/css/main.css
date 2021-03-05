@@ -4101,7 +4101,7 @@ b, strong {
 }
 
 .account-history__item-icon_waiting {
-    background-image: url("../img/waiting/loading.svg");
+    background-image: url("../img/spinner.svg");
 }
 
 .account-history__item-icon_success {

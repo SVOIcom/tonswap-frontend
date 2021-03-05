@@ -53,5 +53,25 @@ export default {
             </div>
         </div>
     </div>`;
+    },
+
+    /**
+     * Waiting dialog with spinner
+     * @param title
+     * @param subtext
+     * @param subtext2
+     * @returns {string}
+     */
+    waiting(title, subtext = '', subtext2 = '') {
+        return `    <div class="popup popup-waiting">
+        <div class="popup__content">
+            <div class="waiting">
+                <div class="waiting__icon"></div>
+                <p class="waiting__title">${title}</p>
+                <p class="waiting__sub-title">${subtext}</p>
+                <p class="waiting__description">${subtext2} </p>
+        </div>
+        </div>
+    </div>`;
     }
 };

@@ -73,6 +73,15 @@ const popups = {
                 }
             });
         }))
-    }
+    },
+
+    waiting: function (title, subtext, subtext2) {
+        return new Promise((async resolve => {
+            let popup = await this.popup((templates.waiting(title, subtext, subtext2)), {
+                  buttons:[], modal: true
+            });
+            resolve(popup);
+        }))
+    },
 }
 export default popups;
