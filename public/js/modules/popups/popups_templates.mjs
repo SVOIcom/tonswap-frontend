@@ -73,5 +73,25 @@ export default {
         </div>
         </div>
     </div>`;
+    },
+
+    getKeys() {
+        return `<div class="popup popup-select-token">
+        <div class="popup__content">
+            <div class="select-token">
+                <div class="select-token__body">
+                    <p class="select-token__title">Public key</p>
+                    <input class="form__input select-token__input" id="publicKeyInput" type="text" placeholder="Enter FreeTON public key">
+                </div>
+                <div class="select-token__body">
+                    <p class="select-token__title">Seed phrase or private key (12 or 24 words)</p>
+                    <input class="form__input select-token__input" id="seedPhraseInput" type="text" placeholder="Enter FreeTON seed phrase">
+                </div>
+                <div class="select-token__footer">
+                    <button class="button button_l-blue button_m select-token__manage " id="applyKeysButton" >Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
     }
 };

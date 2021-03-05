@@ -29,7 +29,8 @@ export const TONMnemonicDictionary = {
 
 export const SEED_LENGTH = {
     w12: 12,
-    w24: 24
+    w24: 24,
+    private: null
 }
 
 // 'abandon math mimic master filter design carbon crystal rookie group knife young'
@@ -51,6 +52,10 @@ class Account {
      * @returns {Promise<*>}
      */
     async getPublic() {
+        if(this.seedLength === SEED_LENGTH.private) {
+            return this.publicKey;
+        }
+
         let keys = await this.ton.crypto.mnemonicDeriveSignKeys({
             phrase: this._seed,
             wordCount: this.seedLength,
@@ -63,6 +68,7 @@ class Account {
         return keys.public
     }
 
+
     /**
      * Get private key
      * @param description
@@ -70,6 +76,11 @@ class Account {
      */
     async getPrivate(description = 'Action unknown') {
         if(confirm('Allow the application to use the public key for: ' + description)) {
+
+            if(this.seedLength === SEED_LENGTH.private) {
+                return this._seed;
+            }
+
             let keys = await this.ton.crypto.mnemonicDeriveSignKeys({
                 phrase: this._seed,
                 wordCount: this.seedLength,
