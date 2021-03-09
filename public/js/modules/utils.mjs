@@ -32,6 +32,37 @@ const utils = {
             }
         }
         return (result.length <= nulls ? '0' : result.slice(0, -nulls)) + '.' + right;
+    },
+    /**
+     * Convert string to hex string
+     * @param {string} str
+     * @returns {string}
+     */
+    toHex(str) {
+        let result = '';
+        for (let i = 0; i < str.length; i++) {
+            result += str.charCodeAt(i).toString(16);
+        }
+        return result;
+    },
+    TRANSFER_BODY: {
+        "ABI version": 2,
+        "functions": [
+            {
+                "name": "transfer",
+                "id": "0x00000000",
+                "inputs": [
+                    {
+                        "name": "comment",
+                        "type": "bytes"
+                    }
+                ],
+                "outputs": []
+            }
+        ],
+        "events": [],
+        "data": []
     }
+
 }
 export default utils;

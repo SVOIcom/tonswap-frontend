@@ -113,7 +113,7 @@ let currentNetworkAddress = '';
      *
      * @type {UI}
      */
-    const UI = await ui.initialize();
+    const UI = await ui.initialize(TON, CONFIG[TON.network]);
 
     UI.on('exchangeChange',async()=>{
         console.log(await UI.getTokens())

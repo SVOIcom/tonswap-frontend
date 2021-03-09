@@ -879,7 +879,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", ({\n  value: true\n}));
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var ton_client_web_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ton-client-web-js */ \"./node_modules/ton-client-web-js/index.js\");\n\n\nwindow.TONClient = ton_client_web_js__WEBPACK_IMPORTED_MODULE_0__.TONClient;\n\n//# sourceURL=webpack://tonswap-frontend/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var ton_client_web_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ton-client-web-js */ \"./node_modules/ton-client-web-js/index.js\");\n\n\nwindow.TONClient = ton_client_web_js__WEBPACK_IMPORTED_MODULE_0__.TONClient;\n\nasync function init(){\n    let ton = await ton_client_web_js__WEBPACK_IMPORTED_MODULE_0__.TONClient.create({\n        servers: ['net.ton.dev']\n    });\n    console.log(ton.abi);\n}\n\ninit();\n\n//# sourceURL=webpack://tonswap-frontend/./src/index.js?");
 
 /***/ })
 

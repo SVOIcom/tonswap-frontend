@@ -15,6 +15,7 @@
 
 import freeton from "/modules/freeton/index.js";
 import Contract from "./Contract.mjs";
+import utils from "../../../utils.mjs";
 
 //const Kington = require('../contracts/Kington.json');
 
@@ -106,7 +107,7 @@ class ExtraTon extends EventEmitter3 {
                 }
 
                 this.network = REVERSE_NETWORKS[networkServer];
-                if(!this.network){
+                if(!this.network) {
                     this.network = networkServer;
                 }
                 this.networkServer = networkServer;
@@ -232,6 +233,25 @@ class ExtraTon extends EventEmitter3 {
         const Contract = contractJson;
 
         return await this.initContract(Contract.abi, Contract.networks[networkId].address);
+    }
+
+    /**
+     * Send TON with message
+     * @param {string} dest
+     * @param {string} amount
+     * @param {string} text
+     * @returns {Promise<*>}
+     */
+    async sendTON(dest, amount, text) {
+        text = utils.toHex(text);
+        let transferBody = (await this.ton.contracts.createRunBody({
+            abi: utils.TRANSFER_BODY,
+            function: 'transfer',
+            params: {comment: text},
+            internal: true
+        })).bodyBase64;
+
+        return await (await this.getWallet()).transfer(dest, amount, true, transferBody);
     }
 }
 

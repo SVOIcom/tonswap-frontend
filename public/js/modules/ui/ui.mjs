@@ -17,14 +17,43 @@
 import TokenHolder from "./TokenHolder.mjs";
 import TokensList from "../tonswap/TokensList.mjs";
 import tokenList from "./tokenList.mjs";
+import PairsRootContract from "../tonswap/contracts/PairsRootContract.mjs";
+import utils from "../utils.mjs";
 
 class UI extends EventEmitter3 {
-    constructor() {
+    /**
+     *
+     * @param {ExtraTon} ton
+     * @param {object} config
+     */
+    constructor(ton, config) {
         super();
         this.tokensList = null;
+        this.ton = ton;
+        this.config = config;
+    }
+
+    async updateExchange() {
+        let exchangeInfo = await this.getTokens();
+
+        try {
+            let pairInfo = await this.swapRoot.getPairInfo(exchangeInfo.from.rootAddress, exchangeInfo.to.rootAddress);
+            console.log(pairInfo);
+
+            $('.pairAddress').text(utils.shortenPubkey(pairInfo.swapPairAddress));
+            $('.pairAddress').attr('href','google.ru');
+        } catch (e) {
+            console.log('EXCEPTION',e);
+        }
+
+        this.emit('exchangeChange');
     }
 
     async init() {
+        //Init contracts
+        this.swapRoot = await new PairsRootContract(this.ton, this.config).init();
+
+
         //Load tokens list
         this.tokensList = await new TokensList().load();
         console.log(await this.tokensList.getTokens());
@@ -37,28 +66,32 @@ class UI extends EventEmitter3 {
         this.tokenHolderTo = new TokenHolder($('.tokenHolderTo'), this.tokensList);
 
         //Reverse button
-        $('.reverseExchange').click(() => {
+        $('.reverseExchange').click(async () => {
             let newTokenTo = this.tokenHolderFrom.address;
             this.tokenHolderFrom.setToken(this.tokenHolderTo.address);
             this.tokenHolderTo.setToken(newTokenTo);
 
-            this.emit('exchangeChange');
+            let newToAmount = $('.fromAmount').val();
+            $('.fromAmount').val($('.toAmount').val());
+            $('.toAmount').val(newToAmount);
+
+            await this.updateExchange();
         })
 
         //Handle token change
         tokenList.on('fromTokenChange', async (rootAddress) => {
             await this.tokenHolderFrom.setToken(rootAddress);
-            this.emit('exchangeChange');
+            await this.updateExchange();
         });
 
         tokenList.on('toTokenChange', async (rootAddress) => {
             await this.tokenHolderTo.setToken(rootAddress);
-            this.emit('exchangeChange');
+            await this.updateExchange();
         });
 
         //Handle amount change
-        $('.fromAmount,.toAmount').keyup(() => {
-            this.emit('exchangeChange');
+        $('.fromAmount,.toAmount').keyup(async () => {
+            await this.updateExchange();
         })
 
         return this;
@@ -83,9 +116,11 @@ class UI extends EventEmitter3 {
  * @type {{initialize(): Promise<UI>}}
  */
 const ui = {
-    async initialize() {
-        return await new UI().init();
+    async initialize(TON, config) {
+        return await new UI(TON, config).init();
     }
 };
 
 export default ui;
+
+

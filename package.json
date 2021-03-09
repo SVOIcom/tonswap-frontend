@@ -19,7 +19,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "freeton": "git+https://github.com/lailune/freeton.git",
-    "ton-client-web-js": "^0.28.0"
+    "ton-client-web-js": "^0.26.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^7.0.0",
