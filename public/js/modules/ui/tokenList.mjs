@@ -13,30 +13,49 @@
  * @version 1.0
  */
 
-const tokenList = {
-    keyup: function () {
+class TokenList extends EventEmitter3{
+    keyup () {
 
         let value = $(this).val().toLowerCase();
 
         $(this).parent().find("li").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
-    },
-    load: function (tokens = [], element = $('#currencyList')) {
+    }
+
+    load (tokens = [], element = $('.tokensList')) {
+
+        let that = this;
+
         let html = `<ul class="select-token__list" id="currencyList">`;
         for (let token of tokens) {
-            html += `<li class="select-token__list-item selectToken" data-address="${token.rootAddress}" style="">
+            html += `<li class="select-token__list-item selectToken" data-fancybox-close data-address="${token.rootAddress}" style="">
                                 <img src="${token.icon}" alt="">
                                 <span>${token.symbol} - ${token.name}</span>
                      </li>`;
         }
 
         html += `</ul>`;
-        $(element).html(html)
+        $(element).html(html);
+
+        $('.fromList').find('.selectToken').click(function (){
+            let rootAddress = $(this).data('address');
+            that.emit('fromTokenChange', rootAddress);
+        });
+
+        $('.toList').find('.selectToken').click(function (){
+            let rootAddress = $(this).data('address');
+            that.emit('toTokenChange', rootAddress);
+        });
+
     }
 }
 
+let tokenList = new TokenList();
+
 //Initialize token lists
-$('.tokenList').keyup(tokenList.keyup)
+$('.tokenSelectListInput').keyup(tokenList.keyup);
+
+
 
 export default tokenList;

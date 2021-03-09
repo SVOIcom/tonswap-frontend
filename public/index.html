@@ -109,29 +109,29 @@
                             <div class="exchange-form__input-container">
                                 <div class="exchange-form__input-box">
                                     <div class="exchange-form__input-label">From</div>
-                                    <div class="exchange-form__input-select exchange-form__input-select_selected open-popup" data-popup="select-token">
+                                    <div class="exchange-form__input-select exchange-form__input-select_selected open-popup tokenHolderFrom" data-popup="select-token-from">
                                         <img src="img/exchange/eth.png" alt="">
                                         ETH
                                         <i></i>
                                     </div>
                                 </div>
-                                <input class="form__input exchange-form__input" type="text" placeholder="0.0">
+                                <input class="form__input exchange-form__input fromAmount" type="text" placeholder="0.0">
                             </div>
                         </div>
                         <div class="exchange-form__field">
-                            <div class="exchange-form__reverse"></div>
+                            <div class="exchange-form__reverse reverseExchange"></div>
                         </div>
                         <div class="exchange-form__field">
                             <label class="exchange-form__label">You Receive</label>
                             <div class="exchange-form__input-container">
                                 <div class="exchange-form__input-box">
                                     <div class="exchange-form__input-label">To</div>
-                                    <div class="exchange-form__input-select open-popup" data-popup="select-token">
+                                    <div class="exchange-form__input-select open-popup tokenHolderTo" data-popup="select-token-to">
                                         Select a token
                                         <i></i>
                                     </div>
                                 </div>
-                                <input class="form__input exchange-form__input" type="text" placeholder="0.0">
+                                <input class="form__input exchange-form__input toAmount" type="text" placeholder="0.0">
                             </div>
                         </div>
                         <div class="exchange-form__field">
@@ -275,18 +275,67 @@
             </div>
         </div> -->
     </div>
-    <div class="popup popup-select-token">
+    <div class="popup popup-select-token-from fromList">
         <div class="popup__content">
             <div class="select-token">
                 <div class="select-token__body">
                     <p class="select-token__title">Select a token</p>
-                    <input class="form__input select-token__input tokenList" type="text" placeholder="Search name" id="searchCurrency">
+                    <input class="form__input select-token__input tokenSelectListInput" type="text" placeholder="Search name" >
                     <div class="select-token__list-container">
                         <div class="select-token__list-header">
                             <p class="select-token__list-title">Token name</p>
                             <!--<div class="select-token__list-arrow"></div> -->
                         </div>
-                        <ul class="select-token__list " id="currencyList">
+                        <ul class="select-token__list tokensList" id="currencyList">
+                            <li class="select-token__list-item select-token__list-item_selected">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>BTC</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ETH</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ADA</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>BNB</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>DOT</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>XRP</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>UNI</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+               <!-- <div class="select-token__footer">
+                    <button class="button button_l-blue button_m select-token__manage open-popup" data-popup="manage">Manage</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-select-token-to toList">
+        <div class="popup__content">
+            <div class="select-token">
+                <div class="select-token__body">
+                    <p class="select-token__title">Select a token</p>
+                    <input class="form__input select-token__input tokenSelectListInput" type="text" placeholder="Search name" >
+                    <div class="select-token__list-container">
+                        <div class="select-token__list-header">
+                            <p class="select-token__list-title">Token name</p>
+                            <!--<div class="select-token__list-arrow"></div> -->
+                        </div>
+                        <ul class="select-token__list tokensList" >
                             <li class="select-token__list-item select-token__list-item_selected">
                                 <img src="img/exchange/eth.png" alt="">
                                 <span>BTC</span>

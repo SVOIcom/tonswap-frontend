@@ -19,9 +19,10 @@ import {default as globalize} from './modules/provideGlobal.mjs';
 import messages from "./modules/messages/messages.mjs";
 import ExtraTon from "./modules/freeton/providers/ExtraTon/ExtraTon.mjs";
 import {default as getProvider, PROVIDERS} from "./modules/freeton/getProvider.mjs";
+import ui from "./modules/ui/ui.mjs";
 import updater from "./modules/ui/updater.mjs";
 import TokensList from "./modules/tonswap/TokensList.mjs";
-import searchList from "./modules/ui/searchList.mjs";
+import tokenList from "./modules/ui/tokenList.mjs";
 import CONFIG from "./config.mjs";
 
 
@@ -107,11 +108,18 @@ let currentNetworkAddress = '';
     currentNetworkAddress = (await TON.getNetwork()).server;
 
 
-    //Load tokens list
-    const TOKENS = await new TokensList().load();
-    console.log(await TOKENS.getTokens());
+    //Initialize UI
+    /**
+     *
+     * @type {UI}
+     */
+    const UI = await ui.initialize();
 
-    searchList.load(await TOKENS.getTokens());
+    UI.on('exchangeChange',async()=>{
+        console.log(await UI.getTokens())
+    })
+
+
 
     //Initialize dialog hide
     loadingPopup.hide();

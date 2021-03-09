@@ -124,11 +124,11 @@ $(".vote-tabs__tab").click(function () {
 
 $(".header-mode__input, .footer-mode__input").on("change", function () {
     if($(this).is(":checked")) {
-        tokensList.makeDark();
+        darkside.makeDark();
         //$("body").addClass("dark_theme");
     } else {
         //$("body").removeClass("dark_theme");
-        tokensList.makeLight();
+        darkside.makeLight();
     }
 });
 

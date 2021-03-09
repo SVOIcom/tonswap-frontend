@@ -43,6 +43,19 @@ class TokensList {
     async getTokens() {
         return this.tokens;
     }
+
+    /**
+     * Get token by root address
+     * @param {string} rootAddress
+     * @returns {Promise<*>}
+     */
+    async getTokenByRootAddress(rootAddress) {
+        for (let token of this.tokens) {
+            if(token.rootAddress === rootAddress) {
+                return token;
+            }
+        }
+    }
 }
 
 export default TokensList;
