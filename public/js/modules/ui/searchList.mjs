@@ -13,16 +13,30 @@
  * @version 1.0
  */
 
-function searchList() {
+const tokenList = {
+    keyup: function () {
 
-  let value = $(this).val().toLowerCase();
+        let value = $(this).val().toLowerCase();
 
-  $("#currencyList li").filter(function() {
-    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        $(this).parent().find("li").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    },
+    load: function (tokens = [], element = $('#currencyList')) {
+        let html = `<ul class="select-token__list" id="currencyList">`;
+        for (let token of tokens) {
+            html += `<li class="select-token__list-item selectToken" data-address="${token.rootAddress}" style="">
+                                <img src="${token.icon}" alt="">
+                                <span>${token.symbol} - ${token.name}</span>
+                     </li>`;
+        }
 
-  });
+        html += `</ul>`;
+        $(element).html(html)
+    }
 }
 
-$('#searchCurrency').keyup(searchList)
+//Initialize token lists
+$('.tokenList').keyup(tokenList.keyup)
 
-export default {};
+export default tokenList;

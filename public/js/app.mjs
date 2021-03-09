@@ -111,6 +111,8 @@ let currentNetworkAddress = '';
     const TOKENS = await new TokensList().load();
     console.log(await TOKENS.getTokens());
 
+    searchList.load(await TOKENS.getTokens());
+
     //Initialize dialog hide
     loadingPopup.hide();
 
@@ -118,7 +120,6 @@ let currentNetworkAddress = '';
     let Root = await TON.loadContract('/contracts/abi/RootSwapPairContract.abi.json', CONFIG[TON.network].pairRootAddress);
     window.Root = Root;
     //await Root.getPairInfo({tokenRootContract1:"0:8b8ea2231d4bee5b57c18df60ea122f145663ef79a797ce6739aa9ffa9c7ed72",tokenRootContract2:"0:624865d9a0c8c2e1d3c52223eb04738ce32bff138e95950e02b3b55f2aa89739"})
-
 
 
     let KingTonContract = await TON.loadContractFrom('/contracts/Kington.json', "2");
