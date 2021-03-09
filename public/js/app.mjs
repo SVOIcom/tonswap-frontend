@@ -125,21 +125,21 @@ let currentNetworkAddress = '';
     loadingPopup.hide();
 
 
-    let Root = await TON.loadContract('/contracts/abi/RootSwapPairContract.abi.json', CONFIG[TON.network].pairRootAddress);
-    window.Root = Root;
+   // let Root = await TON.loadContract('/contracts/abi/RootSwapPairContract.abi.json', CONFIG[TON.network].pairRootAddress);
+   // window.Root = Root;
     //await Root.getPairInfo({tokenRootContract1:"0:8b8ea2231d4bee5b57c18df60ea122f145663ef79a797ce6739aa9ffa9c7ed72",tokenRootContract2:"0:624865d9a0c8c2e1d3c52223eb04738ce32bff138e95950e02b3b55f2aa89739"})
 
 
-    let KingTonContract = await TON.loadContractFrom('/contracts/Kington.json', "2");
+    //let KingTonContract = await TON.loadContractFrom('/contracts/Kington.json', "2");
     /*let GiverContract = await TON.loadContractFrom('/contracts/Giver.json', "2");*/
     /*let tonlabs = await TON.loadContractFrom('/contracts/TonlabsGiver.json', "1");
     console.log(tonlabs);
     console.log(await tonlabs.sendTransaction({dest:"0:bb0a6daa36d2fdcdb78edd8091140e05b9b92656b0c441669ac176cccbf1909e", value:2000000000, bounce:true}))
 */
 
-    console.log(KingTonContract);
+    //console.log(KingTonContract);
     //console.log(await KingTonContract.addMessage({message:123124}))
-    console.log(await KingTonContract.getMessages());
+    //console.log(await KingTonContract.getMessages());
     //console.log(await KingTonContract.getMessages.deploy());
 
     //console.log(GiverContract);

@@ -15,23 +15,15 @@
 
 
 const utils = {
+    /**
+     * Shorten pubkey or address
+     * @param pubkey
+     * @param delimiter
+     * @returns {string}
+     */
     shortenPubkey: (pubkey, delimiter = '...') => {
         pubkey = String(pubkey);
         return pubkey.substr(0, 6) + delimiter + pubkey.substr(-4);
-    },
-    formatToken: (number, precision = 1) => {
-        if(precision === 1) {
-            return String(number);
-        }
-        let nulls = String(precision).replace(/[1-9]*/, '').length;
-        let result = String(Math.round(number));
-        let right = result.slice(-nulls);
-        if(nulls - right.length > 0) {
-            for (let i = 1; nulls - right.length; i++) {
-                right = '0' + right;
-            }
-        }
-        return (result.length <= nulls ? '0' : result.slice(0, -nulls)) + '.' + right;
     },
     /**
      * Convert string to hex string
@@ -45,6 +37,9 @@ const utils = {
         }
         return result;
     },
+    /**
+     * Transfer hack ABI
+     */
     TRANSFER_BODY: {
         "ABI version": 2,
         "functions": [
@@ -62,6 +57,41 @@ const utils = {
         ],
         "events": [],
         "data": []
+    },
+
+    /**
+     * Big hex string to big dec string
+     * @param {string} s
+     * @returns {string}
+     */
+    hexString2DecString(s) {
+
+        function add(x, y) {
+            let c = 0, r = [];
+            x = x.split('').map(Number);
+            y = y.split('').map(Number);
+            while (x.length || y.length) {
+                let s = (x.pop() || 0) + (y.pop() || 0) + c;
+                r.unshift(s < 10 ? s : s - 10);
+                c = s < 10 ? 0 : 1;
+            }
+            if(c) {
+                r.unshift(c);
+            }
+            return r.join('');
+        }
+
+        let dec = '0';
+        s.split('').forEach(function (chr) {
+            let n = parseInt(chr, 16);
+            for (let t = 8; t; t >>= 1) {
+                dec = add(dec, dec);
+                if(n & t) {
+                    dec = add(dec, '1');
+                }
+            }
+        });
+        return dec;
     }
 
 }

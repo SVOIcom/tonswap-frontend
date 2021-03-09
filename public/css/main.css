@@ -14,7 +14,6 @@
  */
 
 
-
 @font-face {
     font-family: 'TT Hoves Hairline';
     src: url('../fonts/TTHoves-HairlineItalic.eot');
@@ -4593,7 +4592,7 @@ b, strong {
     margin: 0 auto;
 }
 
-.error__icon > img{
+.error__icon > img {
     width: 90px;
     height: 90px;
 }
@@ -4656,7 +4655,7 @@ b, strong {
     margin: 0 auto;
 }
 
-.success__icon > img{
+.success__icon > img {
     width: 90px;
     height: 90px;
 }
@@ -6240,7 +6239,7 @@ b, strong {
     max-width: -webkit-calc(100% - 40px);
     max-width: -moz-calc(100% - 40px);
     max-width: calc(100% - 40px);
-   /* display: none;*/
+    /* display: none;*/
 }
 
 .messages-item {
@@ -7864,22 +7863,22 @@ b, strong {
     color: #fff;
 }
 
-.dark_theme .messages-item{
+.dark_theme .messages-item {
     background-color: #0a1e4b;
     border: #fff 1px solid;
 }
 
-.dark_theme .messages-item_theme_blue{
+.dark_theme .messages-item_theme_blue {
     background-color: #0a1e4b;
     border: #85edc1 2px solid;
 }
 
-.dark_theme .messages-item_theme_white{
+.dark_theme .messages-item_theme_white {
     background-color: #0e255b;
     border: #fff 2px solid;
 }
 
-.dark_theme .messages-item__close{
+.dark_theme .messages-item__close {
     filter: invert(1);
 }
 
@@ -9125,6 +9124,38 @@ b, strong {
 
 /*Fancy box fix**/
 
-.fancybox-content{
-    display: inline-block!important;
+.fancybox-content {
+    display: inline-block !important;
+}
+
+.userBalanceBottom, .userBalanceTop {
+    width: 100%;
+    margin-top: -5px;
+    text-align: right;
+}
+
+.userBalanceBottom {
+    margin-bottom: 10px;
+}
+
+.textCenter{
+    text-align: center;
+}
+
+.exchangeLoader{
+    display: none;
+    width: 43px;
+    height: 43px;
+    margin: 0 auto;
+    margin-top: 15px;
+
+
+}
+
+.reverseExchange{
+    width: 43px;
+    height: 43px;
+    margin: 0 auto;
+    margin-top: 15px;
+    cursor: pointer;
 }

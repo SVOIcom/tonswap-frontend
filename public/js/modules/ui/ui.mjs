@@ -19,6 +19,7 @@ import TokensList from "../tonswap/TokensList.mjs";
 import tokenList from "./tokenList.mjs";
 import PairsRootContract from "../tonswap/contracts/PairsRootContract.mjs";
 import utils from "../utils.mjs";
+import SwapPairContract from "../tonswap/contracts/SwapPairContract.mjs";
 
 class UI extends EventEmitter3 {
     /**
@@ -34,17 +35,38 @@ class UI extends EventEmitter3 {
     }
 
     async updateExchange() {
+
+        $('.reverseExchange').hide();
+        $('.exchangeLoader').show();
+
+
         let exchangeInfo = await this.getTokens();
+        if(exchangeInfo.from && exchangeInfo.to) {
+            try {
+                let pairInfo = await this.swapRoot.getPairInfo(exchangeInfo.from.rootAddress, exchangeInfo.to.rootAddress);
+                console.log(pairInfo);
 
-        try {
-            let pairInfo = await this.swapRoot.getPairInfo(exchangeInfo.from.rootAddress, exchangeInfo.to.rootAddress);
-            console.log(pairInfo);
+                $('.pairAddress').text(utils.shortenPubkey(pairInfo.swapPairAddress));
+                $('.pairAddress').attr('href', 'google.ru');
 
-            $('.pairAddress').text(utils.shortenPubkey(pairInfo.swapPairAddress));
-            $('.pairAddress').attr('href','google.ru');
-        } catch (e) {
-            console.log('EXCEPTION',e);
+                let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
+
+                let userBalances = await pairContract.getUserBalance();
+
+                console.log(await pairContract.getPairInfo());
+
+
+                $('.tokenFromBalance').text(userBalances[exchangeInfo.from.rootAddress] + ' ' + exchangeInfo.from.symbol);
+                $('.tokenToBalance').text(userBalances[exchangeInfo.to.rootAddress] + ' ' + exchangeInfo.to.symbol);
+
+            } catch (e) {
+                $('.pairAddress').text('Pair not found');
+                console.log('EXCEPTION', e);
+            }
         }
+
+        $('.reverseExchange').show();
+        $('.exchangeLoader').hide();
 
         this.emit('exchangeChange');
     }
@@ -68,8 +90,8 @@ class UI extends EventEmitter3 {
         //Reverse button
         $('.reverseExchange').click(async () => {
             let newTokenTo = this.tokenHolderFrom.address;
-            this.tokenHolderFrom.setToken(this.tokenHolderTo.address);
-            this.tokenHolderTo.setToken(newTokenTo);
+            await this.tokenHolderFrom.setToken(this.tokenHolderTo.address);
+            await this.tokenHolderTo.setToken(newTokenTo);
 
             let newToAmount = $('.fromAmount').val();
             $('.fromAmount').val($('.toAmount').val());
