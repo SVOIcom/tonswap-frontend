@@ -52,6 +52,7 @@ import updater from "./modules/ui/updater.mjs";
 
         $('.connectWalletButton').hide();
         $('.swapButton').show();
+        $('.connectSeed').hide();
 
     } catch (e) {
         await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
@@ -59,14 +60,18 @@ import updater from "./modules/ui/updater.mjs";
 
         $('.connectedWithExtraTon').hide();
         $('.installExtraton').show();
+        $('.connectSeed').show();
 
+        $('.connectSeed').click(async () => {
+            await popups.getKeys();
+        });
 
-        $('.connectExtratonButton').click(async ()=>{
-            try{
+        $('.connectExtratonButton').click(async () => {
+            try {
                 //If extraTON connected make reload
                 TON = await getProvider().init();
                 document.location.reload();
-            }catch (e){
+            } catch (e) {
                 await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
             }
         });

@@ -15,6 +15,7 @@
 
 import {default as Popup} from './Popup.mjs';
 import {default as templates} from './popups_templates.mjs';
+import Account, {SEED_LENGTH} from "../freeton/providers/TonWeb/Account.mjs";
 
 
 const popups = {
@@ -75,13 +76,56 @@ const popups = {
         }))
     },
 
-    waiting: function (title, subtext, subtext2) {
+    /**
+     * Waiting spinner dialog
+     * @param {string} title
+     * @param {string} subtext
+     * @param {string} subtext2
+     * @returns {Promise<*>}
+     */
+    waiting: function (title = '', subtext = '', subtext2 = '') {
         return new Promise((async resolve => {
             let popup = await this.popup((templates.waiting(title, subtext, subtext2)), {
-                  buttons:[], modal: true
+                buttons: [], modal: true
             });
             resolve(popup);
         }))
     },
+    getKeys: function () {
+        return new Promise((async resolve => {
+            let popup = await this.popup((templates.getKeys()), {});
+            //resolve(popup);
+
+            $('#applyKeysButton').click(async () => {
+                let publicKey = $('#publicKeyInput').val().trim();
+                let seedOrKey = $('#seedPhraseInput').val().trim();
+
+                let testAccount = null;
+
+                if(seedOrKey.split(' ').length === 12) {
+                    testAccount = new Account(TON.ton, publicKey, seedOrKey, SEED_LENGTH.w12);
+                } else if(seedOrKey.split(' ').length === 24) {
+                    testAccount = new Account(TON.ton, publicKey, seedOrKey, SEED_LENGTH.w24);
+                } else {
+                    testAccount = new Account(TON.ton, publicKey, seedOrKey, SEED_LENGTH.private);
+                }
+
+                try {
+                    let publicKeyGenerated = await testAccount.getPublic();
+                    if(publicKeyGenerated !== publicKey) {
+                        throw  new Error('The public key of the seed phrase does not match the specified public key')
+                    }
+
+                    await TON.acceptAccount(publicKey, seedOrKey, testAccount.seedLength);
+                    alert('Key accepted');
+                    popup.hide();
+
+                } catch (e) {
+                    await this.error(`Failed to use the specified key: ${e.message}`);
+                }
+            });
+
+        }))
+    }
 }
 export default popups;

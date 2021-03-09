@@ -15,6 +15,7 @@
 
 
 import Contract from "./Contract.mjs";
+import Account, {SEED_LENGTH, TONMnemonicDictionary} from "./Account.mjs";
 
 
 const NETWORKS = {
@@ -49,6 +50,8 @@ class TonWeb extends EventEmitter3 {
 
         this.network = 'test';
         this.networkServer = NETWORKS.test;
+
+        this.account = null;
 
 
         this.watchdogTimer = null;
@@ -104,6 +107,18 @@ class TonWeb extends EventEmitter3 {
     }
 
     /**
+     * Accept account
+     * @param publicKey
+     * @param seed
+     * @param seedLength
+     * @param seedDict
+     * @returns {Promise<Account>}
+     */
+    async acceptAccount(publicKey, seed, seedLength, seedDict) {
+        return this.account = new Account(this.ton, publicKey, seed, seedLength, seedDict);
+    }
+
+    /**
      * Change network
      * @param {string} networkServer Network server address
      * @returns {Promise<void>}
@@ -148,8 +163,14 @@ class TonWeb extends EventEmitter3 {
      * Get keypair as possible
      * @returns {Promise<{public: *, secret: null}>}
      */
-    async getKeypair() {
+    async getKeypair(privateRequest = false) {
         //let publicKey = (await this.provider.getSigner()).publicKey;
+        if(this.account) {
+            return {
+                public: await this.account.getPublic(),
+                secret: privateRequest ? await this.account.getPrivate(privateRequest) : null
+            };
+        }
         return {public: '00000000000000000000000000000000000000', secret: null};
     }
 
@@ -181,9 +202,7 @@ class TonWeb extends EventEmitter3 {
      * @returns {Promise<Contract>}
      */
     async initContract(abi, address) {
-
-
-        return new Contract( abi, address, this.ton);
+        return new Contract(abi, address, this.ton, this);
     }
 
     /**

@@ -19,20 +19,20 @@ import freeton from "/modules/freeton/index.js";
  * Contract class
  */
 class Contract {
-    constructor( abi, address, ton) {
+    constructor(abi, address, ton, parent) {
         //this.provider = provider;
+        this.parent = parent;
         this.abi = abi;
         this.address = address;
         //this.contract = new freeton.Contract(provider, abi, address);
         this.ton = ton;
 
 
-
         let that = this;
 
         //Setup methods
         for (let {name} of abi.functions) {
-            if(name === 'constructor'){
+            if(name === 'constructor') {
                 continue;
             }
             this[name] = async function (args = undefined) {
@@ -110,9 +110,17 @@ class Contract {
      * @param {undefined|array|object} args
      * @returns {Promise<*>}
      */
-    async deployMethod(method, args = undefined) {
-        console.log(this.contract.functions[method]);
-        return await this.contract.functions[method].run(args);
+    async deployMethod(method, args = {}) {
+        let message = await this.ton.contracts.createRunMessage({
+            address: this.address,
+            abi: this.abi,
+            method,
+            args,
+            keyPair: await this.parent.account.getKeys('Deploy method ' + method)
+        });
+        let transaction = await this.ton.contracts.sendMessage(message.message);
+
+        return await this.ton.contracts.waitForRunTransaction(message, transaction);
     }
 
 }
