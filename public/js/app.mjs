@@ -21,6 +21,7 @@ import ExtraTon from "./modules/freeton/providers/ExtraTon/ExtraTon.mjs";
 import {default as getProvider, PROVIDERS} from "./modules/freeton/getProvider.mjs";
 import updater from "./modules/ui/updater.mjs";
 import TokensList from "./modules/tonswap/TokensList.mjs";
+import searchList from "./modules/ui/searchList.mjs";
 import CONFIG from "./config.mjs";
 
 
