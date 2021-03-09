@@ -20,6 +20,7 @@ import messages from "./modules/messages/messages.mjs";
 import ExtraTon from "./modules/freeton/providers/ExtraTon/ExtraTon.mjs";
 import {default as getProvider, PROVIDERS} from "./modules/freeton/getProvider.mjs";
 import updater from "./modules/ui/updater.mjs";
+import searchList from "./modules/ui/searchList.mjs";
 
 
 //Go async
@@ -41,6 +42,11 @@ import updater from "./modules/ui/updater.mjs";
     if(!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         darkside.makeLight();
     }
+
+    /**
+     * Provide search capability
+     */
+    $('#searchCurrency').keyup(searchList)
 
     /**
      * Initialize TON
