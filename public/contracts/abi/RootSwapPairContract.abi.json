@@ -1,0 +1,88 @@
+{
+	"ABI version": 2,
+	"header": ["pubkey", "time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"spCode","type":"cell"},
+				{"name":"spCodeVersion","type":"uint32"},
+				{"name":"minMsgValue","type":"uint256"},
+				{"name":"contractSP","type":"uint256"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "deploySwapPair",
+			"inputs": [
+				{"name":"tokenRootContract1","type":"address"},
+				{"name":"tokenRootContract2","type":"address"}
+			],
+			"outputs": [
+				{"name":"value0","type":"address"}
+			]
+		},
+		{
+			"name": "getPairInfo",
+			"inputs": [
+				{"name":"tokenRootContract1","type":"address"},
+				{"name":"tokenRootContract2","type":"address"}
+			],
+			"outputs": [
+				{"components":[{"name":"rootContract","type":"address"},{"name":"tokenRoot1","type":"address"},{"name":"tokenRoot2","type":"address"},{"name":"tokenWallet1","type":"address"},{"name":"tokenWallet2","type":"address"},{"name":"deployerPubkey","type":"uint256"},{"name":"deployTimestamp","type":"uint256"},{"name":"swapPairAddress","type":"address"},{"name":"uniqueId","type":"uint256"},{"name":"swapPairCodeVersion","type":"uint32"}],"name":"value0","type":"tuple"}
+			]
+		},
+		{
+			"name": "getServiceInformation",
+			"inputs": [
+			],
+			"outputs": [
+				{"components":[{"name":"ownerPubkey","type":"uint256"},{"name":"contractBalance","type":"uint256"},{"name":"creationTimestamp","type":"uint256"},{"name":"codeVersion","type":"uint32"},{"name":"swapPairCode","type":"cell"}],"name":"value0","type":"tuple"}
+			]
+		},
+		{
+			"name": "checkIfPairExists",
+			"inputs": [
+				{"name":"tokenRootContract1","type":"address"},
+				{"name":"tokenRootContract2","type":"address"}
+			],
+			"outputs": [
+				{"name":"value0","type":"bool"}
+			]
+		},
+		{
+			"name": "setSwapPairCode",
+			"inputs": [
+				{"name":"code","type":"cell"},
+				{"name":"codeVersion","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "upgradeSwapPair",
+			"inputs": [
+				{"name":"uniqueID","type":"uint256"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "getXOR",
+			"inputs": [
+				{"name":"tokenRootContract1","type":"address"},
+				{"name":"tokenRootContract2","type":"address"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint256"}
+			]
+		}
+	],
+	"data": [
+		{"key":1,"name":"_randomNonce","type":"uint256"},
+		{"key":2,"name":"ownerPubkey","type":"uint256"}
+	],
+	"events": [
+	]
+}

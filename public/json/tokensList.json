@@ -1,0 +1,30 @@
+{
+  "name": "TonSwap token list",
+  "version": "0.0.1",
+  "type": "TON",
+  "keywords": [
+    "tonswap",
+    "tokens"
+  ],
+  "logo": "https://tonswap.com/img/logo.png",
+  "url": "https://tonswap.com",
+  "timestamp": "2020-12-14T18:56:35+0000",
+  "tokens": [
+    {
+      "rootAddress": "0:8b8ea2231d4bee5b57c18df60ea122f145663ef79a797ce6739aa9ffa9c7ed72",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "decimals": 9,
+      "config": {},
+      "icon": "http://localhost:3000/img/exchange/eth.png"
+    },
+    {
+      "rootAddress": "0:624865d9a0c8c2e1d3c52223eb04738ce32bff138e95950e02b3b55f2aa89739",
+      "name": "Block-Chain.com",
+      "symbol": "BC",
+      "decimals": 9,
+      "config": {},
+      "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2ecB13A8c458c379c4d9a7259e202De03c8F3D19/logo.png"
+    }
+  ]
+}

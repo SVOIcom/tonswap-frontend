@@ -20,6 +20,11 @@ import messages from "./modules/messages/messages.mjs";
 import ExtraTon from "./modules/freeton/providers/ExtraTon/ExtraTon.mjs";
 import {default as getProvider, PROVIDERS} from "./modules/freeton/getProvider.mjs";
 import updater from "./modules/ui/updater.mjs";
+import TokensList from "./modules/tonswap/TokensList.mjs";
+import CONFIG from "./config.mjs";
+
+
+let currentNetworkAddress = '';
 
 
 //Go async
@@ -42,8 +47,11 @@ import updater from "./modules/ui/updater.mjs";
         darkside.makeLight();
     }
 
+    let loadingPopup = await popups.waiting('Initialize...');
+
     /**
      * Initialize TON
+     * @type {ExtraTon}
      */
     let TON = null;
     try {
@@ -82,9 +90,34 @@ import updater from "./modules/ui/updater.mjs";
     //Start UI updater
     await updater.start(TON);
 
-    TON.on('networkChanged', (ton, networkType) => {
-        alert('Network changed to ' + networkType);
+    //Detect if network changed
+    TON.on('networkChanged', async (networkServer, previousNetworkServer) => {
+
+        if(currentNetworkAddress === networkServer) {
+            return;
+        }
+        await popups.error('Detect network change. Change the network back or the page will reload.');
+        console.log(previousNetworkServer, networkServer);
+        if((await TON.getNetwork()).server !== previousNetworkServer) {
+            window.location.reload();
+        }
+        currentNetworkAddress = networkServer;
     });
+    currentNetworkAddress = (await TON.getNetwork()).server;
+
+
+    //Load tokens list
+    const TOKENS = await new TokensList().load();
+    console.log(await TOKENS.getTokens());
+
+    //Initialize dialog hide
+    loadingPopup.hide();
+
+
+    let Root = await TON.loadContract('/contracts/abi/RootSwapPairContract.abi.json', CONFIG[TON.network].pairRootAddress);
+    window.Root = Root;
+    //await Root.getPairInfo({tokenRootContract1:"0:8b8ea2231d4bee5b57c18df60ea122f145663ef79a797ce6739aa9ffa9c7ed72",tokenRootContract2:"0:624865d9a0c8c2e1d3c52223eb04738ce32bff138e95950e02b3b55f2aa89739"})
+
 
 
     let KingTonContract = await TON.loadContractFrom('/contracts/Kington.json', "2");

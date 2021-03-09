@@ -25,7 +25,8 @@ const NETWORKS = {
 
 const REVERSE_NETWORKS = {
     'main.ton.dev': 'main',
-    'net.ton.dev': 'test'
+    'net.ton.dev': 'test',
+    'localhost': 'local'
 }
 
 const EXPLORERS = {
@@ -71,13 +72,13 @@ class TonWeb extends EventEmitter3 {
         });
 
         //Changes watchdog timer
-        this.watchdogTimer = setInterval(async () => {
+        const syncNetwork = async () => {
 
             //Watch for network changed
             let networkServer = (await this.getNetwork()).server
             if(this.networkServer !== networkServer) {
                 if(this.networkServer !== null) {
-                    this.emit('networkChanged', REVERSE_NETWORKS[networkServer], this,);
+                    this.emit('networkChanged', networkServer,  this.networkServer, this,);
                 }
 
                 this.network = REVERSE_NETWORKS[networkServer];
@@ -101,7 +102,9 @@ class TonWeb extends EventEmitter3 {
                 this.walletBalance = newBalance;
             }
 
-        }, 1000);
+        };
+        this.watchdogTimer = setInterval(syncNetwork, 1000);
+        await syncNetwork();
 
         return this;
     }
@@ -125,7 +128,11 @@ class TonWeb extends EventEmitter3 {
      */
     async setNetwork(networkServer) {
         this.networkServer = networkServer;
-        this.network = REVERSE_NETWORKS[networkServer];
+        try {
+            this.network = REVERSE_NETWORKS[networkServer];
+        } catch (e) {
+            this.network = 'local';
+        }
 
         //Recreate TON provider
         this.ton = await TONClient.create({
