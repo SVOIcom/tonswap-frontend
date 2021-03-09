@@ -44,11 +44,6 @@ import searchList from "./modules/ui/searchList.mjs";
     }
 
     /**
-     * Provide search capability
-     */
-    $('#searchCurrency').keyup(searchList)
-
-    /**
      * Initialize TON
      */
     let TON = null;

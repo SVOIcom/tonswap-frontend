@@ -33,4 +33,6 @@ function searchList() {
   }
 }
 
-export default searchList;
+$('#searchCurrency').keyup(searchList)
+
+export default {};
