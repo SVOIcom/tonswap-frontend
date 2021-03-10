@@ -62,6 +62,20 @@ class SwapPairContract {
     }
 
 
+    /**
+     * Get exchange rate
+     * @param fromTokenRootAddress
+     * @param amount
+     * @returns {Promise<*>}
+     */
+    async getExchangeRate(fromTokenRootAddress, amount) {
+        let result = await this.contract.getExchangeRate({
+            swappableTokenRoot: fromTokenRootAddress,
+            swappableTokenAmount: amount
+        })
+        return result.value0;
+    }
+
 }
 
 

@@ -52,12 +52,11 @@ class UI extends EventEmitter3 {
                 let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
 
                 let userBalances = await pairContract.getUserBalance();
-
-                console.log(await pairContract.getPairInfo());
-
-
                 $('.tokenFromBalance').text(userBalances[exchangeInfo.from.rootAddress] + ' ' + exchangeInfo.from.symbol);
                 $('.tokenToBalance').text(userBalances[exchangeInfo.to.rootAddress] + ' ' + exchangeInfo.to.symbol);
+
+                let exchangeRate = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, exchangeInfo.fromAmount);
+                console.log(exchangeRate);
 
             } catch (e) {
                 $('.pairAddress').text('Pair not found');
