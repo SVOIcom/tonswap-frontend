@@ -910,6 +910,8 @@ b, strong {
     -o-transition: .3s;
     -moz-transition: .3s;
     transition: .3s;
+    pointer-events: none;
+
 }
 
 .disabled > * {
@@ -4528,6 +4530,7 @@ b, strong {
     color: #90a2ad;
     /*margin-top: 40px;*/
     font-weight: 500;
+    overflow-wrap: break-word;
 }
 
 @media screen and (min-width: 1280px) {
@@ -9158,4 +9161,8 @@ b, strong {
     margin: 0 auto;
     margin-top: 15px;
     cursor: pointer;
+}
+
+.iconButton:hover{
+    filter: brightness(2);
 }

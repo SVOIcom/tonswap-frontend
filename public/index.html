@@ -120,7 +120,11 @@
                         </div>
                         <div class="exchange-form__field">
                             <div class="exchange-form__price">
-                                <span class="exchange-form__price-title userBalanceTop">Balance <a href="#" class="tokenFromBalance" target="_blank">0</a></span>
+                                <span class="exchange-form__price-title userBalanceTop">Balance
+                                    <a href="#" class="tokenFromBalance" target="_blank">0</a>
+                                    <a href="#" class="tokenFromBalanceDeposit iconButton" title="Deposit token"><i class="fas fa-wallet"></i></a>
+                                    <a href="#" class="tokenFromBalanceWithdraw  iconButton" title="Withdraw token"><i class="fas fa-sign-out-alt"></i></a>
+                                </span>
                                 <span class="exchange-form__price-value "></span>
                             </div>
                         </div>
@@ -145,7 +149,10 @@
 
                         <div class="exchange-form__field" style="margin-botton: 20px">
                             <div class="exchange-form__price">
-                                <span class="exchange-form__price-title userBalanceBottom">Balance <a href="#" class="tokenToBalance" target="_blank">0</a></span>
+                                <span class="exchange-form__price-title userBalanceBottom">Balance
+                                    <a href="#" class="tokenToBalance" target="_blank">0</a>
+                                    <a href="#" class="tokenToBalanceWithdraw  iconButton" title="Withdraw token"><i class="fas fa-sign-out-alt"></i></a>
+                                </span>
                                 <span class="exchange-form__price-value "></span>
                             </div>
                         </div>
@@ -153,7 +160,7 @@
                         <div class="exchange-form__field">
                             <div class="exchange-form__price">
                                 <span class="exchange-form__price-title">Price</span>
-                                <span class="exchange-form__price-value">0.000861081 ETH per USDT</span>
+                                <span class="exchange-form__price-value exchangeRate">Select tokens</span>
                             </div>
                         </div>
                         <div class="exchange-form__field">
@@ -185,17 +192,17 @@
                         <div class="exchange-info__item">
                             <i class="exchange-settings__info"></i>
                             <span class="exchange-info__item-title">Minimum received</span>
-                            <span class="exchange-info__item-value">1151 USDT</span>
+                            <span class="exchange-info__item-value minimumReceived">0</span>
                         </div>
-                        <div class="exchange-info__item">
+                      <!--  <div class="exchange-info__item">
                             <i class="exchange-settings__info"></i>
                             <span class="exchange-info__item-title">Price Impact</span>
                             <span class="exchange-info__item-value exchange-info__item-value_green"><0.01%</span>
-                        </div>
+                        </div> -->
                         <div class="exchange-info__item">
                             <i class="exchange-settings__info"></i>
                             <span class="exchange-info__item-title">Liquidity Provider Fee</span>
-                            <span class="exchange-info__item-value">0.003 ETH</span>
+                            <span class="exchange-info__item-value exchangeFee">0</span>
                         </div>
                     </div>
                     <a class="button button_l-blue exchange__pair-analytics" href="#">View pair analytics</a>
@@ -693,17 +700,17 @@
                         <div class="exchange-info__item">
                             <i class="exchange-settings__info"></i>
                             <span class="exchange-info__item-title">Minimum received</span>
-                            <span class="exchange-info__item-value">1151 USDT</span>
+                            <span class="exchange-info__item-value minimumReceived">0</span>
                         </div>
-                        <div class="exchange-info__item">
+                        <!--<div class="exchange-info__item">
                             <i class="exchange-settings__info"></i>
                             <span class="exchange-info__item-title">Price Impact</span>
                             <span class="exchange-info__item-value exchange-info__item-value_green"><0.01%</span>
-                        </div>
+                        </div> -->
                         <div class="exchange-info__item">
                             <i class="exchange-settings__info"></i>
                             <span class="exchange-info__item-title">Liquidity Provider Fee</span>
-                            <span class="exchange-info__item-value">0.003 ETH</span>
+                            <span class="exchange-info__item-value exchangeFee">0</span>
                         </div>
                     </div>
                     <div class="button button_blue button_l swap-confirm__button">Confirm Swap</div>

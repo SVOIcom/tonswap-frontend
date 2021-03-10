@@ -18,7 +18,9 @@
  * Configuration
  */
 export default {
-    test: {},
+    test: {
+        pairRootAddress: '0:03fda3aa024c927bef37891c808eebc70d4ffce5b2e2888ebf812b521836730e',
+    },
     main: {},
     local: {
         pairRootAddress: '0:03fda3aa024c927bef37891c808eebc70d4ffce5b2e2888ebf812b521836730e',

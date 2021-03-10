@@ -49,8 +49,8 @@ class TonWeb extends EventEmitter3 {
         this.walletContract = null;
         this.walletBalance = 0;
 
-        this.network = 'test';
-        this.networkServer = NETWORKS.test;
+        this.network = options.network ? options.network : 'test';
+        this.networkServer = options.networkServer ? options.networkServer : NETWORKS.test;
 
         this.account = null;
 
@@ -78,7 +78,7 @@ class TonWeb extends EventEmitter3 {
             let networkServer = (await this.getNetwork()).server
             if(this.networkServer !== networkServer) {
                 if(this.networkServer !== null) {
-                    this.emit('networkChanged', networkServer,  this.networkServer, this,);
+                    this.emit('networkChanged', networkServer, this.networkServer, this,);
                 }
 
                 this.network = REVERSE_NETWORKS[networkServer];
@@ -178,7 +178,7 @@ class TonWeb extends EventEmitter3 {
                 secret: privateRequest ? await this.account.getPrivate(privateRequest) : null
             };
         }
-        return {public: '00000000000000000000000000000000000000', secret: null};
+        return {public: '000000000000000000000000000000000000000000000000000000000000000', secret: null};
     }
 
     /**
@@ -199,7 +199,7 @@ class TonWeb extends EventEmitter3 {
         }
         return wallet;*/
 
-        return {address: '00000000000000000000000000000000000000', balance: 0, contract: null}
+        return {address: '000000000000000000000000000000000000000000000000000000000000000', balance: 0, contract: null}
     }
 
     /**

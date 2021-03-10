@@ -34,7 +34,7 @@ let currentNetworkAddress = '';
 
     /**
      * Provide elements visibility
-     */
+     */T
     //Make dark theme controller globally
     globalize.makeVisible(darkside, 'darkside');
 
@@ -66,7 +66,7 @@ let currentNetworkAddress = '';
 
     } catch (e) {
         await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
-        TON = await getProvider(undefined, PROVIDERS.TonWeb).init();
+        TON = await getProvider({network:'local',networkServer:'http://localhost:3333'}, PROVIDERS.TonWeb).init();
 
         $('.connectedWithExtraTon').hide();
         $('.installExtraton').show();

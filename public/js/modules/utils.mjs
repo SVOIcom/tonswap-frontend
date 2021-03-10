@@ -92,6 +92,20 @@ const utils = {
             }
         });
         return dec;
+    },
+    /**
+     * Show token
+     * @param {number|string} amount
+     * @param {number} precision
+     * @returns {string}
+     */
+    showToken(amount, precision = 9) {
+        amount = Number(amount);
+        if(!amount) {
+            return '0';
+        }
+
+        return String(amount.toFixed(precision));
     }
 
 }

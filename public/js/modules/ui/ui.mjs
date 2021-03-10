@@ -20,6 +20,7 @@ import tokenList from "./tokenList.mjs";
 import PairsRootContract from "../tonswap/contracts/PairsRootContract.mjs";
 import utils from "../utils.mjs";
 import SwapPairContract from "../tonswap/contracts/SwapPairContract.mjs";
+import popups from "../popups/popups.mjs";
 
 class UI extends EventEmitter3 {
     /**
@@ -32,12 +33,24 @@ class UI extends EventEmitter3 {
         this.tokensList = null;
         this.ton = ton;
         this.config = config;
+        this.bounceTimer = null;
     }
 
     async updateExchange() {
+        if(this.bounceTimer) {
+            clearTimeout(this.bounceTimer);
+        }
+        this.bounceTimer = setTimeout(() => {
+            this.updateView();
+        }, 1000);
+    }
+
+    async updateView() {
+
 
         $('.reverseExchange').hide();
         $('.exchangeLoader').show();
+        $('.tokenFromBalanceDeposit, .tokenToBalanceDeposit, .tokenToBalanceWithdraw, .tokenFromBalanceWithdraw, .swapButton, .fromAmount, .toAmount').addClass('disabled').blur();
 
 
         let exchangeInfo = await this.getTokens();
@@ -50,13 +63,47 @@ class UI extends EventEmitter3 {
                 $('.pairAddress').attr('href', 'google.ru');
 
                 let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
+                console.log('PAIR', pairContract);
 
-                let userBalances = await pairContract.getUserBalance();
-                $('.tokenFromBalance').text(userBalances[exchangeInfo.from.rootAddress] + ' ' + exchangeInfo.from.symbol);
-                $('.tokenToBalance').text(userBalances[exchangeInfo.to.rootAddress] + ' ' + exchangeInfo.to.symbol);
+                //More pair info we can get from pair
+                pairInfo = await pairContract.getPairInfo();
 
+                //Set exchange rates
                 let exchangeRate = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, exchangeInfo.fromAmount);
+                let exchangeRateForOne = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, 1);
+
+                $('.minimumReceived').text(`${utils.showToken(exchangeRateForOne.targetTokenAmount)} ${exchangeInfo.to.symbol}`)
+                $('.exchangeFee').text(`${utils.showToken(exchangeRateForOne.fee)} ${exchangeInfo.to.symbol}`)
+
+                $('.exchangeRate').text(`${utils.showToken(exchangeRateForOne.targetTokenAmount)} ${exchangeInfo.to.symbol} per ${exchangeInfo.from.symbol}`)
                 console.log(exchangeRate);
+
+                //User balances
+                try {
+                    let userBalances = await pairContract.getUserBalance();
+                    $('.tokenFromBalance').text(userBalances[exchangeInfo.from.rootAddress] + ' ' + exchangeInfo.from.symbol);
+                    $('.tokenToBalance').text(userBalances[exchangeInfo.to.rootAddress] + ' ' + exchangeInfo.to.symbol);
+
+                    $('.tokenFromBalanceDeposit').off('click');
+                    $('.tokenFromBalanceDeposit').click(() => {
+                        let tokenAddress = pairInfo.tokenRoot1 === exchangeInfo.from.rootAddress ? pairInfo.tokenWallet1 : pairInfo.tokenWallet2;
+                        popups.error(`Deposit ${exchangeInfo.from.symbol} token to pair by transferring  to this address: <br> ${tokenAddress}`, '<i class="fas fa-wallet"></i>')
+                    });
+
+                    $('.tokenFromBalanceDeposit').parent().show();
+                    $('.tokenToBalanceDeposit').parent().show();
+                    $('.tokenToBalanceWithdraw').parent().show();
+                    $('.tokenFromBalanceWithdraw').parent().show();
+
+                }catch (e) {
+                    $('.tokenFromBalanceDeposit').parent().hide();
+                    $('.tokenToBalanceDeposit').parent().hide();
+                    $('.tokenToBalanceWithdraw').parent().hide();
+                    $('.tokenFromBalanceWithdraw').parent().hide();
+                    console.log('BALANCE EXCEPTION', e);
+                }
+
+
 
             } catch (e) {
                 $('.pairAddress').text('Pair not found');
@@ -66,6 +113,7 @@ class UI extends EventEmitter3 {
 
         $('.reverseExchange').show();
         $('.exchangeLoader').hide();
+        $('.tokenFromBalanceDeposit, .tokenToBalanceDeposit, .tokenToBalanceWithdraw, .tokenFromBalanceWithdraw, .swapButton, .fromAmount, .toAmount').removeClass('disabled').focus();
 
         this.emit('exchangeChange');
     }
