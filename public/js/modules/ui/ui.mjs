@@ -62,6 +62,10 @@ class UI extends EventEmitter3 {
                 $('.pairAddress').text(utils.shortenPubkey(pairInfo.swapPairAddress));
                 $('.pairAddress').attr('href', 'google.ru');
 
+                /**
+                 *
+                 * @type {PairsRootContract}
+                 */
                 let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
                 console.log('PAIR', pairContract);
 
@@ -90,12 +94,23 @@ class UI extends EventEmitter3 {
                         popups.error(`Deposit ${exchangeInfo.from.symbol} token to pair by transferring  to this address: <br> ${tokenAddress}`, '<i class="fas fa-wallet"></i>')
                     });
 
+
+                    $('.tokenFromBalanceWithdraw').off('click');
+                    $('.tokenFromBalanceWithdraw').click(async () => {
+                        await this.withdrawToken(exchangeInfo.from, pairContract);
+                    });
+
+                    $('.tokenToBalanceWithdraw').off('click');
+                    $('.tokenToBalanceWithdraw').click(async () => {
+                        await this.withdrawToken(exchangeInfo.to, pairContract);
+                    });
+
                     $('.tokenFromBalanceDeposit').parent().show();
                     $('.tokenToBalanceDeposit').parent().show();
                     $('.tokenToBalanceWithdraw').parent().show();
                     $('.tokenFromBalanceWithdraw').parent().show();
 
-                }catch (e) {
+                } catch (e) {
                     $('.tokenFromBalanceDeposit').parent().hide();
                     $('.tokenToBalanceDeposit').parent().hide();
                     $('.tokenToBalanceWithdraw').parent().hide();
@@ -104,6 +119,7 @@ class UI extends EventEmitter3 {
                 }
 
 
+                $('.tokenFromBalanceDeposit, .tokenToBalanceDeposit, .tokenToBalanceWithdraw, .tokenFromBalanceWithdraw, .swapButton, .fromAmount, .toAmount').removeClass('disabled').focus();
 
             } catch (e) {
                 $('.pairAddress').text('Pair not found');
@@ -113,7 +129,6 @@ class UI extends EventEmitter3 {
 
         $('.reverseExchange').show();
         $('.exchangeLoader').hide();
-        $('.tokenFromBalanceDeposit, .tokenToBalanceDeposit, .tokenToBalanceWithdraw, .tokenFromBalanceWithdraw, .swapButton, .fromAmount, .toAmount').removeClass('disabled').focus();
 
         this.emit('exchangeChange');
     }
@@ -176,6 +191,31 @@ class UI extends EventEmitter3 {
             to: await this.tokenHolderTo.getToken(),
             fromAmount: Number($('.fromAmount').val()),
             toAmount: Number($('.toAmount').val())
+        }
+    }
+
+    async withdrawToken(token, pairContract) {
+
+        let address = prompt(`Withdraw wallet address for ${token.symbol} token`);
+        let amount = Number(prompt('Withdraw amount'));
+
+        if(address !== ''  && amount) {
+
+            let waiter = await popups.waiting('Sending transaction...');
+
+            try {
+                let tx = await pairContract.withdrawTokens(token.rootAddress, address, amount);
+                console.log(tx);
+                await popups.error(`Transaction created<br>${JSON.stringify(tx)}`, '<i class="fas fa-wallet"></i>')
+            } catch (e) {
+                console.log(e);
+                await popups.error('Error: ' + (e.message ? e.message : e.text));
+            }
+
+            waiter.hide();
+
+        } else {
+            await popups.error('Invalid address or amount');
         }
     }
 }

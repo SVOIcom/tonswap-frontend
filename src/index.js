@@ -1,5 +1,7 @@
 import {TONClient} from 'ton-client-web-js';
 
+window.Buffer = Buffer;
+
 window.TONClient = TONClient;
 
 async function init(){

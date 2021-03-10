@@ -76,6 +76,24 @@ class SwapPairContract {
         return result.value0;
     }
 
+    /**
+     * Withdraw tokens from pair
+     *
+     * @deploy
+     *
+     * @param tokenRoot
+     * @param dest
+     * @param amount
+     * @returns {Promise<*>}
+     */
+    async withdrawTokens(tokenRoot, dest, amount) {
+        return await this.contract.withdrawTokens.deploy({
+            withdrawalTokenRoot: tokenRoot,
+            receiveTokenWallet: dest,
+            amount
+        });
+    }
+
 }
 
 

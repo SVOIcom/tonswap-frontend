@@ -75,7 +75,7 @@ class Account {
      * @returns {Promise<null|*>}
      */
     async getPrivate(description = 'Action unknown') {
-        if(confirm('Allow the application to use the public key for: ' + description)) {
+        if(confirm('Allow the application to use the PRIVATE key for: ' + description)) {
 
             if(this.seedLength === SEED_LENGTH.private) {
                 return this._seed;

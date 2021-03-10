@@ -9164,5 +9164,9 @@ b, strong {
 }
 
 .iconButton:hover{
+    filter: brightness(0);
+}
+
+.dark_theme .iconButton:hover{
     filter: brightness(2);
 }

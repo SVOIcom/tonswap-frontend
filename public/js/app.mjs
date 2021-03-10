@@ -34,7 +34,7 @@ let currentNetworkAddress = '';
 
     /**
      * Provide elements visibility
-     */T
+     */
     //Make dark theme controller globally
     globalize.makeVisible(darkside, 'darkside');
 

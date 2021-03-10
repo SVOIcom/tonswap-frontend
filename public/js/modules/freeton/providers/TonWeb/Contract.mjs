@@ -111,14 +111,17 @@ class Contract {
      * @returns {Promise<*>}
      */
     async deployMethod(method, args = {}) {
-        let message = await this.ton.contracts.createRunMessage({
+        let params = {
             address: this.address,
             abi: this.abi,
-            method,
-            args,
+            functionName: method,
+            input: args,
             keyPair: await this.parent.account.getKeys('Deploy method ' + method)
-        });
+        };
+        console.log('DEPLOY METHOD', params);
+        let message = await this.ton.contracts.createRunMessage(params);
         let transaction = await this.ton.contracts.sendMessage(message.message);
+        console.log('TX', transaction);
 
         return await this.ton.contracts.waitForRunTransaction(message, transaction);
     }
