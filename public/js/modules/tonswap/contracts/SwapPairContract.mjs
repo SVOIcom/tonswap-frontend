@@ -94,6 +94,23 @@ class SwapPairContract {
         });
     }
 
+    /**
+     *
+     * SWAP, BABY, SWAP!
+     *
+     * @deploy
+     *
+     * @param tokenRoot
+     * @param amount
+     * @returns {Promise<*>}
+     */
+    async swap(tokenRoot, amount){
+        return await this.contract.swap.deploy({
+            swappableTokenRoot: tokenRoot,
+            swappableTokenAmount: amount,
+        });
+    }
+
 }
 
 

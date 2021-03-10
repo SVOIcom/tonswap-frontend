@@ -180,7 +180,7 @@
                                 Connect Wallet
                             </div>
 
-                            <div class="button button_blue button_l exchange-form__connect open-popup swapButton disabled" style="display: none" >
+                            <div class="button button_blue button_l exchange-form__connect  swapButton disabled" style="display: none" >
                                 <i class="swap-icon"></i>
                                 Swap
                             </div>
@@ -675,27 +675,27 @@
                     <div class="swap-confirm-info">
                         <div class="swap-confirm-info__from">
                             <div class="swap-confirm-info__count">
-                                <img class="swap-confirm-info__count-logo" src="img/exchange/eth.png" alt="">
-                                <p class="swap-confirm-info__count-title">0.001</p>
+                                <img class="swap-confirm-info__count-logo confirmFromLogo" src="img/exchange/eth.png" alt="">
+                                <p class="swap-confirm-info__count-title confirmFromAmount">0.001</p>
                             </div>
-                            <p class="swap-confirm-info__value">ETH</p>
+                            <p class="swap-confirm-info__value confirmFromSymbol">ETH</p>
                         </div>
                         <div class="swap-confirm-info__to">
                             <div class="swap-confirm-info__count">
-                                <img class="swap-confirm-info__count-logo" src="img/exchange/eth.png" alt="">
-                                <p class="swap-confirm-info__count-title">1161.36</p>
+                                <img class="swap-confirm-info__count-logo confirmToLogo" src="img/exchange/eth.png" alt="">
+                                <p class="swap-confirm-info__count-title confirmToAmount">1161.36</p>
                             </div>
-                            <p class="swap-confirm-info__value">USDT</p>
+                            <p class="swap-confirm-info__value confirmToSymbol">USDT</p>
                         </div>
-                        <p class="swap-confirm-info__description">Output is&nbsp;estimated. You will receive at&nbsp;least<br> 1161.36 USDT or&nbsp;the transaction will revert.</p>
+                        <p class="swap-confirm-info__description">Output is&nbsp;estimated. You will receive at&nbsp;least<br> <span class="minimumReceived"></span> or&nbsp;the transaction will revert.</p>
                     </div>
                 </div>
                 <div class="swap-confirm__footer">
                     <div class="exchange-info">
                         <div class="exchange-info__item">
                             <span class="exchange-info__item-title">Price</span>
-                            <span class="exchange-info__item-value">0.000861081 ETH per USDT</span>
-                            <i class="exchange-form__price-syncing"></i>
+                            <span class="exchange-info__item-value exchangeRate">0.000861081 ETH per USDT</span>
+                            <!-- <i class="exchange-form__price-syncing"></i> -->
                         </div>
                         <div class="exchange-info__item">
                             <i class="exchange-settings__info"></i>
@@ -713,7 +713,7 @@
                             <span class="exchange-info__item-value exchangeFee">0</span>
                         </div>
                     </div>
-                    <div class="button button_blue button_l swap-confirm__button">Confirm Swap</div>
+                    <button class="button button_blue button_l swap-confirm__button  confirmSwap" data-fancybox-close>Confirm Swap</button>
                 </div>
             </div>
         </div>

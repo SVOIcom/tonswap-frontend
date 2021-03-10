@@ -36,17 +36,28 @@ class UI extends EventEmitter3 {
         this.bounceTimer = null;
     }
 
-    async updateExchange() {
+    /**
+     * Update exchange debouncer
+     * @param {string} initiator
+     * @returns {Promise<void>}
+     */
+    async updateExchange(initiator) {
         if(this.bounceTimer) {
             clearTimeout(this.bounceTimer);
         }
         this.bounceTimer = setTimeout(() => {
-            this.updateView();
+            this.updateView(initiator);
         }, 1000);
     }
 
-    async updateView() {
+    /**
+     * Update exchange view
+     * @param {string} initiator
+     * @returns {Promise<void>}
+     */
+    async updateView(initiator = '') {
 
+        //TODO initiator conversion
 
         $('.reverseExchange').hide();
         $('.exchangeLoader').show();
@@ -81,6 +92,15 @@ class UI extends EventEmitter3 {
 
                 $('.exchangeRate').text(`${utils.showToken(exchangeRateForOne.targetTokenAmount)} ${exchangeInfo.to.symbol} per ${exchangeInfo.from.symbol}`)
                 console.log(exchangeRate);
+
+                $('.confirmFromLogo').attr('src', exchangeInfo.from.icon);
+                $('.confirmToLogo').attr('src', exchangeInfo.to.icon);
+
+                $('.confirmFromSymbol').text(exchangeInfo.from.symbol);
+                $('.confirmToSymbol').text(exchangeInfo.to.symbol);
+
+                $('.confirmFromAmount').text(exchangeInfo.fromAmount);
+                $('.confirmToAmount').text(exchangeInfo.toAmount);
 
                 //User balances
                 try {
@@ -133,6 +153,10 @@ class UI extends EventEmitter3 {
         this.emit('exchangeChange');
     }
 
+    /**
+     * Init UI
+     * @returns {Promise<UI>}
+     */
     async init() {
         //Init contracts
         this.swapRoot = await new PairsRootContract(this.ton, this.config).init();
@@ -159,25 +183,40 @@ class UI extends EventEmitter3 {
             $('.fromAmount').val($('.toAmount').val());
             $('.toAmount').val(newToAmount);
 
-            await this.updateExchange();
+            await this.updateView();
         })
 
         //Handle token change
         tokenList.on('fromTokenChange', async (rootAddress) => {
             await this.tokenHolderFrom.setToken(rootAddress);
-            await this.updateExchange();
+            await this.updateExchange('from');
         });
 
         tokenList.on('toTokenChange', async (rootAddress) => {
             await this.tokenHolderTo.setToken(rootAddress);
-            await this.updateExchange();
+            await this.updateExchange('to');
         });
 
         //Handle amount change
         $('.fromAmount,.toAmount').keyup(async () => {
-            await this.updateExchange();
+            await this.updateExchange('');
         })
 
+        //Start swap button
+        $('.swapButton').click(async () => {
+            await this.startSwap();
+        })
+
+        //Finally swap
+        $('.confirmSwap').click(async () => {
+            await this.swap();
+        })
+
+
+        //Auto update timer
+        setInterval(async () => {
+            await this.updateExchange();
+        }, 30000);
         return this;
     }
 
@@ -194,12 +233,18 @@ class UI extends EventEmitter3 {
         }
     }
 
+    /**
+     * Withdraw token
+     * @param token
+     * @param pairContract
+     * @returns {Promise<void>}
+     */
     async withdrawToken(token, pairContract) {
 
         let address = prompt(`Withdraw wallet address for ${token.symbol} token`);
         let amount = Number(prompt('Withdraw amount'));
 
-        if(address !== ''  && amount) {
+        if(address !== '' && amount) {
 
             let waiter = await popups.waiting('Sending transaction...');
 
@@ -217,6 +262,76 @@ class UI extends EventEmitter3 {
         } else {
             await popups.error('Invalid address or amount');
         }
+    }
+
+    /**
+     * Start swap popup
+     * @returns {Promise<void>}
+     */
+    async startSwap() {
+        let tokens = await this.getTokens();
+        if(tokens.fromAmount <= 0 || tokens.toAmount <= 0) {
+            await popups.error('You cannot transfer or receive 0 tokens');
+            return;
+        }
+
+        let waiter = await popups.waiting('Processing data...');
+
+        //Update data
+        await this.updateView();
+
+        waiter.hide();
+
+        let popup = await popups.popup($('.popup-swap-confirm'));
+
+        //Disappear popup
+        let popupTimeout = setTimeout(() => {
+            popup.hide();
+            this.updateView();
+        }, 10000);
+
+        $('.confirmSwap').click(async () => {
+            clearTimeout(popupTimeout);
+            popup.hide();
+        })
+
+        console.log(popup);
+    }
+
+    /**
+     * Fap fap swap swap
+     * @returns {Promise<void>}
+     */
+    async swap() {
+        let tokens = await this.getTokens();
+        if(tokens.fromAmount <= 0 || tokens.toAmount <= 0) {
+            await popups.error('You cannot transfer or receive 0 tokens');
+            return;
+        }
+
+        let waiter = await popups.waiting('Swap...');
+
+
+        try {
+            let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
+            /**
+             *
+             * @type {PairsRootContract}
+             */
+            let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
+
+            let swapResult = await pairContract.swap(tokens.from.rootAddress, tokens.fromAmount);
+            console.log(swapResult);
+
+            await popups.error(`Success!`, '<i class="fas fa-retweet"></i>');
+
+        } catch (e) {
+            console.log('SWAP ERROR', e);
+            await popups.error(`Swap error: `);
+        }
+
+        await this.updateView();
+        waiter.hide();
     }
 }
 
