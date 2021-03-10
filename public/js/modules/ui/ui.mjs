@@ -85,12 +85,25 @@ class UI extends EventEmitter3 {
 
                 //Set exchange rates
                 let exchangeRate = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, exchangeInfo.fromAmount);
-                let exchangeRateForOne = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, 1);
+                let exchangeRateForOne = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, 100);
 
-                $('.minimumReceived').text(`${utils.showToken(exchangeRateForOne.targetTokenAmount)} ${exchangeInfo.to.symbol}`)
-                $('.exchangeFee').text(`${utils.showToken(exchangeRateForOne.fee)} ${exchangeInfo.to.symbol}`)
+                console.log('INITIATOR', initiator);
+                //If initiator - from form
+                if(initiator === 'from' || initiator === '') {
+                    $('.toAmount').val(Number(exchangeRate.targetTokenAmount).toFixed(0));
+                }
 
-                $('.exchangeRate').text(`${utils.showToken(exchangeRateForOne.targetTokenAmount)} ${exchangeInfo.to.symbol} per ${exchangeInfo.from.symbol}`)
+                //If initiator to form
+                if(initiator === 'to') {
+                    $('.fromAmount').val((Number(exchangeInfo.toAmount) / (Number(exchangeRateForOne.targetTokenAmount) / 100)).toFixed(0));
+                    await this.updateView('from');
+                    return;
+                }
+
+                $('.minimumReceived').text(`${utils.showToken(exchangeRate.targetTokenAmount)} ${exchangeInfo.to.symbol}`)
+                $('.exchangeFee').text(`${utils.showToken(exchangeRate.fee)} ${exchangeInfo.to.symbol}`)
+
+                $('.exchangeRate').text(`${utils.showToken(Number(exchangeRateForOne.targetTokenAmount) / 100)} ${exchangeInfo.to.symbol} per ${exchangeInfo.from.symbol}`)
                 console.log(exchangeRate);
 
                 $('.confirmFromLogo').attr('src', exchangeInfo.from.icon);
@@ -198,8 +211,11 @@ class UI extends EventEmitter3 {
         });
 
         //Handle amount change
-        $('.fromAmount,.toAmount').keyup(async () => {
-            await this.updateExchange('');
+        $('.fromAmount').keyup(async () => {
+            await this.updateExchange('from');
+        })
+        $('.toAmount').keyup(async () => {
+            await this.updateExchange('to');
         })
 
         //Start swap button
