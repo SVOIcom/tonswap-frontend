@@ -206,7 +206,7 @@ class UI extends EventEmitter3 {
             try {
                 let tx = await pairContract.withdrawTokens(token.rootAddress, address, amount);
                 console.log(tx);
-                await popups.error(`Transaction created<br>${JSON.stringify(tx)}`, '<i class="fas fa-wallet"></i>')
+                await popups.error(`Transaction created<br>TXID: ${tx.transaction.id}`, '<i class="fas fa-wallet"></i>')
             } catch (e) {
                 console.log(e);
                 await popups.error('Error: ' + (e.message ? e.message : e.text));

@@ -74,6 +74,9 @@ let currentNetworkAddress = '';
 
         $('.connectSeed').click(async () => {
             await popups.getKeys();
+
+            $('.connectWalletButton').hide();
+            $('.swapButton').show();
         });
 
         $('.connectExtratonButton').click(async () => {
@@ -85,8 +88,9 @@ let currentNetworkAddress = '';
                 await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
             }
         });
-    }
 
+
+    }
     globalize.makeVisible(TON, 'TON');
 
     //Start UI updater

@@ -118,6 +118,7 @@ const popups = {
 
                     await TON.acceptAccount(publicKey, seedOrKey, testAccount.seedLength);
                     alert('Key accepted');
+                    resolve();
                     popup.hide();
 
                 } catch (e) {
