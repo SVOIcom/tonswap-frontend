@@ -48,6 +48,16 @@ class TokenList extends EventEmitter3{
             that.emit('toTokenChange', rootAddress);
         });
 
+        $('.fromListInvest').find('.selectToken').click(function (){
+            let rootAddress = $(this).data('address');
+            that.emit('fromTokenInvestChange', rootAddress);
+        });
+
+        $('.toListInvest').find('.selectToken').click(function (){
+            let rootAddress = $(this).data('address');
+            that.emit('toTokenInvestChange', rootAddress);
+        });
+
     }
 }
 

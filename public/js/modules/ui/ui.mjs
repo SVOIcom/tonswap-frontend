@@ -186,6 +186,9 @@ class UI extends EventEmitter3 {
         this.tokenHolderFrom = new TokenHolder($('.tokenHolderFrom'), this.tokensList);
         this.tokenHolderTo = new TokenHolder($('.tokenHolderTo'), this.tokensList);
 
+        this.tokenHolderToInvest = new TokenHolder($('.tokenHolderToInvest'), this.tokensList);
+        this.tokenHolderFromInvest = new TokenHolder($('.tokenHolderFromInvest'), this.tokensList);
+
         //Reverse button
         $('.reverseExchange').click(async () => {
             let newTokenTo = this.tokenHolderFrom.address;
@@ -210,6 +213,16 @@ class UI extends EventEmitter3 {
             await this.updateExchange('to');
         });
 
+        tokenList.on('fromTokenInvestChange', async (rootAddress) => {
+            await this.tokenHolderFromInvest.setToken(rootAddress);
+            await this.updateExchange('from');
+        });
+
+        tokenList.on('toTokenInvestChange', async (rootAddress) => {
+            await this.tokenHolderToInvest.setToken(rootAddress);
+            await this.updateExchange('to');
+        });
+
         //Handle amount change
         $('.fromAmount').keyup(async () => {
             await this.updateExchange('from');
@@ -227,6 +240,9 @@ class UI extends EventEmitter3 {
         $('.confirmSwap').click(async () => {
             await this.swap();
         })
+
+        $('.liquidityBackButton').click(this.hideAddLiquidity);
+        $('.addLiquidity').click(this.showAddLiquidity);
 
 
         //Auto update timer
@@ -348,6 +364,21 @@ class UI extends EventEmitter3 {
 
         await this.updateView();
         waiter.hide();
+    }
+
+    showAddLiquidity(){
+        $('.exchange').fadeOut(500, ()=>{
+            $('.liquidity').fadeIn(500);
+        });
+
+    }
+
+    hideAddLiquidity(){
+        $('.liquidity').fadeOut(500,()=>{
+            $('.exchange').fadeIn(500);
+        });
+
+
     }
 }
 

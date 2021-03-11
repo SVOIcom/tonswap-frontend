@@ -61,7 +61,7 @@ let currentNetworkAddress = '';
         $('.connectExtratonButton').hide();
 
         $('.connectWalletButton').hide();
-        $('.swapButton').show();
+        $('.swapButton, .createPoolButton').show();
         $('.connectSeed').hide();
 
     } catch (e) {
@@ -76,7 +76,7 @@ let currentNetworkAddress = '';
             await popups.getKeys();
 
             $('.connectWalletButton').hide();
-            $('.swapButton').show();
+            $('.swapButton, .createPoolButton').show();
         });
 
         $('.connectExtratonButton').click(async () => {

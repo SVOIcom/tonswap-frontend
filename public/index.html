@@ -19,10 +19,10 @@
             <div class="header-menu">
                 <ul class="header-menu__list">
                     <li class="header-menu__list-item">
-                        <a class="header-menu__list-link" href="#">Exchange</a>
+                        <a class="header-menu__list-link liquidityBackButton" href="#">Exchange</a>
                     </li>
                     <li class="header-menu__list-item">
-                        <a class="header-menu__list-link" href="#">Invest</a>
+                        <a class="header-menu__list-link addLiquidity" href="#">Invest</a>
                     </li>
                 </ul>
             </div>
@@ -209,6 +209,128 @@
                 </div>
             </div>
         </div>
+
+        <div class="liquidity" style="display: none">
+            <div class="liquidity-inner">
+                <div class="liquidity__header">
+                    <div class="liquidity__back liquidityBackButton"></div>
+                    <p class="liquidity__title">Add liquidity</p>
+                    <div class="liquidity-settings__buttons">
+                        <!-- <div class="exchange-settings__button liquidity-settings__button">
+                            <div class="exchange-settings" style="display: none;">
+                                <p class="exchange-settings__title">Transaction Settings</p>
+                                <p class="exchange-settings__sub-title">
+                                    <i class="exchange-settings__info"></i>
+                                    Slippage tolerance
+                                </p>
+                                <div class="exchange-settings__tolerance">
+                                    <div class="exchange-settings__tolerance-item">0.1%</div>
+                                    <div class="exchange-settings__tolerance-item exchange-settings__tolerance-item_active">0.5%</div>
+                                    <div class="exchange-settings__tolerance-item">1%</div>
+                                    <div class="exchange-settings__tolerance-item">0.50%</div>
+                                </div>
+                                <p class="exchange-settings__sub-title">Interface Settings</p>
+                                <div class="exchange-settings__interface">
+                                    <div class="exchange-settings__interface-item">
+                                        <i class="exchange-settings__info"></i>
+                                        Toggle Expert Mode
+                                        <div class="switch switch_blue switch_on-off exchange-settings__switch">
+                                            <input class="switch__input exchange-settings__switch-input" type="checkbox" id="expert-mode">
+                                            <label class="switch__label exchange-settings__switch-label" for="expert-mode"></label>
+                                        </div>
+                                    </div>
+                                    <div class="exchange-settings__interface-item">
+                                        <i class="exchange-settings__info"></i>
+                                        Disable Multihops
+                                        <div class="switch switch_blue switch_on-off exchange-settings__switch">
+                                            <input class="switch__input exchange-settings__switch-input" type="checkbox" id="disable-multihops">
+                                            <label class="switch__label exchange-settings__switch-label" for="disable-multihops"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="exchange-settings__info liquidity-settings__buttons-info"></i> -->
+                    </div>
+                </div>
+                <div class="liquidity__body">
+                    <div class="liquidity__text">
+                        <p>Tip: When you add liquidity, you will receive pool tokens representing your position. These tokens automaticaly earn fees proportional to&nbsp;your share of&nbsp;the pool, and can be&nbsp;redeemed at&nbsp;any time.</p>
+                    </div>
+                </div>
+                <div class="liquidity__body">
+                    <div class="exchange-form">
+                        <div class="exchange-form__field">
+                            <label class="exchange-form__label">
+                                <span>Balance: 0.0753654</span>
+                                <span>Input</span>
+                            </label>
+                            <div class="exchange-form__input-container">
+                                <div class="exchange-form__input-box">
+                                    <div class="exchange-form__input-select open-popup tokenHolderFromInvest" data-popup="select-token-invest-from">
+                                        Select a token
+                                        <i></i>
+                                    </div>
+                                  <!--  <button class="button button_l-blue button_m exchange-form__input-max">MAX</button> -->                                </div>
+                                <input class="form__input exchange-form__input" type="text" placeholder="0.0">
+                            </div>
+                        </div>
+                        <div class="exchange-form__field">
+                            <div class="exchange-form__plus"></div>
+                        </div>
+                        <div class="exchange-form__field">
+                            <label class="exchange-form__label">
+                                <span>Balance: 100</span>
+                                <span>Input</span>
+                            </label>
+                            <div class="exchange-form__input-container">
+                                <div class="exchange-form__input-box">
+                                    <div class="exchange-form__input-select open-popup tokenHolderToInvest" data-popup="select-token-invest-to">
+                                        Select a token
+                                        <i></i>
+                                    </div>
+                                  <!--  <button class="button button_l-blue button_m exchange-form__input-max">MAX</button> -->
+                                </div>
+                                <input class="form__input exchange-form__input" type="text" placeholder="0.0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="liquidity__body">
+                    <div class="liquidity-prices">
+                        <p class="liquidity-prices__title">Prices and pool share</p>
+                        <div class="liquidity-prices__items">
+                            <div class="liquidity-prices__item">
+                                <p class="liquidity-prices__item-title">161.36</p>
+                                <p class="liquidity-prices__item-description">USDT per ETH</p>
+                            </div>
+                            <div class="liquidity-prices__item">
+                                <p class="liquidity-prices__item-title">2.05</p>
+                                <p class="liquidity-prices__item-description">ETH per USDT</p>
+                            </div>
+                            <div class="liquidity-prices__item">
+                                <p class="liquidity-prices__item-title">0.01%</p>
+                                <p class="liquidity-prices__item-description">Share of pool</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="liquidity__footer">
+                    <div class="liquidity__buttons">
+                        <div class="button button_blue button_l exchange-form__connect open-popup connectWalletButton" data-popup="account">
+                            <i class="wallet-icon"></i>
+                            Connect Wallet
+                        </div>
+                      <!--  <button class="button button_l button_blue liquidity__button open-popup" data-popup="revive">Approve USDT</button>
+                        <button class="button button_l button_l-blue liquidity__button open-popup" data-popup="connect">Connect wallet</button>
+                        <button class="button button_l button_l-blue liquidity__button open-popup" data-popup="creating-pool">Supply</button> -->
+                        <button class="button button_l button_blue liquidity__button open-popup createPoolButton" data-popup="creating-pool" style="display: none">Supply</button>
+                    </div>
+                </div>
+            </div>
+            <p class="liquidity__after-tip">By&nbsp;adding liquidity you’ll&nbsp;earn 0.3% of&nbsp;all trades on&nbsp;this pair proportinal to&nbsp;your share of&nbsp;the pool. Fees are added to&nbsp;the pool. accrue in&nbsp;real time and can be&nbsp;claimed by&nbsp;withdrawing your liquidiry.</p>
+        </div>
+
     </section>
 
 
@@ -352,7 +474,105 @@
             </div>
         </div>
     </div>
+    <div class="popup popup-select-token-invest-from fromListInvest">
+        <div class="popup__content">
+            <div class="select-token">
+                <div class="select-token__body">
+                    <p class="select-token__title">Select a token</p>
+                    <input class="form__input select-token__input tokenSelectListInput" type="text" placeholder="Search name" >
+                    <div class="select-token__list-container">
+                        <div class="select-token__list-header">
+                            <p class="select-token__list-title">Token name</p>
+                            <!--<div class="select-token__list-arrow"></div> -->
+                        </div>
+                        <ul class="select-token__list tokensList" id="currencyList">
+                            <li class="select-token__list-item select-token__list-item_selected">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>BTC</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ETH</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ADA</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>BNB</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>DOT</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>XRP</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>UNI</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+               <!-- <div class="select-token__footer">
+                    <button class="button button_l-blue button_m select-token__manage open-popup" data-popup="manage">Manage</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
     <div class="popup popup-select-token-to toList">
+        <div class="popup__content">
+            <div class="select-token">
+                <div class="select-token__body">
+                    <p class="select-token__title">Select a token</p>
+                    <input class="form__input select-token__input tokenSelectListInput" type="text" placeholder="Search name" >
+                    <div class="select-token__list-container">
+                        <div class="select-token__list-header">
+                            <p class="select-token__list-title">Token name</p>
+                            <!--<div class="select-token__list-arrow"></div> -->
+                        </div>
+                        <ul class="select-token__list tokensList" >
+                            <li class="select-token__list-item select-token__list-item_selected">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>BTC</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ETH</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>ADA</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>BNB</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>DOT</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>XRP</span>
+                            </li>
+                            <li class="select-token__list-item">
+                                <img src="img/exchange/eth.png" alt="">
+                                <span>UNI</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+               <!-- <div class="select-token__footer">
+                    <button class="button button_l-blue button_m select-token__manage open-popup" data-popup="manage">Manage</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-select-token-invest-to toListInvest">
         <div class="popup__content">
             <div class="select-token">
                 <div class="select-token__body">
