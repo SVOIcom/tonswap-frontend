@@ -263,7 +263,7 @@
                         <div class="exchange-form__field">
                             <label class="exchange-form__label">
                                 <span>Balance: <span class="addLiquidityFromBalance">0</span></span>
-                                <span>Input</span>
+                                <span>In pool: <span class="inPoolFromBalance">0</span></span>
                             </label>
                             <div class="exchange-form__input-container">
                                 <div class="exchange-form__input-box">
@@ -282,7 +282,7 @@
                         <div class="exchange-form__field">
                             <label class="exchange-form__label">
                                 <span>Balance: <span class="addLiquidityToBalance">0</span></span>
-                                <span>Input</span>
+                                <span>In pool: <span class="inPoolToBalance">0</span></span>
                             </label>
                             <div class="exchange-form__input-container">
                                 <div class="exchange-form__input-box">
@@ -299,7 +299,7 @@
                 </div>
                 <div class="liquidity__body">
                     <div class="liquidity-prices">
-                        <p class="liquidity-prices__title">Prices and pool share</p>
+                        <p class="liquidity-prices__title">Current pool</p>
                         <div class="liquidity-prices__items">
                             <div class="liquidity-prices__item">
                                 <p class="liquidity-prices__item-title">161.36</p>
@@ -1001,12 +1001,12 @@
                 <div class="revive__body">
                     <div class="revive-items">
                         <div class="revive-item">
-                            <span class="revive-item__title">ETH deposited</span>
-                            <span class="revive-item__value">2.05 <img src="img/exchange/eth.png" alt=""></span>
+                            <span class="revive-item__title addLiquidityFromSymbol">ETH deposited</span>
+                            <span class="revive-item__value addLiquidityFromAmount">2.05 <img src="img/exchange/eth.png" alt=""></span>
                         </div>
                         <div class="revive-item">
-                            <span class="revive-item__title">USDT deposited</span>
-                            <span class="revive-item__value">1161.36 <img src="img/exchange/eth.png" alt=""></span>
+                            <span class="revive-item__title addLiquidityToSymbol">USDT deposited</span>
+                            <span class="revive-item__value addLiquidityToAmount">1161.36 <img src="img/exchange/eth.png" alt=""></span>
                         </div>
                         <div class="revive-item">
                             <span class="revive-item__title">Rates</span>
@@ -1038,12 +1038,12 @@
                 <div class="revive__body">
                     <div class="revive-items">
                         <div class="revive-item">
-                            <span class="revive-item__title">ETH deposited</span>
-                            <span class="revive-item__value">2.05 <img class="addLiquidityFromLogo" src="img/exchange/eth.png" alt=""></span>
+                            <span class="revive-item__title addLiquidityFromSymbol ">ETH deposited</span>
+                            <span class="revive-item__value addLiquidityFromAmount">2.05 <img class="addLiquidityFromLogo" src="img/exchange/eth.png" alt=""></span>
                         </div>
                         <div class="revive-item">
-                            <span class="revive-item__title">USDT deposited</span>
-                            <span class="revive-item__value">1161.36 <img class="addLiquidityToLogo" src="img/exchange/eth.png" alt=""></span>
+                            <span class="revive-item__title addLiquidityToSymbol">USDT deposited</span>
+                            <span class="revive-item__value addLiquidityToAmount">1161.36 <img class="addLiquidityToLogo" src="img/exchange/eth.png" alt=""></span>
                         </div>
                        <!-- <div class="revive-item">
                             <span class="revive-item__title">Rates</span>
@@ -1054,7 +1054,7 @@
                             <span class="revive-item__value">0.0117%</span>
                         </div>-->
                     </div>
-                    <button class="button button_blue button_l revive__button">Create pool & supply</button>
+                    <button class="button button_blue button_l revive__button acceptSupplyButton">Supply</button>
                 </div>
             </div>
         </div>

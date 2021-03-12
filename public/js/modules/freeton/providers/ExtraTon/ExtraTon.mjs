@@ -202,7 +202,7 @@ class ExtraTon extends EventEmitter3 {
     async initContract(abi, address) {
 
 
-        return new Contract(await this.provider.getSigner(), abi, address, this.ton);
+        return new Contract(await this.provider.getSigner(), abi, address, this.ton, this);
     }
 
     /**

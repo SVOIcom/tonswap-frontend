@@ -104,10 +104,40 @@ class SwapPairContract {
      * @param amount
      * @returns {Promise<*>}
      */
-    async swap(tokenRoot, amount){
+    async swap(tokenRoot, amount) {
         return await this.contract.swap.deploy({
             swappableTokenRoot: tokenRoot,
             swappableTokenAmount: amount,
+        });
+    }
+
+    /**
+     * Get user liquidity pool balance
+     * @returns {Promise<{}>}
+     */
+    async getUserLiquidityPoolBalance() {
+        let pubkey = '0x' + (await this.ton.getKeypair()).public;
+        let balance = (await this.contract.getUserLiquidityPoolBalance({pubkey}));
+
+        let balances = {};
+        balances[balance.ubi.tokenRoot1] = Number(balance.ubi.tokenBalance1);
+        balances[balance.ubi.tokenRoot2] = Number(balance.ubi.tokenBalance2);
+        balances.raw = balance.ubi;
+
+        return balances;
+    }
+
+    async provideLiquidity(firstTokenAmount, secondTokenAmount) {
+        return await this.contract.provideLiquidity.deploy({
+            maxFirstTokenAmount: firstTokenAmount,
+            maxSecondTokenAmount: secondTokenAmount
+        });
+    }
+
+    async estimateProvideLiquidity(firstTokenAmount, secondTokenAmount) {
+        return await this.contract.provideLiquidity({
+            maxFirstTokenAmount: firstTokenAmount,
+            maxSecondTokenAmount: secondTokenAmount
         });
     }
 

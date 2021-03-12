@@ -19,7 +19,8 @@ import freeton from "/modules/freeton/index.js";
  * Contract class
  */
 class Contract {
-    constructor(provider, abi, address, ton) {
+    constructor(provider, abi, address, ton, parent) {
+        this.parent = parent;
         this.provider = provider;
         this.abi = abi;
         this.address = address;
@@ -94,7 +95,8 @@ class Contract {
             abi: this.abi,
             functionName: method,
             input: args,
-            address: this.address
+            address: this.address,
+           /* keyPair: await this.parent.getKeypair()*/
         })).output;
         //return await this.contract.functions[method].runGet(args);
     }
@@ -106,7 +108,7 @@ class Contract {
      * @returns {Promise<*>}
      */
     async deployMethod(method, args = undefined) {
-        console.log(this.contract.functions[method]);
+        //console.log(this.contract.functions[method]);
         return await this.contract.functions[method].run(args);
     }
 

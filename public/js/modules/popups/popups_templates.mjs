@@ -26,7 +26,7 @@ export default {
             <div class="error">
                 <div class="error__icon">${errorIcon}</div>
                 <p class="waiting__title">${errorText}</p>
-                <button class="button button_blue button_n error__dismiss " data-fancybox-close>Dismiss</button>
+                <button class="button button_blue button_n error__dismiss " data-fancybox-close>OK</button>
             </div>
         </div>
     </div>`;
