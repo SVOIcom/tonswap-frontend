@@ -11,18 +11,18 @@
   "timestamp": "2020-12-14T18:56:35+0000",
   "tokens": [
     {
-      "rootAddress": "0:4e632a56390f0dc9b644e0f94f64f89921fd4d588ae0002752b1059b0cbcf7e0",
+      "rootAddress": "0:1003a44f7511abca9d4b8e21b9ee95f90d23d0889db83c5fe0c415486099b5ef",
       "name": "Ethereum",
       "symbol": "ETH",
-      "decimals": 9,
+      "decimals": 0,
       "config": {},
       "icon": "http://localhost:3000/img/exchange/eth.png"
     },
     {
-      "rootAddress": "0:0daea83e6f5ff9b2d9dc6aef7190a7fdbd8accc476c0cd7ee39f15f3db74b851",
+      "rootAddress": "0:7561b101e959f61f078511e92c9b738ef352eef479759ec9aaa90aa1681210a6",
       "name": "Block-Chain.com",
       "symbol": "BC",
-      "decimals": 9,
+      "decimals": 0,
       "config": {},
       "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2ecB13A8c458c379c4d9a7259e202De03c8F3D19/logo.png"
     }

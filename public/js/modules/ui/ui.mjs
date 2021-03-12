@@ -90,6 +90,7 @@ class UI extends EventEmitter3 {
                 console.log('INITIATOR', initiator);
                 //If initiator - from form
                 if(initiator === 'from' || initiator === '') {
+                    $('.fromAmount').val(Number($('.fromAmount').val()).toFixed(exchangeInfo.from.decimals));
                     $('.toAmount').val(Number(exchangeRate.targetTokenAmount).toFixed(0));
                 }
 
@@ -231,10 +232,23 @@ class UI extends EventEmitter3 {
             await this.updateExchange('to');
         })
 
+        $('.fromAmount').change(async () => {
+            await this.updateExchange('from');
+        })
+        $('.toAmount').change(async () => {
+            await this.updateExchange('to');
+        })
+
         $('.investFromAmount').keyup(async () => {
             await this.updateAddLiquidityDebounced('from');
         })
         $('.investToAmount').keyup(async () => {
+            await this.updateAddLiquidityDebounced('to');
+        })
+        $('.investFromAmount').change(async () => {
+            await this.updateAddLiquidityDebounced('from');
+        })
+        $('.investToAmount').change(async () => {
             await this.updateAddLiquidityDebounced('to');
         })
 
@@ -281,11 +295,16 @@ class UI extends EventEmitter3 {
      * @returns {Promise<{fromAmount: (jQuery|string|*), toAmount: (jQuery|string|*), from: *, to: *}>}
      */
     async getExchangeTokens() {
+        let tokenFrom = await this.tokenHolderFrom.getToken();
+        let tokenTo = await this.tokenHolderTo.getToken();
+
+        let fromDecimals = tokenFrom ? tokenFrom.decimals : 0;
+        let toDecimals = tokenTo ? tokenTo.decimals : 0;
         return {
-            from: await this.tokenHolderFrom.getToken(),
-            to: await this.tokenHolderTo.getToken(),
-            fromAmount: Number($('.fromAmount').val()),
-            toAmount: Number($('.toAmount').val())
+            from: tokenFrom,
+            to: tokenTo,
+            fromAmount: Number(Number($('.fromAmount').val()).toFixed(fromDecimals)),
+            toAmount: Number(Number($('.toAmount').val()).toFixed(toDecimals))
         }
     }
 
@@ -294,12 +313,18 @@ class UI extends EventEmitter3 {
      * @returns {Promise<{fromAmount: number, toAmount: number, from: *, to: *}>}
      */
     async getInvestTokens() {
+        let tokenFrom = await this.tokenHolderFromInvest.getToken();
+        let tokenTo = await this.tokenHolderToInvest.getToken();
+
+        let fromDecimals = tokenFrom ? tokenFrom.decimals : 0;
+        let toDecimals = tokenTo ? tokenTo.decimals : 0;
         return {
-            from: await this.tokenHolderFromInvest.getToken(),
-            to: await this.tokenHolderToInvest.getToken(),
-            fromAmount: Number($('.investFromAmount').val()),
-            toAmount: Number($('.investToAmount').val())
+            from: tokenFrom,
+            to: tokenTo,
+            fromAmount: Number(Number($('.investFromAmount').val()).toFixed(fromDecimals)),
+            toAmount: Number(Number($('.investToAmount').val()).toFixed(toDecimals))
         }
+
     }
 
     /**

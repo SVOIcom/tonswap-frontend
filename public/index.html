@@ -115,7 +115,7 @@
                                         <i></i>
                                     </div>
                                 </div>
-                                <input class="form__input exchange-form__input fromAmount" type="text" placeholder="0.0">
+                                <input class="form__input exchange-form__input fromAmount" type="number" pattern="[0-9]*" inputmode="numeric" step="0" placeholder="0.0">
                             </div>
                         </div>
                         <div class="exchange-form__field">
@@ -143,7 +143,7 @@
                                         <i></i>
                                     </div>
                                 </div>
-                                <input class="form__input exchange-form__input toAmount" type="text" placeholder="0.0">
+                                <input class="form__input exchange-form__input toAmount" type="number" pattern="[0-9]*" inputmode="numeric" step="0" placeholder="0.0">
                             </div>
                         </div>
 
@@ -273,7 +273,7 @@
                                         <i></i>
                                     </div>
                                   <!--  <button class="button button_l-blue button_m exchange-form__input-max">MAX</button> -->                                </div>
-                                <input class="form__input exchange-form__input investFromAmount" type="text" placeholder="0.0">
+                                <input class="form__input exchange-form__input investFromAmount" type="number" pattern="[0-9]*" inputmode="numeric" step="0" placeholder="0.0">
                             </div>
                         </div>
                         <div class="exchange-form__field textCenter">
@@ -293,7 +293,7 @@
                                     </div>
                                   <!--  <button class="button button_l-blue button_m exchange-form__input-max">MAX</button> -->
                                 </div>
-                                <input class="form__input exchange-form__input investToAmount" type="text" placeholder="0.0">
+                                <input class="form__input exchange-form__input investToAmount"  type="number" pattern="[0-9]*" inputmode="numeric" step="0" placeholder="0.0">
                             </div>
                         </div>
                     </div>
@@ -379,7 +379,7 @@
                 <i class="footer__account-icon"></i>
             </div>
             </div>
-            <p class="footer__copyright">© TONSwap - SVOI.dev</p>
+            <p class="footer__copyright">© TONSwap - <a href="https://svoi.dev" target="_blank">SVOI.dev</a></p>
             <p class="footer__id serverTime">0 <span></span></p>
         </div>
     </footer>
