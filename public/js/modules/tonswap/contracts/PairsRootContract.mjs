@@ -48,6 +48,19 @@ class PairsRootContract {
         })).value0;
     }
 
+    /**
+     * Create new pair
+     * @param tokenRoot1
+     * @param tokenRoot2
+     * @returns {Promise<*>}
+     */
+    async deploySwapPair(tokenRoot1, tokenRoot2) {
+        return await this.contract.deploySwapPair.deploy({
+            tokenRootContract1: tokenRoot1,
+            tokenRootContract2: tokenRoot2
+        });
+    }
+
 
 }
 

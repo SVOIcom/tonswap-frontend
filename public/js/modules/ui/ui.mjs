@@ -255,15 +255,19 @@ class UI extends EventEmitter3 {
 
         $('.createPoolButton').click(async () => {
             await this.startAddToPool();
-        })
+        });
 
         $('.acceptSupplyButton').click(async () => {
             await this.addPool();
-        })
+        });
 
         $('.liquidityWithdrawButton').click(async () => {
             await this.withdrawFromPool();
-        })
+        });
+
+        $('.createPairButton').click(async () => {
+            await this.createNewPair();
+        });
 
         //Auto update timer
         setInterval(async () => {
@@ -424,7 +428,7 @@ class UI extends EventEmitter3 {
     }
 
     async updateAddLiquidityView(initiator = '') {
-        $('.plusInLiquidity').hide();
+        $('.plusInLiquidity, .createPairButton').hide();
         $('.liquidityLoader').show();
         $('.investToAmount, .investFromAmount, .createPoolButton, .liquidityWithdrawButton ').addClass('disabled');
 
@@ -432,7 +436,18 @@ class UI extends EventEmitter3 {
         console.log(tokens);
         if(tokens.from && tokens.to) {
             try {
-                let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
+
+                let pairInfo;
+                try {
+                    pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
+                } catch (e) {
+                    $('.currentPoolFrom,.currentPoolTo').text('Pair not found');
+                    $('.plusInLiquidity').show();
+                    $('.liquidityLoader').hide();
+                    $('.createPairButton').fadeIn(500);
+                    return;
+                }
+
 
                 $('.addLiquidityPair').text(`${tokens.from.symbol}/${tokens.to.symbol}`)
                 $('.addLiquidityFromLogo').attr('src', tokens.from.icon);
@@ -622,6 +637,27 @@ class UI extends EventEmitter3 {
 
         await this.updateAddLiquidityView();
 
+        waiter.hide();
+    }
+
+    /**
+     * Create new pair
+     * @returns {Promise<void>}
+     */
+    async createNewPair() {
+        let tokens = await this.getInvestTokens();
+        let waiter = await popups.waiting('Creating...');
+        try {
+            let result = await this.swapRoot.deploySwapPair(tokens.from.rootAddress, tokens.to.rootAddress);
+            console.log(result);
+            await popups.error(`Success! Txid: ${result.txid}`, '<i class="fas fa-retweet"></i>');
+        } catch (e) {
+            console.log('Pair creating error', e);
+            await popups.error(`'Pair creating error: ${e.message}`);
+        }
+
+
+        await this.updateAddLiquidityView();
         waiter.hide();
     }
 

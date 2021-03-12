@@ -131,6 +131,13 @@ class SwapPairContract {
         balances.balance[balance.upi.tokenRoot1] = (balances[balance.upi.tokenRoot1] * balances.userLiquidityTokenBalance) / balances.liquidityTokensMinted;
         balances.balance[balance.upi.tokenRoot2] = (balances[balance.upi.tokenRoot2] * balances.userLiquidityTokenBalance) / balances.liquidityTokensMinted;
 
+        if(!balances.balance[balance.upi.tokenRoot1]) {
+            balances.balance[balance.upi.tokenRoot1] = 0;
+        }
+        if(!balances.balance[balance.upi.tokenRoot2]) {
+            balances.balance[balance.upi.tokenRoot2] = 0;
+        }
+
         balances.raw = balance.upi;
 
         return balances;
