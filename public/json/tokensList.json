@@ -16,7 +16,7 @@
       "symbol": "ETH",
       "decimals": 0,
       "config": {},
-      "icon": "http://localhost:3000/img/exchange/eth.png"
+      "icon": "https://swap.tonswap.com/img/exchange/eth.png"
     },
     {
       "rootAddress": "0:7561b101e959f61f078511e92c9b738ef352eef479759ec9aaa90aa1681210a6",
