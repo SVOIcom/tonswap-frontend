@@ -21,7 +21,6 @@
 //TODO refactor this document "fancy"
 
 
-
 $(".exchange-settings__button").click(function (e) {
     if($(".exchange-settings__button").is(e.target) && !$(".exchange-settings").is(e.target) && $(".exchange-settings").has(e.target).length === 0) {
         $(".exchange-settings").fadeToggle(500);
@@ -32,7 +31,7 @@ $(document).click(function (e) {
     if(!$(".exchange-settings__button").is(e.target) && !$(".exchange-settings").is(e.target) && $(".exchange-settings").has(e.target).length === 0) {
         $(".exchange-settings").hide();
     }
-    ;
+
 });
 
 $(".exchange-settings__tolerance-item").click(function () {
@@ -140,31 +139,22 @@ $(".saved__close").click(function () {
     $(".saved").removeClass("saved_opened");
 });
 
+
+
 $(".header__more").click(function (e) {
-    if($(".header__more").is(e.target) && !$(".header-dropdown").is(e.target) && $(".header-dropdown").has(e.target).length === 0) {
-        $(".header-dropdown").fadeToggle(500);
-    }
+    //if($(".header__more").is(e.target) && !$(".header-dropdown").is(e.target) && $(".header-dropdown").has(e.target).length === 0) {
+    $(".header-dropdown").fadeToggle(500);
+    //}
 });
 
-$(document).click(function (e) {
-    if(!$(".header__more").is(e.target) && !$(".header-dropdown").is(e.target) && $(".header-dropdown").has(e.target).length === 0) {
-        $(".header-dropdown").hide();
-    }
 
-});
 
 $(".footer__more").click(function (e) {
-    if($(".footer__more").is(e.target) && !$(".footer-dropdown").is(e.target) && $(".footer-dropdown").has(e.target).length === 0) {
-        $(".footer-dropdown").fadeToggle(500);
-    }
+    //if($(".footer__more").is(e.target) && !$(".footer-dropdown").is(e.target) && $(".footer-dropdown").has(e.target).length === 0) {
+    $(".footer-dropdown").fadeToggle(500);
+    //}
 });
 
-$(document).click(function (e) {
-    if(!$(".footer__more").is(e.target) && !$(".footer-dropdown").is(e.target) && $(".footer-dropdown").has(e.target).length === 0) {
-        $(".footer-dropdown").hide();
-    }
-
-});
 
 function OP(name) {
     $.fancybox.open($('.popup-' + name), {
