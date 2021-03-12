@@ -30,4 +30,7 @@ export default {
     "http://localhost:3333": {
         pairRootAddress: '0:ebcd0b451b83cd2f6dfaf197ef0aa9a38cd94981a340407c8d01c26671029cdc',
     },
+    "https://devnet.tonswap.com": {
+        pairRootAddress: '0:ebcd0b451b83cd2f6dfaf197ef0aa9a38cd94981a340407c8d01c26671029cdc',
+    },
 }
