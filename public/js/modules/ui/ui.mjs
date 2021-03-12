@@ -64,7 +64,7 @@ class UI extends EventEmitter3 {
         $('.tokenFromBalanceDeposit, .tokenToBalanceDeposit, .tokenToBalanceWithdraw, .tokenFromBalanceWithdraw, .swapButton, .fromAmount, .toAmount').addClass('disabled').blur();
 
 
-        let exchangeInfo = await this.getTokens();
+        let exchangeInfo = await this.getExchangeTokens();
         if(exchangeInfo.from && exchangeInfo.to) {
             try {
                 let pairInfo = await this.swapRoot.getPairInfo(exchangeInfo.from.rootAddress, exchangeInfo.to.rootAddress);
@@ -215,12 +215,12 @@ class UI extends EventEmitter3 {
 
         tokenList.on('fromTokenInvestChange', async (rootAddress) => {
             await this.tokenHolderFromInvest.setToken(rootAddress);
-            await this.updateExchange('from');
+            await this.updateAddLiquidityView('from');
         });
 
         tokenList.on('toTokenInvestChange', async (rootAddress) => {
             await this.tokenHolderToInvest.setToken(rootAddress);
-            await this.updateExchange('to');
+            await this.updateAddLiquidityView('to');
         });
 
         //Handle amount change
@@ -230,6 +230,14 @@ class UI extends EventEmitter3 {
         $('.toAmount').keyup(async () => {
             await this.updateExchange('to');
         })
+
+        $('.investFromAmount').keyup(async () => {
+            await this.updateAddLiquidityView('from');
+        })
+        $('.investToAmount').keyup(async () => {
+            await this.updateAddLiquidityView('to');
+        })
+
 
         //Start swap button
         $('.swapButton').click(async () => {
@@ -244,6 +252,9 @@ class UI extends EventEmitter3 {
         $('.liquidityBackButton').click(this.hideAddLiquidity);
         $('.addLiquidity').click(this.showAddLiquidity);
 
+        $('.createPoolButton').click(async () => {
+            await this.addToPool();
+        })
 
         //Auto update timer
         setInterval(async () => {
@@ -256,12 +267,25 @@ class UI extends EventEmitter3 {
      * Get exchange info
      * @returns {Promise<{fromAmount: (jQuery|string|*), toAmount: (jQuery|string|*), from: *, to: *}>}
      */
-    async getTokens() {
+    async getExchangeTokens() {
         return {
             from: await this.tokenHolderFrom.getToken(),
             to: await this.tokenHolderTo.getToken(),
             fromAmount: Number($('.fromAmount').val()),
             toAmount: Number($('.toAmount').val())
+        }
+    }
+
+    /**
+     * Get invest info
+     * @returns {Promise<{fromAmount: number, toAmount: number, from: *, to: *}>}
+     */
+    async getInvestTokens() {
+        return {
+            from: await this.tokenHolderFromInvest.getToken(),
+            to: await this.tokenHolderToInvest.getToken(),
+            fromAmount: Number($('.investFromAmount').val()),
+            toAmount: Number($('.investToAmount').val())
         }
     }
 
@@ -301,7 +325,7 @@ class UI extends EventEmitter3 {
      * @returns {Promise<void>}
      */
     async startSwap() {
-        let tokens = await this.getTokens();
+        let tokens = await this.getExchangeTokens();
         if(tokens.fromAmount <= 0 || tokens.toAmount <= 0) {
             await popups.error('You cannot transfer or receive 0 tokens');
             return;
@@ -335,7 +359,7 @@ class UI extends EventEmitter3 {
      * @returns {Promise<void>}
      */
     async swap() {
-        let tokens = await this.getTokens();
+        let tokens = await this.getExchangeTokens();
         if(tokens.fromAmount <= 0 || tokens.toAmount <= 0) {
             await popups.error('You cannot transfer or receive 0 tokens');
             return;
@@ -366,20 +390,109 @@ class UI extends EventEmitter3 {
         waiter.hide();
     }
 
-    showAddLiquidity(){
-        $('.exchange').fadeOut(500, ()=>{
+    showAddLiquidity() {
+        $('.exchange').fadeOut(500, () => {
             $('.liquidity').fadeIn(500);
         });
 
     }
 
-    hideAddLiquidity(){
-        $('.liquidity').fadeOut(500,()=>{
+    hideAddLiquidity() {
+        $('.liquidity').fadeOut(500, () => {
             $('.exchange').fadeIn(500);
         });
 
 
     }
+
+    async updateAddLiquidityView(initiator = '') {
+        $('.plusInLiquidity').hide();
+        $('.liquidityLoader').show();
+        $('.investToAmount, .investFromAmount, .createPoolButton').addClass('disabled');
+
+        let tokens = await this.getInvestTokens();
+        console.log(tokens);
+        if(tokens.from && tokens.to) {
+            try {
+                let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
+
+                $('.addLiquidityPair').text(`${tokens.from.symbol}/${tokens.to.symbol}`)
+                $('.addLiquidityFromLogo').attr('src', tokens.from.icon);
+                $('.addLiquidityToLogo').attr('src', tokens.to.icon);
+                /**
+                 *
+                 * @type {PairsRootContract}
+                 */
+                let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
+                console.log('PAIR', pairContract);
+
+                //More pair info we can get from pair
+                pairInfo = await pairContract.getPairInfo();
+
+
+                console.log('INITIATOR', initiator);
+                //If initiator - from form
+                /* if(initiator === 'from' || initiator === '') {
+                     $('.toAmount').val(Number(exchangeRate.targetTokenAmount).toFixed(0));
+                 }
+
+                 //If initiator to form
+                 if(initiator === 'to') {
+                     $('.fromAmount').val((Number(tokens.toAmount) / (Number(exchangeRateForOne.targetTokenAmount) / 100)).toFixed(0));
+                     await this.updateView('from');
+                     return;
+                 }*/
+
+
+                //User balances
+                try {
+                    let userBalances = await pairContract.getUserBalance();
+                    $('.addLiquidityFromBalance').text(userBalances[tokens.from.rootAddress] + ' ' + tokens.from.symbol);
+                    $('.addLiquidityToBalance').text(userBalances[tokens.to.rootAddress] + ' ' + tokens.to.symbol);
+
+
+                } catch (e) {
+                    console.log('BALANCE EXCEPTION', e);
+                }
+
+
+            } catch (e) {
+                $('.pairAddress').text('Pair not found');
+                console.log('EXCEPTION', e);
+            }
+        }
+
+
+        $('.investToAmount, .investFromAmount, .createPoolButton').removeClass('disabled');
+        $('.plusInLiquidity').show();
+        $('.liquidityLoader').hide();
+    }
+
+    async addToPool() {
+        let tokens = await this.getInvestTokens();
+        console.log(tokens);
+        if(!((tokens.from && tokens.to) && (tokens.fromAmount && tokens.toAmount))) {
+            await popups.error('Invalid token amount');
+            return;
+        }
+
+        if(tokens.from.rootAddress === tokens.to.rootAddress) {
+            await popups.error(`Can't add same token to pool`);
+            return;
+        }
+
+        let waiter = await popups.waiting('Processing...');
+
+        await this.updateAddLiquidityView();
+
+        waiter.hide();
+
+        await popups.popup($('.popup-creating-pool'));
+
+
+        //data-popup="creating-pool"
+    }
+
 }
 
 /**

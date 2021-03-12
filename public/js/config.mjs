@@ -19,13 +19,13 @@
  */
 export default {
     test: {
-        pairRootAddress: '0:252d46d859ba1bd4e361c7d5e57058ca13296383bd6fd2ca8be2653fd1bbe509',
+        pairRootAddress: '0:f60ebcf2895e14b7bdece4402f6e0534491989b4c8e5902827c9ef881e41ca06',
     },
     main: {},
     local: {
-        pairRootAddress: '0:252d46d859ba1bd4e361c7d5e57058ca13296383bd6fd2ca8be2653fd1bbe509',
+        pairRootAddress: '0:f60ebcf2895e14b7bdece4402f6e0534491989b4c8e5902827c9ef881e41ca06',
     },
     "http://localhost:3333": {
-        pairRootAddress: '0:252d46d859ba1bd4e361c7d5e57058ca13296383bd6fd2ca8be2653fd1bbe509',
+        pairRootAddress: '0:f60ebcf2895e14b7bdece4402f6e0534491989b4c8e5902827c9ef881e41ca06',
     },
 }

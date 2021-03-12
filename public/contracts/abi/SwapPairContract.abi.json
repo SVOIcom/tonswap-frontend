@@ -167,6 +167,20 @@
 			]
 		},
 		{
+			"name": "_simulateSwap",
+			"inputs": [
+				{"name":"swappableTokenRoot","type":"address"},
+				{"name":"swappableTokenAmount","type":"uint128"},
+				{"name":"fromLP","type":"uint128"},
+				{"name":"toLP","type":"uint128"},
+				{"name":"fromBalance","type":"uint128"},
+				{"name":"toBalance","type":"uint128"}
+			],
+			"outputs": [
+				{"components":[{"components":[{"name":"oldK","type":"uint256"},{"name":"newK","type":"uint256"},{"name":"swappableTokenAmount","type":"uint128"},{"name":"targetTokenAmount","type":"uint128"},{"name":"fee","type":"uint128"},{"name":"oldFromPool","type":"uint128"},{"name":"oldToPool","type":"uint128"},{"name":"newFromPool","type":"uint128"},{"name":"newToPool","type":"uint128"}],"name":"deri","type":"tuple"},{"name":"oldFromUserBalance","type":"uint128"},{"name":"oldToUserBalance","type":"uint128"},{"name":"newFromUserBalance","type":"uint128"},{"name":"newToUserBalance","type":"uint128"}],"name":"dsi","type":"tuple"}
+			]
+		},
+		{
 			"name": "kLast",
 			"inputs": [
 			],

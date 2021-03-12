@@ -262,7 +262,7 @@
                     <div class="exchange-form">
                         <div class="exchange-form__field">
                             <label class="exchange-form__label">
-                                <span>Balance: 0.0753654</span>
+                                <span>Balance: <span class="addLiquidityFromBalance">0</span></span>
                                 <span>Input</span>
                             </label>
                             <div class="exchange-form__input-container">
@@ -272,15 +272,16 @@
                                         <i></i>
                                     </div>
                                   <!--  <button class="button button_l-blue button_m exchange-form__input-max">MAX</button> -->                                </div>
-                                <input class="form__input exchange-form__input" type="text" placeholder="0.0">
+                                <input class="form__input exchange-form__input investFromAmount" type="text" placeholder="0.0">
                             </div>
                         </div>
-                        <div class="exchange-form__field">
-                            <div class="exchange-form__plus"></div>
+                        <div class="exchange-form__field textCenter">
+                            <img src="/img/exchange/plus.svg" class="plusInLiquidity" style="">
+                            <img src="/img/waiting/puff.svg" class="liquidityLoader" style="display: none;">
                         </div>
                         <div class="exchange-form__field">
                             <label class="exchange-form__label">
-                                <span>Balance: 100</span>
+                                <span>Balance: <span class="addLiquidityToBalance">0</span></span>
                                 <span>Input</span>
                             </label>
                             <div class="exchange-form__input-container">
@@ -291,7 +292,7 @@
                                     </div>
                                   <!--  <button class="button button_l-blue button_m exchange-form__input-max">MAX</button> -->
                                 </div>
-                                <input class="form__input exchange-form__input" type="text" placeholder="0.0">
+                                <input class="form__input exchange-form__input investToAmount" type="text" placeholder="0.0">
                             </div>
                         </div>
                     </div>
@@ -308,10 +309,10 @@
                                 <p class="liquidity-prices__item-title">2.05</p>
                                 <p class="liquidity-prices__item-description">ETH per USDT</p>
                             </div>
-                            <div class="liquidity-prices__item">
+                          <!--  <div class="liquidity-prices__item">
                                 <p class="liquidity-prices__item-title">0.01%</p>
                                 <p class="liquidity-prices__item-description">Share of pool</p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -324,7 +325,7 @@
                       <!--  <button class="button button_l button_blue liquidity__button open-popup" data-popup="revive">Approve USDT</button>
                         <button class="button button_l button_l-blue liquidity__button open-popup" data-popup="connect">Connect wallet</button>
                         <button class="button button_l button_l-blue liquidity__button open-popup" data-popup="creating-pool">Supply</button> -->
-                        <button class="button button_l button_blue liquidity__button open-popup createPoolButton" data-popup="creating-pool" style="display: none">Supply</button>
+                        <button class="button button_l button_blue liquidity__button createPoolButton"  style="display: none">Supply</button>
                     </div>
                 </div>
             </div>
@@ -1011,10 +1012,10 @@
                             <span class="revive-item__title">Rates</span>
                             <span class="revive-item__value">1 ETH = 506 USDT<br> 1 USDT = 0.006 ETH</span>
                         </div>
-                        <div class="revive-item">
+                        <!--<div class="revive-item">
                             <span class="revive-item__title">Share of pool</span>
                             <span class="revive-item__value">0.0117%</span>
-                        </div>
+                        </div> -->
                     </div>
                     <button class="button button_blue button_l revive__button">Confirm supply</button>
                 </div>
@@ -1025,12 +1026,12 @@
         <div class="popup__content">
             <div class="revive">
                 <div class="revive__header">
-                    <p class="revive__title">You are creating a pool</p>
+                    <p class="revive__title">Add liquidity</p>
                     <div class="revive__b-title">
-                        ETH/USDT
+                       <span class="addLiquidityPair">ETH/USDT</span>
                         <div class="revive__logos">
-                            <img class="revive__logo" src="img/exchange/eth.png" alt="">
-                            <img class="revive__logo" src="img/exchange/eth.png" alt="">
+                            <img class="revive__logo addLiquidityFromLogo" src="img/exchange/eth.png" alt="">
+                            <img class="revive__logo addLiquidityToLogo" src="img/exchange/eth.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -1038,20 +1039,20 @@
                     <div class="revive-items">
                         <div class="revive-item">
                             <span class="revive-item__title">ETH deposited</span>
-                            <span class="revive-item__value">2.05 <img src="img/exchange/eth.png" alt=""></span>
+                            <span class="revive-item__value">2.05 <img class="addLiquidityFromLogo" src="img/exchange/eth.png" alt=""></span>
                         </div>
                         <div class="revive-item">
                             <span class="revive-item__title">USDT deposited</span>
-                            <span class="revive-item__value">1161.36 <img src="img/exchange/eth.png" alt=""></span>
+                            <span class="revive-item__value">1161.36 <img class="addLiquidityToLogo" src="img/exchange/eth.png" alt=""></span>
                         </div>
-                        <div class="revive-item">
+                       <!-- <div class="revive-item">
                             <span class="revive-item__title">Rates</span>
                             <span class="revive-item__value">1 ETH = 506 USDT<br> 1 USDT = 0.006 ETH</span>
-                        </div>
-                        <div class="revive-item">
+                        </div> -->
+                        <!--<div class="revive-item">
                             <span class="revive-item__title">Share of pool</span>
                             <span class="revive-item__value">0.0117%</span>
-                        </div>
+                        </div>-->
                     </div>
                     <button class="button button_blue button_l revive__button">Create pool & supply</button>
                 </div>

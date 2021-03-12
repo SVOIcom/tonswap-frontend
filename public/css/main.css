@@ -9145,7 +9145,12 @@ b, strong {
     text-align: center;
 }
 
-.exchangeLoader{
+.addLiquidityFromLogo, .addLiquidityToLogo{
+    width: 25px;
+    height: 25px;
+}
+
+.exchangeLoader, .liquidityLoader{
     display: none;
     width: 43px;
     height: 43px;
@@ -9155,7 +9160,7 @@ b, strong {
 
 }
 
-.reverseExchange{
+.reverseExchange, .plusInLiquidity{
     width: 43px;
     height: 43px;
     margin: 0 auto;
