@@ -48,6 +48,7 @@ const updater = new (class Updater extends EventEmitter3 {
         })
 
         //If balance changed
+        await  account.updateTONBalance(await this.TON.getWallet());
         this.TON.on('balanceChanged', (newBalance, wallet) => {
             account.updateTONBalance(wallet);
         })

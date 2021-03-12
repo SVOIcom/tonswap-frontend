@@ -125,6 +125,7 @@ class ExtraTon extends EventEmitter3 {
             //Watch for wallet balance changed
             let wallet = await this.getWallet()
             let newBalance = wallet.balance;
+            //console.log(this.walletBalance, newBalance);
             if(this.walletBalance !== newBalance) {
                 this.emit('balanceChanged', newBalance, wallet, this,);
                 this.walletBalance = newBalance;
