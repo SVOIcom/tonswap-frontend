@@ -119,14 +119,29 @@ class SwapPairContract {
         let pubkey = '0x' + (await this.ton.getKeypair()).public;
         let balance = (await this.contract.getUserLiquidityPoolBalance({pubkey}));
 
+        console.log(balance);
+
         let balances = {};
-        balances[balance.ubi.tokenRoot1] = Number(balance.ubi.tokenBalance1);
-        balances[balance.ubi.tokenRoot2] = Number(balance.ubi.tokenBalance2);
-        balances.raw = balance.ubi;
+        balances[balance.upi.tokenRoot1] = Number(balance.upi.lpToken1);
+        balances[balance.upi.tokenRoot2] = Number(balance.upi.lpToken2);
+        balances.liquidityTokensMinted = Number(balance.upi.liquidityTokensMinted);
+        balances.userLiquidityTokenBalance = Number(balance.upi.userLiquidityTokenBalance);
+
+        balances.balance = {};
+        balances.balance[balance.upi.tokenRoot1] = (balances[balance.upi.tokenRoot1] * balances.userLiquidityTokenBalance) / balances.liquidityTokensMinted;
+        balances.balance[balance.upi.tokenRoot2] = (balances[balance.upi.tokenRoot2] * balances.userLiquidityTokenBalance) / balances.liquidityTokensMinted;
+
+        balances.raw = balance.upi;
 
         return balances;
     }
 
+    /**
+     * Add liquidity to pool
+     * @param firstTokenAmount
+     * @param secondTokenAmount
+     * @returns {Promise<*>}
+     */
     async provideLiquidity(firstTokenAmount, secondTokenAmount) {
         return await this.contract.provideLiquidity.deploy({
             maxFirstTokenAmount: firstTokenAmount,
@@ -134,12 +149,19 @@ class SwapPairContract {
         });
     }
 
-    async estimateProvideLiquidity(firstTokenAmount, secondTokenAmount) {
-        return await this.contract.provideLiquidity({
-            maxFirstTokenAmount: firstTokenAmount,
-            maxSecondTokenAmount: secondTokenAmount
+    /**
+     * Withdraw liquidity from pool
+     * @param firstTokenAmount
+     * @param secondTokenAmount
+     * @returns {Promise<*>}
+     */
+    async withdrawLiquidity(firstTokenAmount, secondTokenAmount) {
+        return await this.contract.withdrawLiquidity.deploy({
+            minFirstTokenAmount: firstTokenAmount,
+            minSecondTokenAmount: secondTokenAmount
         });
     }
+
 
 }
 

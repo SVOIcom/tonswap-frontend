@@ -249,6 +249,7 @@ class UI extends EventEmitter3 {
             await this.swap();
         })
 
+        //Liquidity buttons
         $('.liquidityBackButton').click(this.hideAddLiquidity);
         $('.addLiquidity').click(this.showAddLiquidity);
 
@@ -258,6 +259,10 @@ class UI extends EventEmitter3 {
 
         $('.acceptSupplyButton').click(async () => {
             await this.addPool();
+        })
+
+        $('.liquidityWithdrawButton').click(async () => {
+            await this.withdrawFromPool();
         })
 
         //Auto update timer
@@ -421,7 +426,7 @@ class UI extends EventEmitter3 {
     async updateAddLiquidityView(initiator = '') {
         $('.plusInLiquidity').hide();
         $('.liquidityLoader').show();
-        $('.investToAmount, .investFromAmount, .createPoolButton').addClass('disabled');
+        $('.investToAmount, .investFromAmount, .createPoolButton, .liquidityWithdrawButton ').addClass('disabled');
 
         let tokens = await this.getInvestTokens();
         console.log(tokens);
@@ -466,18 +471,26 @@ class UI extends EventEmitter3 {
                     let userBalances = await pairContract.getUserBalance();
                     $('.addLiquidityFromBalance').text(userBalances[tokens.from.rootAddress] + ' ' + tokens.from.symbol);
                     $('.addLiquidityToBalance').text(userBalances[tokens.to.rootAddress] + ' ' + tokens.to.symbol);
+
+
                 } catch (e) {
                     console.log('BALANCE EXCEPTION', e);
                 }
 
                 //In pool balances
+                $('.currentPoolFromSymbol').text(tokens.from.symbol);
+                $('.currentPoolToSymbol').text(tokens.to.symbol);
                 try {
                     let userPairBalance = await pairContract.getUserLiquidityPoolBalance();
                     console.log('POOL BALANCES', userPairBalance);
 
-                    $('.inPoolFromBalance').text(userPairBalance[tokens.from.rootAddress] + ' ' + tokens.from.symbol);
-                    $('.inPoolToBalance').text(userPairBalance[tokens.to.rootAddress] + ' ' + tokens.to.symbol);
+                    $('.inPoolFromBalance').text((userPairBalance.balance[tokens.from.rootAddress]) + ' ' + tokens.from.symbol);
+                    $('.inPoolToBalance').text(userPairBalance.balance[tokens.to.rootAddress] + ' ' + tokens.to.symbol);
+                    $('.currentPoolFrom').text(userPairBalance.balance[tokens.from.rootAddress]);
+                    $('.currentPoolTo').text(userPairBalance.balance[tokens.to.rootAddress]);
                 } catch (e) {
+                    $('.currentPoolFrom').text(0);
+                    $('.currentPoolTo').text(0);
                     console.log('POOL BALANCE EXCEPTION', e);
                 }
 
@@ -489,7 +502,7 @@ class UI extends EventEmitter3 {
         }
 
 
-        $('.investToAmount, .investFromAmount, .createPoolButton').removeClass('disabled');
+        $('.investToAmount, .investFromAmount, .createPoolButton, .liquidityWithdrawButton ').removeClass('disabled');
         $('.plusInLiquidity').show();
         $('.liquidityLoader').hide();
     }
@@ -535,11 +548,11 @@ class UI extends EventEmitter3 {
      * Supply
      * @returns {Promise<void>}
      */
-    async addPool(){
+    async addPool() {
         let tokens = await this.getInvestTokens();
         let waiter = await popups.waiting('Processing...');
 
-        try{
+        try {
             let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
             /**
              *
@@ -550,10 +563,10 @@ class UI extends EventEmitter3 {
             let firstTokenAmount = 0;
             let secondTokenAmount = 0;
 
-            if(pairInfo.tokenRoot1 === tokens.from.rootAddress){
+            if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
                 firstTokenAmount = tokens.fromAmount;
                 secondTokenAmount = tokens.toAmount;
-            }else{
+            } else {
                 firstTokenAmount = tokens.toAmount;
                 secondTokenAmount = tokens.fromAmount;
             }
@@ -563,11 +576,48 @@ class UI extends EventEmitter3 {
             console.log(supplyResult);
             console.log('PAIR', pairContract);
 
-            await popups.error(`Success! Txid: ${supplyResult.txid}`,  '<i class="fas fa-retweet"></i>');
+            await popups.error(`Success! Txid: ${supplyResult.txid}`, '<i class="fas fa-retweet"></i>');
 
-        }catch (e){
+        } catch (e) {
             console.log('Supply error', e);
             await popups.error(`Supply error: ${e.message}`);
+        }
+
+        await this.updateAddLiquidityView();
+
+        waiter.hide();
+    }
+
+    async withdrawFromPool() {
+        let tokens = await this.getInvestTokens();
+        let firstTokenAmount = 0;
+        let secondTokenAmount = 0;
+
+        let waiter = await popups.waiting('Processing...');
+
+        try {
+            let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
+            /**
+             *
+             * @type {PairsRootContract}
+             */
+            let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
+            if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
+                firstTokenAmount = prompt(`${tokens.from.symbol} max amount`);
+                secondTokenAmount = prompt(`${tokens.to.symbol} max amount`);
+            } else {
+                firstTokenAmount = prompt(`${tokens.to.symbol} max amount`);
+                secondTokenAmount = prompt(`${tokens.from.symbol} max amount`);
+            }
+
+            let result = await pairContract.withdrawLiquidity(firstTokenAmount, secondTokenAmount);
+            console.log(result);
+            await popups.error(`Success! Txid: ${result.txid}`, '<i class="fas fa-retweet"></i>');
+
+
+        } catch (e) {
+            console.log('Withdraw error', e);
+            await popups.error(`'Withdraw error: ${e.message}`);
         }
 
         await this.updateAddLiquidityView();

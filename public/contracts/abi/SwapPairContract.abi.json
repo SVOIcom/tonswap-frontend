@@ -58,7 +58,7 @@
 				{"name":"pubkey","type":"uint256"}
 			],
 			"outputs": [
-				{"components":[{"name":"tokenRoot1","type":"address"},{"name":"tokenRoot2","type":"address"},{"name":"tokenBalance1","type":"uint128"},{"name":"tokenBalance2","type":"uint128"}],"name":"ubi","type":"tuple"}
+				{"components":[{"name":"tokenRoot1","type":"address"},{"name":"tokenRoot2","type":"address"},{"name":"userLiquidityTokenBalance","type":"uint256"},{"name":"liquidityTokensMinted","type":"uint256"},{"name":"lpToken1","type":"uint128"},{"name":"lpToken2","type":"uint128"}],"name":"upi","type":"tuple"}
 			]
 		},
 		{
@@ -69,6 +69,24 @@
 			],
 			"outputs": [
 				{"components":[{"name":"swappableTokenAmount","type":"uint128"},{"name":"targetTokenAmount","type":"uint128"},{"name":"fee","type":"uint128"}],"name":"value0","type":"tuple"}
+			]
+		},
+		{
+			"name": "getCurrentExchangeRate",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128"},
+				{"name":"value1","type":"uint128"}
+			]
+		},
+		{
+			"name": "getCurrentExchangeRateExt",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128"},
+				{"name":"value1","type":"uint128"}
 			]
 		},
 		{
@@ -109,6 +127,22 @@
 				{"name":"withdrawalTokenRoot","type":"address"},
 				{"name":"receiveTokenWallet","type":"address"},
 				{"name":"amount","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "_rebalance",
+			"inputs": [
+				{"name":"balance","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "_rebalanceGetters",
+			"inputs": [
+				{"name":"balance","type":"uint128"}
 			],
 			"outputs": [
 			]

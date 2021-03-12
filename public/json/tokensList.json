@@ -11,7 +11,7 @@
   "timestamp": "2020-12-14T18:56:35+0000",
   "tokens": [
     {
-      "rootAddress": "0:73402c75aefbe5ddacad5cf61e6cfb1888a956c483a0aff869125486e1892b79",
+      "rootAddress": "0:4e632a56390f0dc9b644e0f94f64f89921fd4d588ae0002752b1059b0cbcf7e0",
       "name": "Ethereum",
       "symbol": "ETH",
       "decimals": 9,
@@ -19,7 +19,7 @@
       "icon": "http://localhost:3000/img/exchange/eth.png"
     },
     {
-      "rootAddress": "0:78a1d551a89abe632134074ba12c21008f55bc3c625ff1e56fb217bf3ba511e1",
+      "rootAddress": "0:0daea83e6f5ff9b2d9dc6aef7190a7fdbd8accc476c0cd7ee39f15f3db74b851",
       "name": "Block-Chain.com",
       "symbol": "BC",
       "decimals": 9,
