@@ -102,7 +102,7 @@ class UI extends EventEmitter3 {
                 }
 
                 $('.minimumReceived').text(`${utils.showToken(exchangeRate.targetTokenAmount)} ${exchangeInfo.to.symbol}`)
-                $('.exchangeFee').text(`${utils.showToken(exchangeRate.fee)} ${exchangeInfo.to.symbol}`)
+                $('.exchangeFee').text(`${utils.showToken(exchangeRate.fee)} ${exchangeInfo.from.symbol}`)
 
                 $('.exchangeRate').text(`${utils.showToken(Number(exchangeRateForOne.targetTokenAmount) / 100)} ${exchangeInfo.to.symbol} per ${exchangeInfo.from.symbol}`)
                 console.log(exchangeRate);
