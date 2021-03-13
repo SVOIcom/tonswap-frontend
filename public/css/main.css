@@ -609,7 +609,7 @@ b, strong {
     .form__input,
     .form__select,
     .form__textarea {
-        font-size: 28px;
+        font-size: 18px;
     }
 }
 
@@ -618,7 +618,7 @@ b, strong {
     .form__input,
     .form__select,
     .form__textarea {
-        font-size: 22px;
+        font-size: 18px;
     }
 }
 
