@@ -527,8 +527,8 @@ class UI extends EventEmitter3 {
 
                     $('.inPoolFromBalance').text((userPairBalance.balance[tokens.from.rootAddress]) + ' ' + tokens.from.symbol);
                     $('.inPoolToBalance').text(userPairBalance.balance[tokens.to.rootAddress] + ' ' + tokens.to.symbol);
-                    $('.currentPoolFrom').text(userPairBalance.balance[tokens.from.rootAddress]);
-                    $('.currentPoolTo').text(userPairBalance.balance[tokens.to.rootAddress]);
+                    $('.currentPoolFrom').text(userPairBalance[tokens.from.rootAddress]);
+                    $('.currentPoolTo').text(userPairBalance[tokens.to.rootAddress]);
                 } catch (e) {
                     $('.currentPoolFrom').text(0);
                     $('.currentPoolTo').text(0);
