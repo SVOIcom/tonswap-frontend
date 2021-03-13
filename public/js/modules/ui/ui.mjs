@@ -569,8 +569,43 @@ class UI extends EventEmitter3 {
 
         await this.updateAddLiquidityView();
 
-        $('.addLiquidityFromAmount').text(tokens.fromAmount);
-        $('.addLiquidityToAmount').text(tokens.toAmount);
+        try {
+            let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
+            /**
+             *
+             * @type {PairsRootContract}
+             */
+            let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
+
+            let firstTokenAmount = 0;
+            let secondTokenAmount = 0;
+
+            if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
+                firstTokenAmount = tokens.fromAmount;
+                secondTokenAmount = tokens.toAmount;
+            } else {
+                firstTokenAmount = tokens.toAmount;
+                secondTokenAmount = tokens.fromAmount;
+            }
+
+            let finalAmounts = await pairContract.getProvidingLiquidityInfo(firstTokenAmount, secondTokenAmount)
+
+            if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
+                $('.addLiquidityFromAmountFinal').text(Number(finalAmounts.providedFirstTokenAmount));
+                $('.addLiquidityToAmountFinal').text(Number(finalAmounts.providedSecondTokenAmount));
+            } else {
+                $('.addLiquidityFromAmountFinal').text(Number(finalAmounts.providedSecondTokenAmount));
+                $('.addLiquidityToAmountFinal').text(Number(finalAmounts.providedFirstTokenAmount));
+            }
+
+
+        } catch (e) {
+            waiter.hide();
+            console.log('Add liquidity error', e);
+            await popups.error('Add liquidity error: ' + e.message);
+            return;
+        }
+
 
         waiter.hide();
 

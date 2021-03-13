@@ -156,6 +156,12 @@ class SwapPairContract {
         });
     }
 
+    async getProvidingLiquidityInfo(firstTokenAmount, secondTokenAmount) {
+        return await this.contract.getProvidingLiquidityInfo({
+            maxFirstTokenAmount: firstTokenAmount,
+            maxSecondTokenAmount: secondTokenAmount
+        });
+    }
     /**
      * Withdraw liquidity from pool
      * @param firstTokenAmount

@@ -90,6 +90,28 @@
 			]
 		},
 		{
+			"name": "getProvidingLiquidityInfo",
+			"inputs": [
+				{"name":"maxFirstTokenAmount","type":"uint128"},
+				{"name":"maxSecondTokenAmount","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"providedFirstTokenAmount","type":"uint128"},
+				{"name":"providedSecondTokenAmount","type":"uint128"}
+			]
+		},
+		{
+			"name": "getWithdrawingLiquidityInfo",
+			"inputs": [
+				{"name":"maxFirstTokenAmount","type":"uint128"},
+				{"name":"maxSecondTokenAmount","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"withdrawedFirstTokenAmount","type":"uint128"},
+				{"name":"withdrawedSecondTokenAmount","type":"uint128"}
+			]
+		},
+		{
 			"name": "provideLiquidity",
 			"inputs": [
 				{"name":"maxFirstTokenAmount","type":"uint128"},
@@ -178,40 +200,6 @@
 				{"name":"newCodeVersion","type":"uint32"}
 			],
 			"outputs": [
-			]
-		},
-		{
-			"name": "_getLiquidityPoolTokens",
-			"inputs": [
-			],
-			"outputs": [
-				{"components":[{"name":"token1","type":"address"},{"name":"token2","type":"address"},{"name":"token1LPAmount","type":"uint256"},{"name":"token2LPAmount","type":"uint256"}],"name":"dlpi","type":"tuple"}
-			]
-		},
-		{
-			"name": "_getExchangeRateSimulation",
-			"inputs": [
-				{"name":"swappableTokenRoot","type":"address"},
-				{"name":"swappableTokenAmount","type":"uint128"},
-				{"name":"fromLP","type":"uint128"},
-				{"name":"toLP","type":"uint128"}
-			],
-			"outputs": [
-				{"components":[{"name":"oldK","type":"uint256"},{"name":"newK","type":"uint256"},{"name":"swappableTokenAmount","type":"uint128"},{"name":"targetTokenAmount","type":"uint128"},{"name":"fee","type":"uint128"},{"name":"oldFromPool","type":"uint128"},{"name":"oldToPool","type":"uint128"},{"name":"newFromPool","type":"uint128"},{"name":"newToPool","type":"uint128"}],"name":"deri","type":"tuple"}
-			]
-		},
-		{
-			"name": "_simulateSwap",
-			"inputs": [
-				{"name":"swappableTokenRoot","type":"address"},
-				{"name":"swappableTokenAmount","type":"uint128"},
-				{"name":"fromLP","type":"uint128"},
-				{"name":"toLP","type":"uint128"},
-				{"name":"fromBalance","type":"uint128"},
-				{"name":"toBalance","type":"uint128"}
-			],
-			"outputs": [
-				{"components":[{"components":[{"name":"oldK","type":"uint256"},{"name":"newK","type":"uint256"},{"name":"swappableTokenAmount","type":"uint128"},{"name":"targetTokenAmount","type":"uint128"},{"name":"fee","type":"uint128"},{"name":"oldFromPool","type":"uint128"},{"name":"oldToPool","type":"uint128"},{"name":"newFromPool","type":"uint128"},{"name":"newToPool","type":"uint128"}],"name":"deri","type":"tuple"},{"name":"oldFromUserBalance","type":"uint128"},{"name":"oldToUserBalance","type":"uint128"},{"name":"newFromUserBalance","type":"uint128"},{"name":"newToUserBalance","type":"uint128"}],"name":"dsi","type":"tuple"}
 			]
 		},
 		{

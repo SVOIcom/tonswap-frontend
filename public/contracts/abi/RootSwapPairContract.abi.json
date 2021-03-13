@@ -20,7 +20,7 @@
 				{"name":"tokenRootContract2","type":"address"}
 			],
 			"outputs": [
-				{"name":"value0","type":"address"}
+				{"name":"cA","type":"address"}
 			]
 		},
 		{
@@ -66,16 +66,6 @@
 				{"name":"uniqueID","type":"uint256"}
 			],
 			"outputs": [
-			]
-		},
-		{
-			"name": "getXOR",
-			"inputs": [
-				{"name":"tokenRootContract1","type":"address"},
-				{"name":"tokenRootContract2","type":"address"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint256"}
 			]
 		}
 	],
