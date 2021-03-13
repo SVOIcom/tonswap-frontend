@@ -32,6 +32,7 @@ const REVERSE_NETWORKS = {
 const EXPLORERS = {
     test: 'net.ton.live',
     main: 'main.ton.live',
+    local: 'main.ton.live',
 }
 
 /**

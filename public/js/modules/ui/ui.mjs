@@ -71,7 +71,7 @@ class UI extends EventEmitter3 {
                 console.log(pairInfo);
 
                 $('.pairAddress').text(utils.shortenPubkey(pairInfo.swapPairAddress));
-                $('.pairAddress').attr('href', 'google.ru');
+                $('.pairAddress').attr('href', '');
 
                 /**
                  *
@@ -157,6 +157,7 @@ class UI extends EventEmitter3 {
 
             } catch (e) {
                 $('.pairAddress').text('Pair not found');
+                $('.fromAmount, .toAmount').removeClass('disabled').focus();
                 console.log('EXCEPTION', e);
             }
         }
