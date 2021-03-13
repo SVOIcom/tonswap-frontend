@@ -51,7 +51,7 @@
       "rootAddress": "0:52052f95de9df75e6ce746e9c199ed0da29e9819ff9226de8a0ef850bfd10ee6",
       "name": "Ethereum",
       "symbol": "ETH",
-      "decimals": 0,
+      "decimals": 9,
       "config": {},
       "icon": "https://swap.tonswap.com/img/exchange/eth.png"
     },
@@ -60,7 +60,7 @@
       "rootAddress": "0:1d05e7e8ef332761185e44242cecb5c24372f7ddcdb42229db2b065f2cf7b2fb",
       "name": "Block-Chain.com",
       "symbol": "BC",
-      "decimals": 0,
+      "decimals": 9,
       "config": {},
       "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2ecB13A8c458c379c4d9a7259e202De03c8F3D19/logo.png"
     }

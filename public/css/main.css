@@ -575,7 +575,7 @@ b, strong {
     -o-transition: 0.3s;
     -moz-transition: 0.3s;
     transition: 0.3s;
-    font-size: calc(22px + 6 * ((100vw - 420px) / 860));
+    font-size: calc(22px + 6 * ((100vw - 1120px) / 860));
     line-height: calc(28px + 6 * ((100vw - 420px) / 860));
     -webkit-appearance: none;
     -moz-appearance: none;

@@ -84,27 +84,27 @@ class UI extends EventEmitter3 {
                 pairInfo = await pairContract.getPairInfo();
 
                 //Set exchange rates
-                let exchangeRate = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, exchangeInfo.fromAmount);
+                let exchangeRate = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, utils.numberToUnsignedNumber(exchangeInfo.fromAmount, exchangeInfo.from.decimals));
                 let exchangeRateForOne = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, 100);
 
                 console.log('INITIATOR', initiator);
                 //If initiator - from form
                 if(initiator === 'from' || initiator === '') {
                     $('.fromAmount').val(Number($('.fromAmount').val()).toFixed(exchangeInfo.from.decimals));
-                    $('.toAmount').val(Number(exchangeRate.targetTokenAmount).toFixed(0));
+                    $('.toAmount').val(utils.showToken(utils.unsignedNumberToSigned(exchangeRate.targetTokenAmount, exchangeInfo.to.decimals)));
                 }
 
                 //If initiator to form
                 if(initiator === 'to') {
-                    $('.fromAmount').val((Number(exchangeInfo.toAmount) / (Number(exchangeRateForOne.targetTokenAmount) / 100)).toFixed(0));
+                    $('.fromAmount').val(utils.showToken(Number(exchangeInfo.toAmount) / utils.unsignedNumberToSigned(Number(exchangeRateForOne.targetTokenAmount) / 100)));
                     await this.updateView('from');
                     return;
                 }
 
-                $('.minimumReceived').text(`${utils.showToken(exchangeRate.targetTokenAmount)} ${exchangeInfo.to.symbol}`)
-                $('.exchangeFee').text(`${utils.showToken(exchangeRate.fee)} ${exchangeInfo.from.symbol}`)
+                $('.minimumReceived').text(`${utils.unsignedNumberToSigned(exchangeRate.targetTokenAmount, exchangeInfo.to.decimals)} ${exchangeInfo.to.symbol}`)
+                $('.exchangeFee').text(`${utils.unsignedNumberToSigned(exchangeRate.fee, exchangeInfo.from.decimals)} ${exchangeInfo.from.symbol}`)
 
-                $('.exchangeRate').text(`${utils.showToken(Number(exchangeRateForOne.targetTokenAmount) / 100)} ${exchangeInfo.to.symbol} per ${exchangeInfo.from.symbol}`)
+                $('.exchangeRate').text(`${utils.showToken(utils.unsignedNumberToSigned(Number(exchangeRateForOne.targetTokenAmount) / 100, exchangeInfo.to.decimals))} ${exchangeInfo.to.symbol} per ${exchangeInfo.from.symbol}`)
                 console.log(exchangeRate);
 
                 $('.confirmFromLogo').attr('src', exchangeInfo.from.icon);
@@ -113,14 +113,14 @@ class UI extends EventEmitter3 {
                 $('.confirmFromSymbol').text(exchangeInfo.from.symbol);
                 $('.confirmToSymbol').text(exchangeInfo.to.symbol);
 
-                $('.confirmFromAmount').text(exchangeInfo.fromAmount);
-                $('.confirmToAmount').text(exchangeInfo.toAmount);
+                $('.confirmFromAmount').text(((exchangeInfo.fromAmount)));
+                $('.confirmToAmount').text(((exchangeInfo.toAmount)));
 
                 //User balances
                 try {
                     let userBalances = await pairContract.getUserBalance();
-                    $('.tokenFromBalance').text(userBalances[exchangeInfo.from.rootAddress] + ' ' + exchangeInfo.from.symbol);
-                    $('.tokenToBalance').text(userBalances[exchangeInfo.to.rootAddress] + ' ' + exchangeInfo.to.symbol);
+                    $('.tokenFromBalance').text(utils.showToken(utils.unsignedNumberToSigned(userBalances[exchangeInfo.from.rootAddress])) + ' ' + exchangeInfo.from.symbol);
+                    $('.tokenToBalance').text(utils.showToken(utils.unsignedNumberToSigned(userBalances[exchangeInfo.to.rootAddress])) + ' ' + exchangeInfo.to.symbol);
 
                     $('.tokenFromBalanceDeposit').off('click');
                     $('.tokenFromBalanceDeposit').click(() => {
@@ -299,13 +299,13 @@ class UI extends EventEmitter3 {
         let tokenFrom = await this.tokenHolderFrom.getToken();
         let tokenTo = await this.tokenHolderTo.getToken();
 
-        let fromDecimals = tokenFrom ? tokenFrom.decimals : 0;
-        let toDecimals = tokenTo ? tokenTo.decimals : 0;
+        let fromDecimals = 0;
+        let toDecimals = 0;
         return {
             from: tokenFrom,
             to: tokenTo,
-            fromAmount: Number(Number($('.fromAmount').val()).toFixed(fromDecimals)),
-            toAmount: Number(Number($('.toAmount').val()).toFixed(toDecimals))
+            fromAmount: Number(Number($('.fromAmount').val())),
+            toAmount: Number(Number($('.toAmount').val()))
         }
     }
 
@@ -317,13 +317,13 @@ class UI extends EventEmitter3 {
         let tokenFrom = await this.tokenHolderFromInvest.getToken();
         let tokenTo = await this.tokenHolderToInvest.getToken();
 
-        let fromDecimals = tokenFrom ? tokenFrom.decimals : 0;
-        let toDecimals = tokenTo ? tokenTo.decimals : 0;
+        let fromDecimals = 0;
+        let toDecimals = 0;
         return {
             from: tokenFrom,
             to: tokenTo,
-            fromAmount: Number(Number($('.investFromAmount').val()).toFixed(fromDecimals)),
-            toAmount: Number(Number($('.investToAmount').val()).toFixed(toDecimals))
+            fromAmount: Number(Number($('.investFromAmount').val())),
+            toAmount: Number(Number($('.investToAmount').val()))
         }
 
     }
@@ -415,7 +415,7 @@ class UI extends EventEmitter3 {
              */
             let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
 
-            let swapResult = await pairContract.swap(tokens.from.rootAddress, tokens.fromAmount);
+            let swapResult = await pairContract.swap(tokens.from.rootAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.dcimals));
             console.log(swapResult);
 
             await popups.error(`Success!`, '<i class="fas fa-retweet"></i>');
@@ -510,8 +510,8 @@ class UI extends EventEmitter3 {
                 //User balances
                 try {
                     let userBalances = await pairContract.getUserBalance();
-                    $('.addLiquidityFromBalance').text(userBalances[tokens.from.rootAddress] + ' ' + tokens.from.symbol);
-                    $('.addLiquidityToBalance').text(userBalances[tokens.to.rootAddress] + ' ' + tokens.to.symbol);
+                    $('.addLiquidityFromBalance').text(utils.unsignedNumberToSigned(userBalances[tokens.from.rootAddress], tokens.from.decimals) + ' ' + tokens.from.symbol);
+                    $('.addLiquidityToBalance').text(utils.unsignedNumberToSigned(userBalances[tokens.to.rootAddress], tokens.to.decimals) + ' ' + tokens.to.symbol);
 
 
                 } catch (e) {
@@ -525,10 +525,10 @@ class UI extends EventEmitter3 {
                     let userPairBalance = await pairContract.getUserLiquidityPoolBalance();
                     console.log('POOL BALANCES', userPairBalance);
 
-                    $('.inPoolFromBalance').text((userPairBalance.balance[tokens.from.rootAddress]) + ' ' + tokens.from.symbol);
-                    $('.inPoolToBalance').text(userPairBalance.balance[tokens.to.rootAddress] + ' ' + tokens.to.symbol);
-                    $('.currentPoolFrom').text(userPairBalance[tokens.from.rootAddress]);
-                    $('.currentPoolTo').text(userPairBalance[tokens.to.rootAddress]);
+                    $('.inPoolFromBalance').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance.balance[tokens.from.rootAddress], tokens.from.decimals)) + ' ' + tokens.from.symbol);
+                    $('.inPoolToBalance').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance.balance[tokens.to.rootAddress], tokens.to.decimals)) + ' ' + tokens.to.symbol);
+                    $('.currentPoolFrom').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance[tokens.from.rootAddress], tokens.from.decimals)));
+                    $('.currentPoolTo').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance[tokens.to.rootAddress], tokens.to.decimals)));
                 } catch (e) {
                     $('.currentPoolFrom').text(0);
                     $('.currentPoolTo').text(0);
@@ -581,21 +581,21 @@ class UI extends EventEmitter3 {
             let secondTokenAmount = 0;
 
             if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
-                firstTokenAmount = tokens.fromAmount;
-                secondTokenAmount = tokens.toAmount;
+                firstTokenAmount = utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals);
+                secondTokenAmount = utils.numberToUnsignedNumber(tokens.toAmount, tokens.to.decimals);
             } else {
-                firstTokenAmount = tokens.toAmount;
-                secondTokenAmount = tokens.fromAmount;
+                firstTokenAmount = utils.numberToUnsignedNumber(tokens.toAmount, tokens.to.decimals);
+                secondTokenAmount = utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals);
             }
 
             let finalAmounts = await pairContract.getProvidingLiquidityInfo(firstTokenAmount, secondTokenAmount)
 
             if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
-                $('.addLiquidityFromAmountFinal').text(Number(finalAmounts.providedFirstTokenAmount));
-                $('.addLiquidityToAmountFinal').text(Number(finalAmounts.providedSecondTokenAmount));
+                $('.addLiquidityFromAmountFinal').text(utils.unsignedNumberToSigned(finalAmounts.providedFirstTokenAmount, tokens.from.decimals));
+                $('.addLiquidityToAmountFinal').text(utils.unsignedNumberToSigned(finalAmounts.providedSecondTokenAmount, tokens.from.decimals));
             } else {
-                $('.addLiquidityFromAmountFinal').text(Number(finalAmounts.providedSecondTokenAmount));
-                $('.addLiquidityToAmountFinal').text(Number(finalAmounts.providedFirstTokenAmount));
+                $('.addLiquidityFromAmountFinal').text(utils.unsignedNumberToSigned(finalAmounts.providedSecondTokenAmount, tokens.from.decimals));
+                $('.addLiquidityToAmountFinal').text(utils.unsignedNumberToSigned(finalAmounts.providedFirstTokenAmount, tokens.from.decimals));
             }
 
 
@@ -647,7 +647,7 @@ class UI extends EventEmitter3 {
                 secondTokenAmount = tokens.fromAmount;
             }
 
-            let supplyResult = await pairContract.provideLiquidity(firstTokenAmount, secondTokenAmount);
+            let supplyResult = await pairContract.provideLiquidity(utils.numberToUnsignedNumber(firstTokenAmount, tokens.from.decimals), utils.numberToUnsignedNumber(secondTokenAmount, tokens.to.decimals));
 
             console.log(supplyResult);
             console.log('PAIR', pairContract);
@@ -686,7 +686,7 @@ class UI extends EventEmitter3 {
                 secondTokenAmount = prompt(`${tokens.from.symbol} max amount`);
             }
 
-            let result = await pairContract.withdrawLiquidity(firstTokenAmount, secondTokenAmount);
+            let result = await pairContract.withdrawLiquidity(utils.numberToUnsignedNumber(firstTokenAmount, tokens.from.decimals), utils.numberToUnsignedNumber(secondTokenAmount, tokens.to.decimals));
             console.log(result);
             await popups.error(`Success! Txid: ${result.txid}`, '<i class="fas fa-retweet"></i>');
 

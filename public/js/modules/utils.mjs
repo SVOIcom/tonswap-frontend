@@ -106,6 +106,13 @@ const utils = {
         }
 
         return String(amount.toFixed(precision));
+    },
+
+    numberToUnsignedNumber(num, decimals = 9) {
+        return Number(Number(num).toFixed(decimals).replace('.', ''))
+    },
+    unsignedNumberToSigned(num, decimals = 9){
+        return Number(Number(Number(num)/Math.pow(10, decimals)).toFixed(9));
     }
 
 }
