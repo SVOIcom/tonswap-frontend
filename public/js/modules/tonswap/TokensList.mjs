@@ -27,11 +27,21 @@ class TokensList {
      * Load token list
      * @returns {Promise<TokensList>}
      */
-    async load() {
+    async load(network = 'main') {
         let listJSON = await ((await fetch(this.listUrl))).json();
         for (let key of Object.keys(listJSON)) {
             this[key] = listJSON[key];
         }
+
+        let newTokens = [];
+
+        for (let token of this.tokens) {
+            if(token.network === network) {
+                newTokens.push(token);
+            }
+        }
+
+        this.tokens = newTokens;
 
         return this;
     }

@@ -177,7 +177,7 @@ class UI extends EventEmitter3 {
 
 
         //Load tokens list
-        this.tokensList = await new TokensList().load();
+        this.tokensList = await new TokensList().load(this.ton.network);
         console.log(await this.tokensList.getTokens());
 
         //Load tokens lists on page

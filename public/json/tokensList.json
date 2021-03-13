@@ -11,6 +11,7 @@
   "timestamp": "2020-12-14T18:56:35+0000",
   "tokens": [
     {
+      "network": "main",
       "rootAddress": "0:1003a44f7511abca9d4b8e21b9ee95f90d23d0889db83c5fe0c415486099b5ef",
       "name": "Ethereum",
       "symbol": "ETH",
@@ -19,6 +20,43 @@
       "icon": "https://swap.tonswap.com/img/exchange/eth.png"
     },
     {
+      "network": "main",
+      "rootAddress": "0:7561b101e959f61f078511e92c9b738ef352eef479759ec9aaa90aa1681210a6",
+      "name": "Block-Chain.com",
+      "symbol": "BC",
+      "decimals": 0,
+      "config": {},
+      "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2ecB13A8c458c379c4d9a7259e202De03c8F3D19/logo.png"
+    },
+    {
+      "network": "test",
+      "rootAddress": "0:41ee1e99144e868e5ce7d9c0e619a73632e7258e625bd7a19b313d5a51af8295",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "decimals": 0,
+      "config": {},
+      "icon": "https://swap.tonswap.com/img/exchange/eth.png"
+    },
+    {
+      "network": "test",
+      "rootAddress": "0:f3f740732e8b68e3f6e80b39546939c30898088157569c0b839513f8523ff777",
+      "name": "Block-Chain.com",
+      "symbol": "BC",
+      "decimals": 0,
+      "config": {},
+      "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2ecB13A8c458c379c4d9a7259e202De03c8F3D19/logo.png"
+    },
+    {
+      "network": "local",
+      "rootAddress": "0:1003a44f7511abca9d4b8e21b9ee95f90d23d0889db83c5fe0c415486099b5ef",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "decimals": 0,
+      "config": {},
+      "icon": "https://swap.tonswap.com/img/exchange/eth.png"
+    },
+    {
+      "network": "local",
       "rootAddress": "0:7561b101e959f61f078511e92c9b738ef352eef479759ec9aaa90aa1681210a6",
       "name": "Block-Chain.com",
       "symbol": "BC",

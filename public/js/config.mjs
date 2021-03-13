@@ -19,7 +19,7 @@
  */
 export default {
     test: {
-        pairRootAddress: '0:ebcd0b451b83cd2f6dfaf197ef0aa9a38cd94981a340407c8d01c26671029cdc',
+        pairRootAddress: '0:dfa8556ad55b0a383378568256da5e8360c2ad97af06214b9919dd43627f6fce',
     },
     main: {
         pairRootAddress: '0:ebcd0b451b83cd2f6dfaf197ef0aa9a38cd94981a340407c8d01c26671029cdc',
