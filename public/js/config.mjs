@@ -29,13 +29,13 @@ export default {
 
     //Locals dev networks config
     local: {
-        pairRootAddress: '0:8d4f5b96957291a047891dfb9b66bbfb4ac4d764244fe2b02bad16f840734ece',
+        pairRootAddress: '0:17ee239a8641ae14da6e055ca5f3fd0fd28522fd26d1d50d36b7cf743d9425b0',
     },
     "http://localhost:3333": {
-        pairRootAddress: '0:8d4f5b96957291a047891dfb9b66bbfb4ac4d764244fe2b02bad16f840734ece',
+        pairRootAddress: '0:17ee239a8641ae14da6e055ca5f3fd0fd28522fd26d1d50d36b7cf743d9425b0',
     },
     "https://devnet.tonswap.com": {
-        pairRootAddress: '0:8d4f5b96957291a047891dfb9b66bbfb4ac4d764244fe2b02bad16f840734ece',
+        pairRootAddress: '0:17ee239a8641ae14da6e055ca5f3fd0fd28522fd26d1d50d36b7cf743d9425b0',
     },
 
     //Server address used by default
