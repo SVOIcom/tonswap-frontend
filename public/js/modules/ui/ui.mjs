@@ -352,7 +352,7 @@ class UI extends EventEmitter3 {
             let waiter = await popups.waiting('Sending transaction...');
 
             try {
-                let tx = await pairContract.withdrawTokens(token.rootAddress, address, amount);
+                let tx = await pairContract.withdrawTokens(token.rootAddress, address, utils.numberToUnsignedNumber(amount));
                 console.log(tx);
                 await popups.error(`Transaction created<br>TXID: ${utils.getTxId(tx)}`, '<i class="fas fa-wallet"></i>')
             } catch (e) {
