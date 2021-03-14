@@ -740,6 +740,11 @@ class UI extends EventEmitter3 {
         if(confirm('Transfer TON to pay the LP fee?')) {
             let tokens = await this.getExchangeTokens();
 
+            if(!tokens.from || tokens.to){
+                await popups.error(`Select tokens on exchange page`);
+                return;
+            }
+
             let waiter = await popups.waiting('Sending...');
 
 
