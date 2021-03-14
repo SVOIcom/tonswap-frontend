@@ -87,7 +87,7 @@ class UI extends EventEmitter3 {
 
                 //Set exchange rates
                 let exchangeRate = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, utils.numberToUnsignedNumber(exchangeInfo.fromAmount, exchangeInfo.from.decimals));
-                let exchangeRateForOne = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, 100);
+                let exchangeRateForOne = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, 1000000000);
 
                 console.log('INITIATOR', initiator);
                 //If initiator - from form
@@ -98,7 +98,7 @@ class UI extends EventEmitter3 {
 
                 //If initiator to form
                 if(initiator === 'to') {
-                    $('.fromAmount').val(utils.showToken(Number(exchangeInfo.toAmount) / utils.unsignedNumberToSigned(Number(exchangeRateForOne.targetTokenAmount) / 100)));
+                    $('.fromAmount').val(utils.showToken(Number(exchangeInfo.toAmount) / utils.unsignedNumberToSigned(Number(exchangeRateForOne.targetTokenAmount) / 1000000000)));
                     await this.updateView('from');
                     return;
                 }
@@ -106,7 +106,7 @@ class UI extends EventEmitter3 {
                 $('.minimumReceived').text(`${utils.unsignedNumberToSigned(exchangeRate.targetTokenAmount, exchangeInfo.to.decimals)} ${exchangeInfo.to.symbol}`)
                 $('.exchangeFee').text(`${utils.unsignedNumberToSigned(exchangeRate.fee, exchangeInfo.from.decimals)} ${exchangeInfo.from.symbol}`)
 
-                $('.exchangeRate').text(`${utils.showToken(utils.unsignedNumberToSigned(Number(exchangeRateForOne.targetTokenAmount) / 100, exchangeInfo.to.decimals))} ${exchangeInfo.to.symbol} per ${exchangeInfo.from.symbol}`)
+                $('.exchangeRate').text(`${utils.showToken(utils.unsignedNumberToSigned(Number(exchangeRateForOne.targetTokenAmount) / 1000000000, exchangeInfo.to.decimals))} ${exchangeInfo.to.symbol} per ${exchangeInfo.from.symbol}`)
                 console.log(exchangeRate);
 
                 $('.confirmFromLogo').attr('src', exchangeInfo.from.icon);
