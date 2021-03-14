@@ -38,10 +38,18 @@ export default {
         pairRootAddress: '0:17ee239a8641ae14da6e055ca5f3fd0fd28522fd26d1d50d36b7cf743d9425b0',
     },
 
+    /*
     //Server address used by default
     defaultNetworkServer: 'https://devnet.tonswap.com',
     //Name of network used by default
-    defaultNetwork: 'local',
+    defaultNetwork: 'local',   */
+
+
+
+//Server address used by default
+    defaultNetworkServer: 'net.ton.dev',
+    //Name of network used by default
+    defaultNetwork: 'test',
 
     //Disable browser extension
     disableExtraTON: false
