@@ -82,6 +82,10 @@ export default {
                 <div class="select-token__body">
                     <p class="select-token__title">Public key</p>
                     <input class="form__input select-token__input" id="publicKeyInput" type="text" placeholder="Enter FreeTON public key">
+                </div>        
+                        <div class="select-token__body">
+                    <p class="select-token__title">Wallet address</p>
+                    <input class="form__input select-token__input" id="walletAddressInput" type="text" placeholder="Enter multisig wallet address">
                 </div>
                 <div class="select-token__body">
                     <p class="select-token__title">Seed phrase or private key (12 or 24 words)</p>

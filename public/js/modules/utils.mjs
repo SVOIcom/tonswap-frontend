@@ -48,8 +48,8 @@ const utils = {
                 "id": "0x00000000",
                 "inputs": [
                     {
-                        "name": "comment",
-                        "type": "bytes"
+                        "name": "pubkey",
+                        "type": "uint256"
                     }
                 ],
                 "outputs": []
@@ -107,16 +107,37 @@ const utils = {
 
         return String(amount.toFixed(precision));
     },
-
+    /**
+     * Js number to raw unsigned number
+     * @param num
+     * @param decimals
+     * @returns {number}
+     */
     numberToUnsignedNumber(num, decimals = 9) {
         return Number(Number(num).toFixed(decimals).replace('.', ''))
     },
+    /**
+     * Raw unsigned number to js number
+     * @param num
+     * @param decimals
+     * @returns {number}
+     */
     unsignedNumberToSigned(num, decimals = 9) {
         return Number(Number(Number(num) / Math.pow(10, decimals)).toFixed(9));
     },
+    /**
+     * Big number to big string
+     * @param number
+     * @returns {string}
+     */
     bigNumberToString(number) {
         return Number(number).toLocaleString('en').replace(/,/g, '');
     },
+    /**
+     * Extract transaction id
+     * @param tx
+     * @returns {null|*}
+     */
     getTxId(tx) {
         if(tx.txid) {
             return tx.txid;
@@ -136,6 +157,27 @@ const utils = {
         }
 
 
+    },
+    /**
+     * Hex string to base64 string
+     * @param hexstring
+     * @returns {string}
+     */
+    hexToBase64(hexstring) {
+        return btoa(hexstring.match(/\w{2}/g).map(function (a) {
+            return String.fromCharCode(parseInt(a, 16));
+        }).join(""));
+    },
+
+
+    /**
+     * Create tvm cell payload with public key
+     * @param pubkey
+     * @returns {string}
+     */
+    createPubkeyTVMCELL(pubkey) {
+        let data = 'b5ee9c720101010100' + '22000040' + pubkey;
+        return this.hexToBase64(data);
     }
 
 }

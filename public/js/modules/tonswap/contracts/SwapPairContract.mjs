@@ -30,7 +30,7 @@ class SwapPairContract {
 
     /**
      * Init contract
-     * @returns {Promise<PairsRootContract>}
+     * @returns {Promise<SwapPairContract>}
      */
     async init(address) {
         this.contract = await this.ton.loadContract('/contracts/abi/SwapPairContract.abi.json', address);
@@ -150,6 +150,14 @@ class SwapPairContract {
     async getUserTONBalance() {
         let pubkey = '0x' + (await this.ton.getKeypair()).public;
         return (await this.contract.getUserTONBalance({pubkey}));
+    }
+
+    /**
+     * Get comission
+     * @returns {Promise<*>}
+     */
+    async getLPComission() {
+        return (await this.contract.getLPComission()).value0;
     }
 
     /**

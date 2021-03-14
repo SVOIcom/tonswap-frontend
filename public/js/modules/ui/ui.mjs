@@ -80,6 +80,8 @@ class UI extends EventEmitter3 {
                 let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
                 console.log('PAIR', pairContract);
 
+                await this._updateUserTonBalance(pairContract);
+
                 //More pair info we can get from pair
                 pairInfo = await pairContract.getPairInfo();
 
@@ -284,6 +286,12 @@ class UI extends EventEmitter3 {
             await this.createNewPair();
         });
 
+        //Ton management
+        $('.tonBalance').parent().click(async (e) => {
+            e.preventDefault();
+            await this.sendTON()
+        })
+
         //Auto update timer
         setInterval(async () => {
             await this.updateExchange();
@@ -415,6 +423,15 @@ class UI extends EventEmitter3 {
              */
             let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
 
+            let balances = await this._getUserTonBalanceAndFee(pairContract);
+
+            //Check fee balance
+            if(balances.balance < balances.fee) {
+                throw new Error('Insufficient TON balance')
+            }
+
+            await this._updateUserTonBalance(pairContract);
+
             let swapResult = await pairContract.swap(tokens.from.rootAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.dcimals));
             console.log(swapResult);
 
@@ -488,6 +505,8 @@ class UI extends EventEmitter3 {
                  */
                 let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
                 console.log('PAIR', pairContract);
+
+                await this._updateUserTonBalance(pairContract);
 
                 //More pair info we can get from pair
                 //pairInfo = await pairContract.getPairInfo();
@@ -577,9 +596,11 @@ class UI extends EventEmitter3 {
             let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
             /**
              *
-             * @type {PairsRootContract}
+             * @type {SwapPairContract}
              */
             let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
+
+            await this._updateUserTonBalance(pairContract);
 
             let firstTokenAmount = 0;
             let secondTokenAmount = 0;
@@ -636,9 +657,11 @@ class UI extends EventEmitter3 {
             let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
             /**
              *
-             * @type {PairsRootContract}
+             * @type {SwapPairContract}
              */
             let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
+
+            await this._updateUserTonBalance(pairContract);
 
             let firstTokenAmount = 0;
             let secondTokenAmount = 0;
@@ -679,9 +702,11 @@ class UI extends EventEmitter3 {
             let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
             /**
              *
-             * @type {PairsRootContract}
+             * @type {SwapPairContract}
              */
             let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
+
+            await this._updateUserTonBalance(pairContract);
             /*if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
                 firstTokenAmount = prompt(`${tokens.from.symbol} max amount`);
                 secondTokenAmount = prompt(`${tokens.to.symbol} max amount`);
@@ -711,6 +736,33 @@ class UI extends EventEmitter3 {
         waiter.hide();
     }
 
+    async sendTON() {
+        if(confirm('Transfer TON to pay the LP fee?')) {
+            let tokens = await this.getExchangeTokens();
+
+            let waiter = await popups.waiting('Sending...');
+
+
+            try {
+                let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
+                /**
+                 *
+                 * @type {SwapPairContract}
+                 */
+                let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
+                let balances = await this._getUserTonBalanceAndFee(pairContract);
+                let sendResult = await this.ton.sendTONWithPubkey(pairInfo.swapPairAddress, balances.fee + balances.fee, (await this.ton.getKeypair()).public);
+                console.log('SEND RESULT', sendResult);
+
+                waiter.hide();
+            } catch (e) {
+                console.log('Send TON exception', e);
+                waiter.hide();
+                await popups.error(`Send TON exception ${e.message}`);
+            }
+        }
+    }
+
     /**
      * Create new pair
      * @returns {Promise<void>}
@@ -736,6 +788,30 @@ class UI extends EventEmitter3 {
 
         await this.updateAddLiquidityView();
         waiter.hide();
+    }
+
+    /**
+     *
+     * @param {SwapPairContract} pairContract
+     * @returns {Promise<void>}
+     * @private
+     */
+    async _updateUserTonBalance(pairContract) {
+        let balances = await this._getUserTonBalanceAndFee(pairContract);
+        console.log('TON BALANCE', balances);
+        $('.txComission').text(utils.showToken(utils.unsignedNumberToSigned(balances.fee)) + ' TON')
+        $('.tonBalance').text(utils.showToken(utils.unsignedNumberToSigned(balances.balance)) + ' TON');
+    }
+
+    /**
+     * Get user TON balance and tx fee
+     * @param {SwapPairContract}  pairContract
+     * @returns {Promise<{balance: (*|number|*), fee: *}>}
+     * @private
+     */
+    async _getUserTonBalanceAndFee(pairContract) {
+        let balance = (await pairContract.getUserTONBalance()).balance;
+        return {balance:Number(balance), fee: Number(await pairContract.getLPComission())}
     }
 
 }

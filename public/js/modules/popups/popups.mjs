@@ -99,6 +99,7 @@ const popups = {
             $('#applyKeysButton').click(async () => {
                 let publicKey = $('#publicKeyInput').val().trim();
                 let seedOrKey = $('#seedPhraseInput').val().trim();
+                let walletAddressInput = $('#walletAddressInput').val().trim();
 
                 let testAccount = null;
 
@@ -117,6 +118,7 @@ const popups = {
                     }
 
                     await TON.acceptAccount(publicKey, seedOrKey, testAccount.seedLength);
+                    await TON.acceptWallet(walletAddressInput);
                     alert('Key accepted');
                     resolve();
                     popup.hide();

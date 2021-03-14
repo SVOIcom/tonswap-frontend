@@ -239,20 +239,14 @@ class ExtraTon extends EventEmitter3 {
     /**
      * Send TON with message
      * @param {string} dest
-     * @param {string} amount
-     * @param {string} text
+     * @param {string|number} amount
+     * @param {string} pubkey
      * @returns {Promise<*>}
      */
-    async sendTON(dest, amount, text) {
-        text = utils.toHex(text);
-        let transferBody = (await this.ton.contracts.createRunBody({
-            abi: utils.TRANSFER_BODY,
-            function: 'transfer',
-            params: {comment: text},
-            internal: true
-        })).bodyBase64;
+    async sendTONWithPubkey(dest, amount, pubkey) {
 
-        return await (await this.getWallet()).transfer(dest, amount, true, transferBody);
+        let transferBody = utils.createPubkeyTVMCELL(pubkey);
+        return await (await this.getWallet()).transfer(dest, amount, false, transferBody);
     }
 }
 

@@ -16,6 +16,7 @@
 
 import Contract from "./Contract.mjs";
 import Account, {SEED_LENGTH, TONMnemonicDictionary} from "./Account.mjs";
+import utils from "../../../utils.mjs";
 
 
 const NETWORKS = {
@@ -49,6 +50,7 @@ class TonWeb extends EventEmitter3 {
 
         this.walletContract = null;
         this.walletBalance = 0;
+        this.walletAddress = '';
 
         this.network = options.network ? options.network : 'test';
         this.networkServer = options.networkServer ? options.networkServer : NETWORKS.test;
@@ -120,6 +122,16 @@ class TonWeb extends EventEmitter3 {
      */
     async acceptAccount(publicKey, seed, seedLength, seedDict) {
         return this.account = new Account(this.ton, publicKey, seed, seedLength, seedDict);
+    }
+
+    /**
+     * Accept wallet and load wallet contract
+     * @param address
+     * @returns {Promise<void>}
+     */
+    async acceptWallet(address) {
+        this.walletAddress = address;
+        this.walletContract = await this.loadContract('/contracts/abi/SafeMultisigWallet.abi.json', address);
     }
 
     /**
@@ -200,7 +212,7 @@ class TonWeb extends EventEmitter3 {
         }
         return wallet;*/
 
-        return {address: '000000000000000000000000000000000000000000000000000000000000000', balance: 0, contract: null}
+        return {address: this.walletAddress, balance: 0, contract: this.walletContract}
     }
 
     /**
@@ -241,6 +253,28 @@ class TonWeb extends EventEmitter3 {
         const Contract = contractJson;
 
         return await this.initContract(Contract.abi, Contract.networks[networkId].address);
+    }
+
+    /**
+     * Send TON with message
+     * @param {string} dest
+     * @param {string|number} amount
+     * @param {string} pubkey
+     * @returns {Promise<*>}
+     */
+    async sendTONWithPubkey(dest, amount, pubkey) {
+
+        let payload = utils.createPubkeyTVMCELL(pubkey);
+        let contract = (await this.getWallet()).contract;
+
+
+        return await contract.submitTransaction.deploy({
+            dest,
+            value: amount,
+            bounce: false,
+            allBalance: false,
+            payload
+        });
     }
 }
 
