@@ -1,3 +1,4 @@
+![photo_2020-12-15_20-21-41](https://user-images.githubusercontent.com/18599919/111032509-ac9fbd80-841d-11eb-9639-843ef2d758b3.jpg)
 # TONSwap Frontend
 
 You can see deployed version at [http://swap.tonswap.com](http://swap.tonswap.com)
@@ -23,6 +24,8 @@ npm install
 npx webpack
 ```
 
+## Links
+[![Channel on Telegram](https://img.shields.io/badge/-TON%20Swap%20TG%20chat-blue)](https://t.me/tonswap)
 
 ## Authors
 
