@@ -497,13 +497,17 @@ class UI extends EventEmitter3 {
                 //If initiator - from form
                 if(initiator === 'from' || initiator === '') {
                     let otherToken = await pairContract.getAnotherTokenProvidingAmount(tokens.from.rootAddress, utils.numberToUnsignedNumber(tokens.fromAmount));
-                    $('.investToAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount)));
+                    if(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount) !== 0) {
+                        $('.investToAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount)));
+                    }
                 }
 
                 //If initiator to form
                 if(initiator === 'to') {
                     let otherToken = await pairContract.getAnotherTokenProvidingAmount(tokens.to.rootAddress, utils.numberToUnsignedNumber(tokens.toAmount));
-                    $('.investFromAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount)));
+                    if(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount) !== 0) {
+                        $('.investFromAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount)));
+                    }
                 }
 
 
