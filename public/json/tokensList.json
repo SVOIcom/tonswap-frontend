@@ -30,7 +30,7 @@
     },
     {
       "network": "test",
-      "rootAddress": "0:a2f26cacd1fc0b642c1a3588225b071ca788f9e81e289cbeeba0097ca40700ba",
+      "rootAddress": "0:0c4cad39cf61d92df6ab7c78552441b0524973e282f1e7a6acf5f06773cdc605",
       "name": "TestToken1",
       "symbol": "TST",
       "decimals": 9,
@@ -39,12 +39,21 @@
     },
     {
       "network": "test",
-      "rootAddress": "0:fcde225d07c3cf9e58237c17cdaa2144532953100b21731e78feb34f589b1546",
+      "rootAddress": "0:e5863ff972464c4200dba9ed764d3a57533adb2bd4e88b9230859d1953b4b1d4",
       "name": "TestTokenTwo",
       "symbol": "TTT",
       "decimals": 9,
       "config": {},
       "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2ecB13A8c458c379c4d9a7259e202De03c8F3D19/logo.png"
+    },
+    {
+      "network": "test",
+      "rootAddress": "0:9147ee4e3cb5ab00b755317c65fe0191bd740f946218a2dadef0de8bf1d7b95a",
+      "name": "TestToken3",
+      "symbol": "TT3",
+      "decimals": 9,
+      "config": {},
+      "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x150b0b96933B75Ce27af8b92441F8fB683bF9739/logo.png"
     },
     {
       "network": "local",

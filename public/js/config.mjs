@@ -20,7 +20,7 @@
 export default {
     //Test network config
     test: {
-        pairRootAddress: '0:9bf6541e085f374985cd620ae46572865cf2479b125aac9c0b34d343ffcaa5a8',
+        pairRootAddress: '0:df6eaef1911a63490b56fa087c6bec4e39daf3986359da52aa2af83a6e22959b',
     },
     //Main network config
     main: {
