@@ -8561,7 +8561,7 @@ b, strong {
     }
 
     .select-token__list-item {
-        padding: 5px
+       /* padding: 5px*/
     }
 
     .manage__header {
