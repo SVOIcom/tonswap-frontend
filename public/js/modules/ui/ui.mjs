@@ -296,7 +296,13 @@ class UI extends EventEmitter3 {
         setInterval(async () => {
             await this.updateExchange();
         }, 30000);
+
+
+        $('.accountLink').attr('href', 'https://'+(await this.ton.getNetwork()).explorer+'/accounts/accountDetails?id='+(await this.ton.getWallet()).address);
+
         return this;
+
+
     }
 
     /**
@@ -806,6 +812,7 @@ class UI extends EventEmitter3 {
         console.log('TON BALANCE', balances);
         $('.txComission').text(utils.showToken(utils.unsignedNumberToSigned(balances.fee)) + ' TON')
         $('.tonBalance').text(utils.showToken(utils.unsignedNumberToSigned(balances.balance)) + ' TON');
+        $('.accountLink').attr('href', 'https://'+(await this.ton.getNetwork()).explorer+'/accounts/accountDetails?id='+(await this.ton.getWallet()).address);
     }
 
     /**
