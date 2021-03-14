@@ -18,12 +18,16 @@
  * Configuration
  */
 export default {
+    //Test network config
     test: {
         pairRootAddress: '0:9bf6541e085f374985cd620ae46572865cf2479b125aac9c0b34d343ffcaa5a8',
     },
+    //Main network config
     main: {
-        pairRootAddress: '0:ebcd0b451b83cd2f6dfaf197ef0aa9a38cd94981a340407c8d01c26671029cdc',
+        pairRootAddress: '0:',
     },
+
+    //Locals dev networks config
     local: {
         pairRootAddress: '0:8d4f5b96957291a047891dfb9b66bbfb4ac4d764244fe2b02bad16f840734ece',
     },
@@ -33,4 +37,12 @@ export default {
     "https://devnet.tonswap.com": {
         pairRootAddress: '0:8d4f5b96957291a047891dfb9b66bbfb4ac4d764244fe2b02bad16f840734ece',
     },
+
+    //Server address used by default
+    defaultNetworkServer: 'https://devnet.tonswap.com',
+    //Name of network used by default
+    defaultNetwork: 'local',
+
+    //Disable browser extension
+    disableExtraTON: false
 }

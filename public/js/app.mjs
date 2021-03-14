@@ -16,13 +16,9 @@
 import darkside from './modules/darkside.mjs';
 import popups from './modules/popups/popups.mjs';
 import {default as globalize} from './modules/provideGlobal.mjs';
-import messages from "./modules/messages/messages.mjs";
-import ExtraTon from "./modules/freeton/providers/ExtraTon/ExtraTon.mjs";
 import {default as getProvider, PROVIDERS} from "./modules/freeton/getProvider.mjs";
 import ui from "./modules/ui/ui.mjs";
 import updater from "./modules/ui/updater.mjs";
-import TokensList from "./modules/tonswap/TokensList.mjs";
-import tokenList from "./modules/ui/tokenList.mjs";
 import CONFIG from "./config.mjs";
 
 
@@ -57,6 +53,9 @@ let currentNetworkAddress = '';
      */
     let TON = null;
     try {
+        if(CONFIG.disableExtraTON) {
+            throw 'ExtraTon disabled';
+        }
         TON = await getProvider().init();
         $('.connectExtratonButton').hide();
 
@@ -65,8 +64,13 @@ let currentNetworkAddress = '';
         $('.connectSeed').hide();
 
     } catch (e) {
-        await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
-        TON = await getProvider({network:'local',networkServer:'https://devnet.tonswap.com'}, PROVIDERS.TonWeb).init();
+        if(!CONFIG.disableExtraTON) {
+            await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
+        }
+        TON = await getProvider({
+            network: CONFIG.defaultNetwork,
+            networkServer: CONFIG.defaultNetworkServer
+        }, PROVIDERS.TonWeb).init();
 
         $('.connectedWithExtraTon').hide();
         $('.installExtraton').show();
@@ -119,43 +123,13 @@ let currentNetworkAddress = '';
      */
     const UI = await ui.initialize(TON, CONFIG[TON.network]);
 
-    UI.on('exchangeChange',async()=>{
+    UI.on('exchangeChange', async () => {
         console.log(await UI.getExchangeTokens())
     })
-
 
 
     //Initialize dialog hide
     loadingPopup.hide();
 
-
-   // let Root = await TON.loadContract('/contracts/abi/RootSwapPairContract.abi.json', CONFIG[TON.network].pairRootAddress);
-   // window.Root = Root;
-    //await Root.getPairInfo({tokenRootContract1:"0:8b8ea2231d4bee5b57c18df60ea122f145663ef79a797ce6739aa9ffa9c7ed72",tokenRootContract2:"0:624865d9a0c8c2e1d3c52223eb04738ce32bff138e95950e02b3b55f2aa89739"})
-
-
-    //let KingTonContract = await TON.loadContractFrom('/contracts/Kington.json', "2");
-    /*let GiverContract = await TON.loadContractFrom('/contracts/Giver.json', "2");*/
-    /*let tonlabs = await TON.loadContractFrom('/contracts/TonlabsGiver.json', "1");
-    console.log(tonlabs);
-    console.log(await tonlabs.sendTransaction({dest:"0:bb0a6daa36d2fdcdb78edd8091140e05b9b92656b0c441669ac176cccbf1909e", value:2000000000, bounce:true}))
-*/
-
-    //console.log(KingTonContract);
-    //console.log(await KingTonContract.addMessage({message:123124}))
-    //console.log(await KingTonContract.getMessages());
-    //console.log(await KingTonContract.getMessages.deploy());
-
-    //console.log(GiverContract);
-    //console.log(await KingTonContract.getMessages())
-    //console.log(await KingTonContract.getMessages.deploy())
-    //console.log(await GiverContract.grant.deploy({addr:"0:bb0a6daa36d2fdcdb78edd8091140e05b9b92656b0c441669ac176cccbf1909e"}))
-    /*console.log(await KingTonContract.addMessage.deploy({
-               dest: '0:bbab3302726f352371676aa889ea69e155e385c3e3e4c9fb85a5c3b64ccca60c',
-               value: '1000000000',
-               bounce: false,
-               allBalance: false,
-               payload: 'te6ccgEBAgEADgABCAAAAAABAApIZWxsbw==',
-             }))*/
 
 })()
