@@ -119,7 +119,7 @@ const utils = {
     },
     getTxId(tx) {
         if(tx.txid) {
-            return txid;
+            return tx.txid;
         }
 
         if(tx.transaction) {

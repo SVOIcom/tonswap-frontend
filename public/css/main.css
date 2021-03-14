@@ -2534,6 +2534,13 @@ b, strong {
     left: 0;
     right: 0;
     z-index: 10;
+    border-top: 1px solid #dcebf4;
+    background: #ffffff;
+}
+
+.dark_theme .footer {
+    background: #0c1321;
+    border-color: #10235c;
 }
 
 .footer__container {
@@ -2556,7 +2563,7 @@ b, strong {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     padding: 0 25px;
-    height: 80px;
+    height: 60px;
 }
 
 .footer__top,
