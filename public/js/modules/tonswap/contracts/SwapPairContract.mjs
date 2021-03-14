@@ -162,19 +162,24 @@ class SwapPairContract {
             maxSecondTokenAmount: secondTokenAmount
         });
     }
+
     /**
      * Withdraw liquidity from pool
-     * @param firstTokenAmount
-     * @param secondTokenAmount
+     * @param liquidityTokensAmount
      * @returns {Promise<*>}
      */
-    async withdrawLiquidity(firstTokenAmount, secondTokenAmount) {
+    async withdrawLiquidity(liquidityTokensAmount) {
         return await this.contract.withdrawLiquidity.deploy({
-            minFirstTokenAmount: firstTokenAmount,
-            minSecondTokenAmount: secondTokenAmount
+            liquidityTokensAmount: utils.bigNumberToString(liquidityTokensAmount)
         });
     }
 
+    async getAnotherTokenProvidingAmount(providingTokenRoot, providingTokenAmount) {
+        return await this.contract.getAnotherTokenProvidingAmount({
+            providingTokenRoot,
+            providingTokenAmount
+        });
+    }
 
 }
 

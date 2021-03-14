@@ -48,7 +48,7 @@
     },
     {
       "network": "local",
-      "rootAddress": "0:52052f95de9df75e6ce746e9c199ed0da29e9819ff9226de8a0ef850bfd10ee6",
+      "rootAddress": "0:27c503d4e37e7e27f78f6a8176e50bb5a0ffaab5c42021fde40310faa073e67d",
       "name": "Ethereum",
       "symbol": "ETH",
       "decimals": 9,
@@ -57,7 +57,7 @@
     },
     {
       "network": "local",
-      "rootAddress": "0:1d05e7e8ef332761185e44242cecb5c24372f7ddcdb42229db2b065f2cf7b2fb",
+      "rootAddress": "0:5604b7f354c8ff56b53c4d1afb445bc5c3c64d8de8e17fd5cf434caef0d40632",
       "name": "Block-Chain.com",
       "symbol": "BC",
       "decimals": 9,

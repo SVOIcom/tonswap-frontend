@@ -25,12 +25,12 @@ export default {
         pairRootAddress: '0:ebcd0b451b83cd2f6dfaf197ef0aa9a38cd94981a340407c8d01c26671029cdc',
     },
     local: {
-        pairRootAddress: '0:86a1fe4329342492db523537f28167db13c71b701ec7cb7cb34429231660f553',
+        pairRootAddress: '0:8d4f5b96957291a047891dfb9b66bbfb4ac4d764244fe2b02bad16f840734ece',
     },
     "http://localhost:3333": {
-        pairRootAddress: '0:86a1fe4329342492db523537f28167db13c71b701ec7cb7cb34429231660f553',
+        pairRootAddress: '0:8d4f5b96957291a047891dfb9b66bbfb4ac4d764244fe2b02bad16f840734ece',
     },
     "https://devnet.tonswap.com": {
-        pairRootAddress: '0:86a1fe4329342492db523537f28167db13c71b701ec7cb7cb34429231660f553',
+        pairRootAddress: '0:8d4f5b96957291a047891dfb9b66bbfb4ac4d764244fe2b02bad16f840734ece',
     },
 }

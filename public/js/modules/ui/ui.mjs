@@ -346,7 +346,7 @@ class UI extends EventEmitter3 {
             try {
                 let tx = await pairContract.withdrawTokens(token.rootAddress, address, amount);
                 console.log(tx);
-                await popups.error(`Transaction created<br>TXID: ${tx.transaction.id}`, '<i class="fas fa-wallet"></i>')
+                await popups.error(`Transaction created<br>TXID: ${utils.getTxId(tx)}`, '<i class="fas fa-wallet"></i>')
             } catch (e) {
                 console.log(e);
                 await popups.error('Error: ' + (e.message ? e.message : e.text));
@@ -495,16 +495,16 @@ class UI extends EventEmitter3 {
 
                 console.log('INITIATOR', initiator);
                 //If initiator - from form
-                /* if(initiator === 'from' || initiator === '') {
-                     $('.toAmount').val(Number(exchangeRate.targetTokenAmount).toFixed(0));
-                 }
+                if(initiator === 'from' || initiator === '') {
+                    let otherToken = await pairContract.getAnotherTokenProvidingAmount(tokens.from.rootAddress, utils.numberToUnsignedNumber(tokens.fromAmount));
+                    $('.investToAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount)));
+                }
 
-                 //If initiator to form
-                 if(initiator === 'to') {
-                     $('.fromAmount').val((Number(tokens.toAmount) / (Number(exchangeRateForOne.targetTokenAmount) / 100)).toFixed(0));
-                     await this.updateView('from');
-                     return;
-                 }*/
+                //If initiator to form
+                if(initiator === 'to') {
+                    let otherToken = await pairContract.getAnotherTokenProvidingAmount(tokens.to.rootAddress, utils.numberToUnsignedNumber(tokens.toAmount));
+                    $('.investFromAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount)));
+                }
 
 
                 //User balances
@@ -652,7 +652,7 @@ class UI extends EventEmitter3 {
             console.log(supplyResult);
             console.log('PAIR', pairContract);
 
-            await popups.error(`Success! Txid: ${supplyResult.txid}`, '<i class="fas fa-retweet"></i>');
+            await popups.error(`Success! Txid: ${utils.getTxId(supplyResult)}`, '<i class="fas fa-retweet"></i>');
 
         } catch (e) {
             console.log('Supply error', e);
@@ -678,17 +678,23 @@ class UI extends EventEmitter3 {
              * @type {PairsRootContract}
              */
             let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
-            if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
+            /*if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
                 firstTokenAmount = prompt(`${tokens.from.symbol} max amount`);
                 secondTokenAmount = prompt(`${tokens.to.symbol} max amount`);
             } else {
                 firstTokenAmount = prompt(`${tokens.to.symbol} max amount`);
                 secondTokenAmount = prompt(`${tokens.from.symbol} max amount`);
-            }
+            }*/
 
-            let result = await pairContract.withdrawLiquidity(utils.numberToUnsignedNumber(firstTokenAmount, tokens.from.decimals), utils.numberToUnsignedNumber(secondTokenAmount, tokens.to.decimals));
+            let percentage = prompt('Enter the amount of liquidity in percent for withdrawal');
+
+            let userPairBalance = await pairContract.getUserLiquidityPoolBalance();
+
+            //200*(50/100)
+
+            let result = await pairContract.withdrawLiquidity(userPairBalance.userLiquidityTokenBalance * (percentage / 100));
             console.log(result);
-            await popups.error(`Success! Txid: ${result.txid}`, '<i class="fas fa-retweet"></i>');
+            await popups.error(`Success! Txid: ${utils.getTxId(result)}`, '<i class="fas fa-retweet"></i>');
 
 
         } catch (e) {
@@ -707,11 +713,17 @@ class UI extends EventEmitter3 {
      */
     async createNewPair() {
         let tokens = await this.getInvestTokens();
+
+        if(tokens.from.rootAddress && tokens.to.rootAddress) {
+            await popups.error(`'Can't create pair with same tokens`);
+            return;
+        }
+
         let waiter = await popups.waiting('Creating...');
         try {
             let result = await this.swapRoot.deploySwapPair(tokens.from.rootAddress, tokens.to.rootAddress);
             console.log(result);
-            await popups.error(`Success! Txid: ${result.txid}`, '<i class="fas fa-retweet"></i>');
+            await popups.error(`Success! Txid: ${utils.getTxId(result)}`, '<i class="fas fa-retweet"></i>');
         } catch (e) {
             console.log('Pair creating error', e);
             await popups.error(`'Pair creating error: ${e.message}`);

@@ -111,8 +111,31 @@ const utils = {
     numberToUnsignedNumber(num, decimals = 9) {
         return Number(Number(num).toFixed(decimals).replace('.', ''))
     },
-    unsignedNumberToSigned(num, decimals = 9){
-        return Number(Number(Number(num)/Math.pow(10, decimals)).toFixed(9));
+    unsignedNumberToSigned(num, decimals = 9) {
+        return Number(Number(Number(num) / Math.pow(10, decimals)).toFixed(9));
+    },
+    bigNumberToString(number) {
+        return Number(number).toLocaleString('en').replace(/,/g, '');
+    },
+    getTxId(tx) {
+        if(tx.txid) {
+            return txid;
+        }
+
+        if(tx.transaction) {
+            if(tx.transaction.id) {
+                return tx.transaction.id
+            }
+        }
+
+        if(tx.tx) {
+            if(tx.tx.lastBlockId) {
+                return tx.tx.lastBlockId
+            }
+
+        }
+
+
     }
 
 }

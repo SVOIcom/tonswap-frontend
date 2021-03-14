@@ -125,12 +125,21 @@
 		{
 			"name": "withdrawLiquidity",
 			"inputs": [
-				{"name":"minFirstTokenAmount","type":"uint128"},
-				{"name":"minSecondTokenAmount","type":"uint128"}
+				{"name":"liquidityTokensAmount","type":"uint256"}
 			],
 			"outputs": [
 				{"name":"withdrawedFirstTokenAmount","type":"uint128"},
 				{"name":"withdrawedSecondTokenAmount","type":"uint128"}
+			]
+		},
+		{
+			"name": "getAnotherTokenProvidingAmount",
+			"inputs": [
+				{"name":"providingTokenRoot","type":"address"},
+				{"name":"providingTokenAmount","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"anotherTokenAmount","type":"uint128"}
 			]
 		},
 		{
