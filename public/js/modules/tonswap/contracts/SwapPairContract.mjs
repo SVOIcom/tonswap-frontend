@@ -144,6 +144,15 @@ class SwapPairContract {
     }
 
     /**
+     * Get user TON balance
+     * @returns {Promise<*>}
+     */
+    async getUserTONBalance() {
+        let pubkey = '0x' + (await this.ton.getKeypair()).public;
+        return (await this.contract.getUserTONBalance({pubkey}));
+    }
+
+    /**
      * Add liquidity to pool
      * @param firstTokenAmount
      * @param secondTokenAmount
@@ -156,6 +165,12 @@ class SwapPairContract {
         });
     }
 
+    /**
+     * Calculate final liquidity providing
+     * @param firstTokenAmount
+     * @param secondTokenAmount
+     * @returns {Promise<*>}
+     */
     async getProvidingLiquidityInfo(firstTokenAmount, secondTokenAmount) {
         return await this.contract.getProvidingLiquidityInfo({
             maxFirstTokenAmount: firstTokenAmount,
@@ -174,6 +189,12 @@ class SwapPairContract {
         });
     }
 
+    /**
+     * Get providing liquidity token rate
+     * @param providingTokenRoot
+     * @param providingTokenAmount
+     * @returns {Promise<*>}
+     */
     async getAnotherTokenProvidingAmount(providingTokenRoot, providingTokenAmount) {
         return await this.contract.getAnotherTokenProvidingAmount({
             providingTokenRoot,
