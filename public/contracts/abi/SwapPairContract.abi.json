@@ -27,6 +27,14 @@
 			]
 		},
 		{
+			"name": "getLPComission",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128"}
+			]
+		},
+		{
 			"name": "getPairInfo",
 			"inputs": [
 			],
@@ -103,12 +111,21 @@
 		{
 			"name": "getWithdrawingLiquidityInfo",
 			"inputs": [
-				{"name":"maxFirstTokenAmount","type":"uint128"},
-				{"name":"maxSecondTokenAmount","type":"uint128"}
+				{"name":"liquidityTokensAmount","type":"uint256"}
 			],
 			"outputs": [
 				{"name":"withdrawedFirstTokenAmount","type":"uint128"},
 				{"name":"withdrawedSecondTokenAmount","type":"uint128"}
+			]
+		},
+		{
+			"name": "getAnotherTokenProvidingAmount",
+			"inputs": [
+				{"name":"providingTokenRoot","type":"address"},
+				{"name":"providingTokenAmount","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"anotherTokenAmount","type":"uint128"}
 			]
 		},
 		{
@@ -130,16 +147,6 @@
 			"outputs": [
 				{"name":"withdrawedFirstTokenAmount","type":"uint128"},
 				{"name":"withdrawedSecondTokenAmount","type":"uint128"}
-			]
-		},
-		{
-			"name": "getAnotherTokenProvidingAmount",
-			"inputs": [
-				{"name":"providingTokenRoot","type":"address"},
-				{"name":"providingTokenAmount","type":"uint128"}
-			],
-			"outputs": [
-				{"name":"anotherTokenAmount","type":"uint128"}
 			]
 		},
 		{
