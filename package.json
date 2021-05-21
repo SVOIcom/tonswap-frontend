@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/SVOIcom/tonswap-frontend#readme",
   "dependencies": {
+    "@solidity-parser/parser": "^0.13.0-rc.7",
     "express": "^4.17.1",
     "freeton": "git+https://github.com/lailune/freeton.git",
     "ton-client-web-js": "^0.28.0"
