@@ -270,6 +270,7 @@ body {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    zoom: 0.85;
 }
 
 @media screen and (min-width: 1280px) {
@@ -1579,6 +1580,7 @@ b, strong {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    zoom: 0.97;
 }
 
 .exchange-inner {

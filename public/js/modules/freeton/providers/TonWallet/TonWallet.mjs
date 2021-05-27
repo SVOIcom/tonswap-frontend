@@ -186,8 +186,6 @@ class TonWallet extends EventEmitter3 {
      * @returns {Promise<Contract>}
      */
     async initContract(abi, address) {
-
-
         return new Contract(abi, address, this.ton, this);
     }
 
