@@ -117,6 +117,11 @@ const popups = {
                         throw  new Error('The public key of the seed phrase does not match the specified public key')
                     }
 
+                    if(walletAddressInput.trim().length === 0) {
+                        throw  new Error('Invalid multisig wallet address');
+                    }
+
+
                     await TON.acceptAccount(publicKey, seedOrKey, testAccount.seedLength);
                     await TON.acceptWallet(walletAddressInput);
                     alert('Key accepted');

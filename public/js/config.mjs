@@ -52,5 +52,5 @@ export default {
     defaultNetwork: 'test',
 
     //Disable browser extension
-    disableExtraTON: true
+    disableTONWallet: false
 }
