@@ -17,7 +17,7 @@
 class PairsRootContract {
     /**
      *
-     * @param {ExtraTon} ton
+     * @param {TonWallet} ton
      * @param {object} config
      */
     constructor(ton, config) {

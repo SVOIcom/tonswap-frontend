@@ -25,7 +25,7 @@ import popups from "../popups/popups.mjs";
 class UI extends EventEmitter3 {
     /**
      *
-     * @param {ExtraTon} ton
+     * @param {TonWallet} ton
      * @param {object} config
      */
     constructor(ton, config) {

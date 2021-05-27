@@ -19,25 +19,29 @@ import freeton from "/modules/freeton/index.js";
  * Contract class
  */
 class Contract {
-    constructor(provider, abi, address, ton, parent) {
+    constructor(abi, address, ton, parent) {
+        //this.provider = provider;
         this.parent = parent;
-        this.provider = provider;
         this.abi = abi;
         this.address = address;
-        this.contract = new freeton.Contract(provider, abi, address);
+        //this.contract = new freeton.Contract(provider, abi, address);
         this.ton = ton;
+
 
         let that = this;
 
         //Setup methods
-        for (let method of Object.keys(this.contract.functions)) {
-            this[method] = async function (args = undefined) {
-                return await that.getMethod(method, args);
+        for (let {name} of abi.functions) {
+            if(name === 'constructor') {
+                continue;
+            }
+            this[name] = async function (args = undefined) {
+                return await that.getMethod(name, args);
             }
 
             //Make method deployable
-            this[method].deploy = async function (args = undefined) {
-                return await that.deployMethod(method, args);
+            this[name].deploy = async function (args = undefined) {
+                return await that.deployMethod(name, args);
             }
         }
     }
@@ -47,7 +51,7 @@ class Contract {
      * @returns {*}
      */
     getProvider() {
-        return this.provider;
+        return this.ton;
     }
 
     /**
@@ -95,8 +99,7 @@ class Contract {
             abi: this.abi,
             functionName: method,
             input: args,
-            address: this.address,
-           /* keyPair: await this.parent.getKeypair()*/
+            address: this.address
         })).output;
         //return await this.contract.functions[method].runGet(args);
     }
@@ -107,9 +110,24 @@ class Contract {
      * @param {undefined|array|object} args
      * @returns {Promise<*>}
      */
-    async deployMethod(method, args = undefined) {
-        //console.log(this.contract.functions[method]);
-        return await this.contract.functions[method].run(args);
+    async deployMethod(method, args = {}) {
+        let params = {
+            address: this.address,
+            abi: this.abi,
+            functionName: method,
+            input: args,
+            keyPair: await this.parent.account.getKeys('Deploy method ' + method)
+        };
+        //console.log('DEPLOY METHOD', params);
+        let message = await this.ton.contracts.createRunMessage(params);
+        let transaction = await this.ton.contracts.sendMessage(message.message);
+        //console.log('TX', transaction);
+
+        let result = await this.ton.contracts.waitForRunTransaction(message, transaction);
+
+        result.tx = transaction;
+
+        return result;
     }
 
 }

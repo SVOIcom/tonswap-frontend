@@ -49,13 +49,11 @@ let currentNetworkAddress = '';
 
     /**
      * Initialize TON
-     * @type {ExtraTon}
+     * @type {TonWallet}
      */
     let TON = null;
     try {
-        if(CONFIG.disableExtraTON) {
-            throw 'ExtraTon disabled';
-        }
+
         TON = await getProvider().init();
         $('.connectExtratonButton').hide();
 
@@ -64,6 +62,7 @@ let currentNetworkAddress = '';
         $('.connectSeed').hide();
 
     } catch (e) {
+        console.log(e);
         if(!CONFIG.disableExtraTON) {
             await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
         }
