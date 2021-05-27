@@ -1,78 +1,143 @@
 {
 	"ABI version": 2,
 	"header": ["pubkey", "time", "expire"],
-	"functions": [
+	"functions": [{
+		"name": "constructor",
+		"inputs": [
+			{ "name": "minMsgValue", "type": "uint256" },
+			{ "name": "contractSP", "type": "uint256" },
+			{ "name": "tip3Deployer_", "type": "address" }
+		],
+		"outputs": []
+	},
 		{
-			"name": "constructor",
+			"name": "setTIP3DeployerAddress",
 			"inputs": [
-				{"name":"spCode","type":"cell"},
-				{"name":"spCodeVersion","type":"uint32"},
-				{"name":"minMsgValue","type":"uint256"},
-				{"name":"contractSP","type":"uint256"}
+				{ "name": "tip3Deployer_", "type": "address" }
 			],
-			"outputs": [
-			]
+			"outputs": []
 		},
 		{
 			"name": "deploySwapPair",
 			"inputs": [
-				{"name":"tokenRootContract1","type":"address"},
-				{"name":"tokenRootContract2","type":"address"}
+				{ "name": "tokenRootContract1", "type": "address" },
+				{ "name": "tokenRootContract2", "type": "address" }
 			],
 			"outputs": [
-				{"name":"cA","type":"address"}
+				{ "name": "cA", "type": "address" }
+			]
+		},
+		{
+			"name": "getAllSwapPairsID",
+			"inputs": [],
+			"outputs": [
+				{ "name": "ids", "type": "uint256[]" }
+			]
+		},
+		{
+			"name": "getPairInfoByID",
+			"inputs": [
+				{ "name": "uniqueID", "type": "uint256" }
+			],
+			"outputs": [
+				{ "components": [{ "name": "rootContract", "type": "address" }, { "name": "tokenRoot1", "type": "address" }, { "name": "tokenRoot2", "type": "address" }, { "name": "lpTokenRoot", "type": "address" }, { "name": "tokenWallet1", "type": "address" }, { "name": "tokenWallet2", "type": "address" }, { "name": "lpTokenWallet", "type": "address" }, { "name": "deployTimestamp", "type": "uint256" }, { "name": "swapPairAddress", "type": "address" }, { "name": "uniqueId", "type": "uint256" }, { "name": "swapPairCodeVersion", "type": "uint32" }, { "name": "swapPairLPTokenName", "type": "bytes" }], "name": "swapPairInfo", "type": "tuple" }
 			]
 		},
 		{
 			"name": "getPairInfo",
 			"inputs": [
-				{"name":"tokenRootContract1","type":"address"},
-				{"name":"tokenRootContract2","type":"address"}
+				{ "name": "tokenRootContract1", "type": "address" },
+				{ "name": "tokenRootContract2", "type": "address" }
 			],
 			"outputs": [
-				{"components":[{"name":"rootContract","type":"address"},{"name":"tokenRoot1","type":"address"},{"name":"tokenRoot2","type":"address"},{"name":"tokenWallet1","type":"address"},{"name":"tokenWallet2","type":"address"},{"name":"deployerPubkey","type":"uint256"},{"name":"deployTimestamp","type":"uint256"},{"name":"swapPairAddress","type":"address"},{"name":"uniqueId","type":"uint256"},{"name":"swapPairCodeVersion","type":"uint32"}],"name":"value0","type":"tuple"}
+				{ "components": [{ "name": "rootContract", "type": "address" }, { "name": "tokenRoot1", "type": "address" }, { "name": "tokenRoot2", "type": "address" }, { "name": "lpTokenRoot", "type": "address" }, { "name": "tokenWallet1", "type": "address" }, { "name": "tokenWallet2", "type": "address" }, { "name": "lpTokenWallet", "type": "address" }, { "name": "deployTimestamp", "type": "uint256" }, { "name": "swapPairAddress", "type": "address" }, { "name": "uniqueId", "type": "uint256" }, { "name": "swapPairCodeVersion", "type": "uint32" }, { "name": "swapPairLPTokenName", "type": "bytes" }], "name": "value0", "type": "tuple" }
 			]
 		},
 		{
 			"name": "getServiceInformation",
-			"inputs": [
-			],
+			"inputs": [],
 			"outputs": [
-				{"components":[{"name":"ownerPubkey","type":"uint256"},{"name":"contractBalance","type":"uint256"},{"name":"creationTimestamp","type":"uint256"},{"name":"codeVersion","type":"uint32"},{"name":"swapPairCode","type":"cell"}],"name":"value0","type":"tuple"}
+				{ "components": [{ "name": "ownerPubkey", "type": "uint256" }, { "name": "contractBalance", "type": "uint256" }, { "name": "creationTimestamp", "type": "uint256" }, { "name": "codeVersion", "type": "uint32" }, { "name": "swapPairCode", "type": "cell" }], "name": "value0", "type": "tuple" }
 			]
 		},
 		{
 			"name": "checkIfPairExists",
 			"inputs": [
-				{"name":"tokenRootContract1","type":"address"},
-				{"name":"tokenRootContract2","type":"address"}
+				{ "name": "tokenRootContract1", "type": "address" },
+				{ "name": "tokenRootContract2", "type": "address" }
 			],
 			"outputs": [
-				{"name":"value0","type":"bool"}
+				{ "name": "value0", "type": "bool" }
 			]
+		},
+		{
+			"name": "getFutureSwapPairAddress",
+			"inputs": [
+				{ "name": "tokenRootContract1", "type": "address" },
+				{ "name": "tokenRootContract2", "type": "address" }
+			],
+			"outputs": [
+				{ "name": "value0", "type": "address" }
+			]
+		},
+		{
+			"name": "swapPairInitializedCallback",
+			"inputs": [
+				{ "components": [{ "name": "rootContract", "type": "address" }, { "name": "tokenRoot1", "type": "address" }, { "name": "tokenRoot2", "type": "address" }, { "name": "lpTokenRoot", "type": "address" }, { "name": "tokenWallet1", "type": "address" }, { "name": "tokenWallet2", "type": "address" }, { "name": "lpTokenWallet", "type": "address" }, { "name": "deployTimestamp", "type": "uint256" }, { "name": "swapPairAddress", "type": "address" }, { "name": "uniqueId", "type": "uint256" }, { "name": "swapPairCodeVersion", "type": "uint32" }, { "name": "swapPairLPTokenName", "type": "bytes" }], "name": "spi", "type": "tuple" }
+			],
+			"outputs": []
 		},
 		{
 			"name": "setSwapPairCode",
 			"inputs": [
-				{"name":"code","type":"cell"},
-				{"name":"codeVersion","type":"uint32"}
+				{ "name": "code", "type": "cell" },
+				{ "name": "codeVersion", "type": "uint32" }
 			],
-			"outputs": [
-			]
+			"outputs": []
 		},
 		{
 			"name": "upgradeSwapPair",
 			"inputs": [
-				{"name":"uniqueID","type":"uint256"}
+				{ "name": "tokenRootContract1", "type": "address" },
+				{ "name": "tokenRootContract2", "type": "address" }
 			],
-			"outputs": [
-			]
+			"outputs": []
 		}
 	],
 	"data": [
-		{"key":1,"name":"_randomNonce","type":"uint256"},
-		{"key":2,"name":"ownerPubkey","type":"uint256"}
+		{ "key": 1, "name": "_randomNonce", "type": "uint256" },
+		{ "key": 2, "name": "ownerPubkey", "type": "uint256" }
 	],
-	"events": [
+	"events": [{
+		"name": "DeploySwapPair",
+		"inputs": [
+			{ "name": "swapPairAddress", "type": "address" },
+			{ "name": "tokenRootContract1", "type": "address" },
+			{ "name": "tokenRootContract2", "type": "address" }
+		],
+		"outputs": []
+	},
+		{
+			"name": "SwapPairInitialized",
+			"inputs": [
+				{ "name": "swapPairAddress", "type": "address" }
+			],
+			"outputs": []
+		},
+		{
+			"name": "SetSwapPairCode",
+			"inputs": [
+				{ "name": "codeVersion", "type": "uint32" }
+			],
+			"outputs": []
+		},
+		{
+			"name": "UpgradeSwapPair",
+			"inputs": [
+				{ "name": "uniqueID", "type": "uint256" },
+				{ "name": "codeVersion", "type": "uint32" }
+			],
+			"outputs": []
+		}
 	]
 }

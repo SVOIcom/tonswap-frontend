@@ -42,7 +42,7 @@ class SwapPairContract {
      * @returns {Promise<*>}
      */
     async getPairInfo() {
-        return (await this.contract.getPairInfo()).info;
+        return (await this.contract.getPairInfo({_answer_id: 0})).info;
     }
 
 
@@ -71,7 +71,8 @@ class SwapPairContract {
     async getExchangeRate(fromTokenRootAddress, amount) {
         let result = await this.contract.getExchangeRate({
             swappableTokenRoot: fromTokenRootAddress,
-            swappableTokenAmount: amount
+            swappableTokenAmount: amount,
+            _answer_id: 0
         })
         return result.value0;
     }
@@ -208,6 +209,17 @@ class SwapPairContract {
             providingTokenRoot,
             providingTokenAmount
         });
+    }
+
+    /**
+     * Creates swap payload
+     * @param sendTokensTo
+     * @returns {Promise<*>}
+     */
+    async createSwapPayload(sendTokensTo) {
+        return (await this.contract.createSwapPayload({
+            sendTokensTo,
+        })).value0;
     }
 
 }

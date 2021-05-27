@@ -21,6 +21,8 @@ import PairsRootContract from "../tonswap/contracts/PairsRootContract.mjs";
 import utils from "../utils.mjs";
 import SwapPairContract from "../tonswap/contracts/SwapPairContract.mjs";
 import popups from "../popups/popups.mjs";
+import TokenRootContract from "../tonswap/contracts/TokenRootContract.mjs";
+import TokenWalletContract from "../tonswap/contracts/TokenWalletContract.mjs";
 
 class UI extends EventEmitter3 {
     /**
@@ -120,9 +122,6 @@ class UI extends EventEmitter3 {
 
                 //User balances
                 try {
-                    let userBalances = await pairContract.getUserBalance();
-                    $('.tokenFromBalance').text(utils.showToken(utils.unsignedNumberToSigned(userBalances[exchangeInfo.from.rootAddress])) + ' ' + exchangeInfo.from.symbol);
-                    $('.tokenToBalance').text(utils.showToken(utils.unsignedNumberToSigned(userBalances[exchangeInfo.to.rootAddress])) + ' ' + exchangeInfo.to.symbol);
 
                     $('.tokenFromBalanceDeposit').off('click');
                     $('.tokenFromBalanceDeposit').click(() => {
@@ -298,7 +297,7 @@ class UI extends EventEmitter3 {
         }, 30000);
 
 
-        $('.accountLink').attr('href', 'https://'+(await this.ton.getNetwork()).explorer+'/accounts/accountDetails?id='+(await this.ton.getWallet()).address);
+        $('.accountLink').attr('href', 'https://' + (await this.ton.getNetwork()).explorer + '/accounts/accountDetails?id=' + (await this.ton.getWallet()).address);
 
         return this;
 
@@ -378,11 +377,14 @@ class UI extends EventEmitter3 {
      * @returns {Promise<void>}
      */
     async startSwap() {
+
+
         let tokens = await this.getExchangeTokens();
         if(tokens.fromAmount <= 0 || tokens.toAmount <= 0) {
             await popups.error('You cannot transfer or receive 0 tokens');
             return;
         }
+
 
         let waiter = await popups.waiting('Processing data...');
 
@@ -425,23 +427,36 @@ class UI extends EventEmitter3 {
             let pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
             /**
              *
-             * @type {PairsRootContract}
+             * @type {SwapPairContract}
              */
             let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
 
-            let balances = await this._getUserTonBalanceAndFee(pairContract);
+            pairInfo = await pairContract.getPairInfo();
 
-            //Check fee balance
-            if(balances.balance < balances.fee) {
-                throw new Error('Insufficient TON balance')
+            window.pairContract = pairContract;
+
+            const getterToken = await new TokenRootContract(this.ton, this.config).init(tokens.to.rootAddress);
+            const senderToken = await new TokenRootContract(this.ton, this.config).init(tokens.from.rootAddress);
+
+
+            //Detect from token wallet
+            let toWalletTokenAddress = null;
+            if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
+                toWalletTokenAddress = pairInfo.tokenWallet1;
+            } else {
+                toWalletTokenAddress = pairInfo.tokenWallet2;
             }
 
-            await this._updateUserTonBalance(pairContract);
+            let swapPayload = await pairContract.createSwapPayload(await getterToken.getWalletAddress());
 
-            let swapResult = await pairContract.swap(tokens.from.rootAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.dcimals));
-            console.log(swapResult);
+            const tokenSenderWallet = await new TokenWalletContract(this.ton, this.config).init(await senderToken.getWalletAddress());
 
-            await popups.error(`Success!`, '<i class="fas fa-retweet"></i>');
+            console.log('SWAP PAYLOAD', await tokenSenderWallet.getBalance());
+
+            let swapResult = await tokenSenderWallet.transfer(toWalletTokenAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals), swapPayload);
+            console.log('SWAP RESULT', swapResult);
+
+            await popups.error(`Success!<br>The swap is still in progress. After the completion of the swap, the tokens will appear on your wallet.`, '<i class="fas fa-retweet"></i>');
 
         } catch (e) {
             console.log('SWAP ERROR', e);
@@ -535,17 +550,6 @@ class UI extends EventEmitter3 {
                     }
                 }
 
-
-                //User balances
-                try {
-                    let userBalances = await pairContract.getUserBalance();
-                    $('.addLiquidityFromBalance').text(utils.unsignedNumberToSigned(userBalances[tokens.from.rootAddress], tokens.from.decimals) + ' ' + tokens.from.symbol);
-                    $('.addLiquidityToBalance').text(utils.unsignedNumberToSigned(userBalances[tokens.to.rootAddress], tokens.to.decimals) + ' ' + tokens.to.symbol);
-
-
-                } catch (e) {
-                    console.log('BALANCE EXCEPTION', e);
-                }
 
                 //In pool balances
                 $('.currentPoolFromSymbol').text(tokens.from.symbol);
@@ -746,7 +750,7 @@ class UI extends EventEmitter3 {
         if(confirm('Transfer TON to pay the LP fee?')) {
             let tokens = await this.getExchangeTokens();
 
-            if(!tokens.from || tokens.to){
+            if(!tokens.from || tokens.to) {
                 await popups.error(`Select tokens on exchange page`);
                 return;
             }
@@ -812,7 +816,7 @@ class UI extends EventEmitter3 {
         console.log('TON BALANCE', balances);
         $('.txComission').text(utils.showToken(utils.unsignedNumberToSigned(balances.fee)) + ' TON')
         $('.tonBalance').text(utils.showToken(utils.unsignedNumberToSigned(balances.balance)) + ' TON');
-        $('.accountLink').attr('href', 'https://'+(await this.ton.getNetwork()).explorer+'/accounts/accountDetails?id='+(await this.ton.getWallet()).address);
+        $('.accountLink').attr('href', 'https://' + (await this.ton.getNetwork()).explorer + '/accounts/accountDetails?id=' + (await this.ton.getWallet()).address);
     }
 
     /**
@@ -822,8 +826,8 @@ class UI extends EventEmitter3 {
      * @private
      */
     async _getUserTonBalanceAndFee(pairContract) {
-        let balance = (await pairContract.getUserTONBalance()).balance;
-        return {balance:Number(balance), fee: Number(await pairContract.getLPComission())}
+        //let balance = (await pairContract.getUserTONBalance()).balance;
+        return {balance: 0, fee: 0}
     }
 
 }

@@ -116,14 +116,14 @@ class Contract {
             abi: this.abi,
             functionName: method,
             input: args,
-            keyPair: await this.parent.account.getKeys('Deploy method ' + method)
+            keyPair: await this.parent.getKeypair()
         };
-        //console.log('DEPLOY METHOD', params);
-        let message = await this.ton.contracts.createRunMessage(params);
-        let transaction = await this.ton.contracts.sendMessage(message.message);
+        console.log('DEPLOY METHOD', params);
+        let message = await this.parent.provider.contracts.createRunMessage(params);
+        let transaction = await this.parent.provider.contracts.sendMessage(message.message);
         //console.log('TX', transaction);
 
-        let result = await this.ton.contracts.waitForRunTransaction(message, transaction);
+        let result = await this.parent.provider.contracts.waitForRunTransaction(message, transaction);
 
         result.tx = transaction;
 

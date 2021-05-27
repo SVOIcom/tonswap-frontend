@@ -10,27 +10,10 @@
   "url": "https://tonswap.com",
   "timestamp": "2020-12-14T18:56:35+0000",
   "tokens": [
-    {
-      "network": "main",
-      "rootAddress": "0:1003a44f7511abca9d4b8e21b9ee95f90d23d0889db83c5fe0c415486099b5ef",
-      "name": "TestToken1",
-      "symbol": "TST",
-      "decimals": 9,
-      "config": {},
-      "icon": "https://swap.tonswap.com/img/exchange/eth.png"
-    },
-    {
-      "network": "main",
-      "rootAddress": "0:7561b101e959f61f078511e92c9b738ef352eef479759ec9aaa90aa1681210a6",
-      "name": "TestTokenTwo",
-      "symbol": "TTT",
-      "decimals": 9,
-      "config": {},
-      "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2ecB13A8c458c379c4d9a7259e202De03c8F3D19/logo.png"
-    },
+
     {
       "network": "test",
-      "rootAddress": "0:0c4cad39cf61d92df6ab7c78552441b0524973e282f1e7a6acf5f06773cdc605",
+      "rootAddress": "0:c291c888250f5f2e369c2fdd113c1fa6733c9ee5e7ecfe82b152a5069f31c8be",
       "name": "TestToken1",
       "symbol": "TST",
       "decimals": 9,
@@ -39,7 +22,7 @@
     },
     {
       "network": "test",
-      "rootAddress": "0:e5863ff972464c4200dba9ed764d3a57533adb2bd4e88b9230859d1953b4b1d4",
+      "rootAddress": "0:4d128ff78d0dff4c29b8a3618e8c5053f240cbf97978773ee41a3be6d6f97f77",
       "name": "TestTokenTwo",
       "symbol": "TTT",
       "decimals": 9,
@@ -48,57 +31,12 @@
     },
     {
       "network": "test",
-      "rootAddress": "0:9147ee4e3cb5ab00b755317c65fe0191bd740f946218a2dadef0de8bf1d7b95a",
+      "rootAddress": "0:4c28e896363e142429488f0f2d8f604f6e867addc302080be73b1a4c50594325",
       "name": "TestToken3",
       "symbol": "TT3",
       "decimals": 9,
       "config": {},
       "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x150b0b96933B75Ce27af8b92441F8fB683bF9739/logo.png"
-    },
-    {
-      "network": "local",
-      "rootAddress": "0:0392cc970aca92f4f05ca69a5466f5f7da756fcae6e2c223198eb2b7b0ce9c6d",
-      "name": "TestToken1",
-      "symbol": "TST",
-      "decimals": 9,
-      "config": {},
-      "icon": "https://swap.tonswap.com/img/exchange/eth.png"
-    },
-    {
-      "network": "local",
-      "rootAddress": "0:e1c4214ce4e7906c0741876e616448bbf14b07fe7ef2bc0b82cb8b636689f3b6",
-      "name": "TestTokenTwo",
-      "symbol": "TTT",
-      "decimals": 9,
-      "config": {},
-      "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2ecB13A8c458c379c4d9a7259e202De03c8F3D19/logo.png"
-    },
-    {
-      "network": "local",
-      "rootAddress": "0:c2041bc9d745750a6da22bd9b2e0d4e2fc3dd7ab8aaae3b01e79ddf8cfb9d3bf",
-      "name": "TestToken3",
-      "symbol": "TT3",
-      "decimals": 9,
-      "config": {},
-      "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x150b0b96933B75Ce27af8b92441F8fB683bF9739/logo.png"
-    },
-    {
-      "network": "http://localhost:3333",
-      "rootAddress": "0:0392cc970aca92f4f05ca69a5466f5f7da756fcae6e2c223198eb2b7b0ce9c6d",
-      "name": "TestToken1",
-      "symbol": "TST",
-      "decimals": 9,
-      "config": {},
-      "icon": "https://swap.tonswap.com/img/exchange/eth.png"
-    },
-    {
-      "network": "http://localhost:3333",
-      "rootAddress": "0:e1c4214ce4e7906c0741876e616448bbf14b07fe7ef2bc0b82cb8b636689f3b6",
-      "name": "TestTokenTwo",
-      "symbol": "TTT",
-      "decimals": 9,
-      "config": {},
-      "icon": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x2ecB13A8c458c379c4d9a7259e202De03c8F3D19/logo.png"
     }
   ]
 }
