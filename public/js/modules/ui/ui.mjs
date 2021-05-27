@@ -431,10 +431,11 @@ class UI extends EventEmitter3 {
              */
             let pairContract = await new SwapPairContract(this.ton, this.config).init(pairInfo.swapPairAddress);
 
+            //Update pair info
             pairInfo = await pairContract.getPairInfo();
 
-            window.pairContract = pairContract;
 
+            //Init tokens root contracts
             const getterToken = await new TokenRootContract(this.ton, this.config).init(tokens.to.rootAddress);
             const senderToken = await new TokenRootContract(this.ton, this.config).init(tokens.from.rootAddress);
 
@@ -447,12 +448,13 @@ class UI extends EventEmitter3 {
                 toWalletTokenAddress = pairInfo.tokenWallet2;
             }
 
-            let swapPayload = await pairContract.createSwapPayload(await getterToken.getWalletAddress());
+            //Get swap payload
+            const swapPayload = await pairContract.createSwapPayload(await getterToken.getWalletAddress());
 
+            //Get sender token wallet
             const tokenSenderWallet = await new TokenWalletContract(this.ton, this.config).init(await senderToken.getWalletAddress());
 
-            console.log('SWAP PAYLOAD', await tokenSenderWallet.getBalance());
-
+            //Transfer with swap payload
             let swapResult = await tokenSenderWallet.transfer(toWalletTokenAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals), swapPayload);
             console.log('SWAP RESULT', swapResult);
 
