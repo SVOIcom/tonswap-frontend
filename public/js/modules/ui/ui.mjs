@@ -544,24 +544,42 @@ class UI extends EventEmitter3 {
 
                 const lpToken = await new TokenRootContract(this.ton, this.config).init(pairInfo.lpTokenRoot);
                 const lpTokenWallet = await new TokenWalletContract(this.ton, this.config).init(await lpToken.getWalletAddress());
-
+                const lpDetails = await lpToken.getDetails();
+                const poolPercentage = BigNumber(await lpTokenWallet.getBalance()).div(lpDetails.total_supply).times(100).toFixed();
                 console.log(lpToken);
 
-                $('.currentPoolLp').text(utils.unsignedNumberToSigned(await lpTokenWallet.getBalance(), Number((await lpToken.getDetails()).decimals)))
+                let exchangeRateData = await pairContract.getCurrentExchangeRate();
+                let fromPool = exchangeRateData.lp1;
+                let toPool = exchangeRateData.lp2;
+                if(tokens.from.rootAddress !== pairInfo.tokenRoot1) {
+                    fromPool = exchangeRateData.lp2;
+                    toPool = exchangeRateData.lp1;
+                }
+
+
+                $('.currentPoolLp').text(
+                    utils.unsignedNumberToSigned(await lpTokenWallet.getBalance(), Number(lpDetails.decimals))
+                    + ' ' +
+                    poolPercentage
+                    + '%'
+                );
 
                 console.log('LP BALANCE', await lpTokenWallet.getBalance());
 
                 $('.currentPoolFromSymbol').text(tokens.from.symbol);
                 $('.currentPoolToSymbol').text(tokens.to.symbol);
+                $('.currentPoolFrom').text(utils.unsignedNumberToSigned(BigNumber(fromPool).times(poolPercentage), tokens.from.decimals));
+                $('.currentPoolTo').text(utils.unsignedNumberToSigned(BigNumber(toPool).times(poolPercentage), tokens.to.decimals));
+                //$('.currentPoolFrom').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance[tokens.from.rootAddress], tokens.from.decimals)));
+                //$('.currentPoolTo').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance[tokens.to.rootAddress], tokens.to.decimals)));
+
                 /* try {
                     let userPairBalance = await pairContract.getUserLiquidityPoolBalance();
                     console.log('POOL BALANCES', userPairBalance);
 
                     $('.inPoolFromBalance').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance.balance[tokens.from.rootAddress], tokens.from.decimals)) + ' ' + tokens.from.symbol);
                     $('.inPoolToBalance').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance.balance[tokens.to.rootAddress], tokens.to.decimals)) + ' ' + tokens.to.symbol);
-                    $('.currentPoolFrom').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance[tokens.from.rootAddress], tokens.from.decimals)));
-                    $('.currentPoolTo').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance[tokens.to.rootAddress], tokens.to.decimals)));
-                } catch (e) {
+           } catch (e) {
                     $('.currentPoolFrom').text(0);
                     $('.currentPoolTo').text(0);
                     console.log('POOL BALANCE EXCEPTION', e);
@@ -749,15 +767,32 @@ class UI extends EventEmitter3 {
                 secondTokenAmount = prompt(`${tokens.from.symbol} max amount`);
             }*/
 
-            let percentage = prompt('Enter the amount of liquidity in percent for withdrawal');
+            // let percentage = prompt('Enter the amount of liquidity in percent for withdrawal');
 
-            let userPairBalance = await pairContract.getUserLiquidityPoolBalance();
 
-            //200*(50/100)
+            const getterToken = await new TokenRootContract(this.ton, this.config).init(tokens.to.rootAddress);
+            const senderToken = await new TokenRootContract(this.ton, this.config).init(tokens.from.rootAddress);
 
-            let result = await pairContract.withdrawLiquidity(userPairBalance.userLiquidityTokenBalance * (percentage / 100));
-            console.log(result);
-            await popups.error(`Success! Txid: ${utils.getTxId(result)}`, '<i class="fas fa-retweet"></i>');
+
+            const lpToken = await new TokenRootContract(this.ton, this.config).init(pairInfo.lpTokenRoot);
+            const lpTokenWallet = await new TokenWalletContract(this.ton, this.config).init(await lpToken.getWalletAddress());
+
+            const withdrawPayload = await pairContract.createWithdrawLiquidityPayload(tokens.to.rootAddress, await getterToken.getWalletAddress(), tokens.from.rootAddress, await senderToken.getWalletAddress())
+
+            /*
+             let userPairBalance = await pairContract.getUserLiquidityPoolBalance();
+
+             //200*(50/100)
+
+             let result = await pairContract.withdrawLiquidity(userPairBalance.userLiquidityTokenBalance * (percentage / 100));
+             console.log(result);*/
+
+            //TODO check wallet balance
+            let withdrawResult = await lpTokenWallet.transfer(pairInfo.lpTokenWallet, await lpTokenWallet.getBalance(), withdrawPayload, 1e9);
+
+            console.log('WITHDRAW RESULT', withdrawResult);
+
+            await popups.error(`Success! Txid: ${utils.getTxId(withdrawResult)}`, '<i class="fas fa-retweet"></i>');
 
 
         } catch (e) {

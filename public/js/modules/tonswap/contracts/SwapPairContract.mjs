@@ -77,6 +77,13 @@ class SwapPairContract {
         return result.value0;
     }
 
+    async getCurrentExchangeRate() {
+        let result = await this.contract.getCurrentExchangeRate({
+            _answer_id: 0
+        })
+        return result.lpi;
+    }
+
     /**
      * Withdraw tokens from pair
      *

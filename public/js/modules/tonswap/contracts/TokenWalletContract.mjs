@@ -45,7 +45,7 @@ class TokenWalletContract {
         return await this.contract.transfer.deploy({
             to,
             grams,
-            tokens: utils.bigNumberToString(tokens),
+            tokens: (tokens),
             notify_receiver: true,
             send_gas_to: '0:0000000000000000000000000000000000000000000000000000000000000000',
             payload
