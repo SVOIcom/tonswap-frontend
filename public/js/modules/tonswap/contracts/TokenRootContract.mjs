@@ -28,10 +28,7 @@ class TokenRootContract {
         this.contract = null;
     }
 
-    /**
-     * Init contract
-     * @returns {Promise<SwapPairContract>}
-     */
+
     async init(address) {
         this.contract = await this.ton.loadContract('/contracts/abi/RootTokenContract.abi.json', address);
         return this;

@@ -222,6 +222,18 @@ class SwapPairContract {
         })).value0;
     }
 
+    async createWithdrawLiquidityPayload(tokenRoot1, tokenWallet1, tokenRoot2, tokenWallet2) {
+        return (await this.contract.createWithdrawLiquidityPayload({
+            tokenRoot1, tokenWallet1, tokenRoot2, tokenWallet2,
+        })).value0;
+    }
+
+    async createProvideLiquidityPayload() {
+        return (await this.contract.createProvideLiquidityPayload({
+            tip3Address: '0:0000000000000000000000000000000000000000000000000000000000000000'
+        })).value0;
+    }
+
 }
 
 

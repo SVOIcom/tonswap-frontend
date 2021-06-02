@@ -28,10 +28,6 @@ class TokenWalletContract {
         this.contract = null;
     }
 
-    /**
-     * Init contract
-     * @returns {Promise<SwapPairContract>}
-     */
     async init(address) {
         this.contract = await this.ton.loadContract('/contracts/abi/TONTokenWallet.abi.json', address);
         return this;
@@ -42,7 +38,7 @@ class TokenWalletContract {
      * @returns {Promise<number>}
      */
     async getBalance() {
-        return Number((await this.contract.balance({_answer_id: 0})).value0);
+        return ((await this.contract.balance({_answer_id: 0})).value0);
     }
 
     async transfer(to, tokens, payload, grams = 2e8,) {
