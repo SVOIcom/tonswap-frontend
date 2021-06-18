@@ -20,7 +20,7 @@
 export default {
     //Test network config
     test: {
-        pairRootAddress: '0:df6eaef1911a63490b56fa087c6bec4e39daf3986359da52aa2af83a6e22959b',
+        pairRootAddress: '0:3dc2f941650dbb757e47363109841a943c04a4824a6652b8be7377b945603137',
     },
     //Main network config
     main: {
@@ -29,13 +29,13 @@ export default {
 
     //Locals dev networks config
     local: {
-        pairRootAddress: '0:17ee239a8641ae14da6e055ca5f3fd0fd28522fd26d1d50d36b7cf743d9425b0',
+        pairRootAddress: '',
     },
     "http://localhost:3333": {
-        pairRootAddress: '0:17ee239a8641ae14da6e055ca5f3fd0fd28522fd26d1d50d36b7cf743d9425b0',
+        pairRootAddress: '',
     },
     "https://devnet.tonswap.com": {
-        pairRootAddress: '0:17ee239a8641ae14da6e055ca5f3fd0fd28522fd26d1d50d36b7cf743d9425b0',
+        pairRootAddress: '',
     },
 
     /*
@@ -52,5 +52,5 @@ export default {
     defaultNetwork: 'test',
 
     //Disable browser extension
-    disableExtraTON: false
+    disableTONWallet: false
 }

@@ -13,18 +13,18 @@
  * @version 1.0
  */
 
-import ExtraTon from "./providers/ExtraTon/ExtraTon.mjs";
 import TonWeb from "./providers/TonWeb/TonWeb.mjs";
+import TonWallet from "./providers/TonWallet/TonWallet.mjs";
 
 const PROVIDERS = {
-    ExtraTon: 'extraton',
+    TonWallet: 'tonwallet',
     TonWeb: 'tonweb',
 };
 
 
 const PROVIDERS_INSTANCES = {
-    extraton: ExtraTon,
-    tonweb: TonWeb
+    tonweb: TonWeb,
+    tonwallet: TonWallet,
 }
 
 
@@ -34,7 +34,7 @@ const PROVIDERS_INSTANCES = {
  * @param {string} provider
  * @returns {*}
  */
-function getProvider(options = undefined, provider = PROVIDERS.ExtraTon) {
+function getProvider(options = undefined, provider = PROVIDERS.TonWallet) {
     if(PROVIDERS_INSTANCES[provider]) {
         return new PROVIDERS_INSTANCES[provider](options);
     } else {

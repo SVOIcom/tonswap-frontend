@@ -19,7 +19,7 @@ import utils from "../../utils.mjs";
 class SwapPairContract {
     /**
      *
-     * @param {ExtraTon} ton
+     * @param {TonWallet} ton
      * @param {object} config
      */
     constructor(ton, config) {
@@ -42,7 +42,7 @@ class SwapPairContract {
      * @returns {Promise<*>}
      */
     async getPairInfo() {
-        return (await this.contract.getPairInfo()).info;
+        return (await this.contract.getPairInfo({_answer_id: 0})).info;
     }
 
 
@@ -71,9 +71,17 @@ class SwapPairContract {
     async getExchangeRate(fromTokenRootAddress, amount) {
         let result = await this.contract.getExchangeRate({
             swappableTokenRoot: fromTokenRootAddress,
-            swappableTokenAmount: amount
+            swappableTokenAmount: amount,
+            _answer_id: 0
         })
         return result.value0;
+    }
+
+    async getCurrentExchangeRate() {
+        let result = await this.contract.getCurrentExchangeRate({
+            _answer_id: 0
+        })
+        return result.lpi;
     }
 
     /**
@@ -208,6 +216,29 @@ class SwapPairContract {
             providingTokenRoot,
             providingTokenAmount
         });
+    }
+
+    /**
+     * Creates swap payload
+     * @param sendTokensTo
+     * @returns {Promise<*>}
+     */
+    async createSwapPayload(sendTokensTo) {
+        return (await this.contract.createSwapPayload({
+            sendTokensTo,
+        })).value0;
+    }
+
+    async createWithdrawLiquidityPayload(tokenRoot1, tokenWallet1, tokenRoot2, tokenWallet2) {
+        return (await this.contract.createWithdrawLiquidityPayload({
+            tokenRoot1, tokenWallet1, tokenRoot2, tokenWallet2,
+        })).value0;
+    }
+
+    async createProvideLiquidityPayload() {
+        return (await this.contract.createProvideLiquidityPayload({
+            tip3Address: '0:0000000000000000000000000000000000000000000000000000000000000000'
+        })).value0;
     }
 
 }

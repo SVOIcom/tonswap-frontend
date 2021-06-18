@@ -270,6 +270,7 @@ body {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    zoom: 0.85;
 }
 
 @media screen and (min-width: 1280px) {
@@ -1579,6 +1580,7 @@ b, strong {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    zoom: 0.97;
 }
 
 .exchange-inner {
@@ -3892,6 +3894,7 @@ b, strong {
 }
 
 .account-info__logo {
+    min-width: 50px;
     display: block;
     margin-top: -3px;
 }
@@ -9190,4 +9193,10 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.tokenHolderText{
+    width: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

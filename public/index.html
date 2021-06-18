@@ -29,11 +29,14 @@
                     <li class="header-menu__list-item">
                         <a class="header-menu__list-link addLiquidity" href="#">Invest</a>
                     </li>
+                    <li class="header-menu__list-item">
+                        <a class="header-menu__list-link addLiquidity" href="https://explorer.tonswap.com" target="_blank">Explorer</a>
+                    </li>
                 </ul>
             </div>
            <!--  <div class="button button_l-blue header__swap">Swap</div> -->
             <!--<div class="button button_blue header__tonswap marginLeftAuto">0 TONSWAP</div>-->
-            <div class="button button_blue header__tonswap marginLeftAuto">Alpha version</div>
+            <div class="button button_blue header__tonswap marginLeftAuto">Beta version</div>
             <div class="header__balance "><a class="tonBalance" href="#" target="_blank">0.0000 TON</a></div>
             <div class="header__account open-popup" data-popup="account">
                 <span class=""><a class="accountAddress" href="#" target="_blank">0xb8b5...5f83</a></span>
@@ -128,9 +131,7 @@
                             <div class="exchange-form__price">
                                 <span class="exchange-form__price-title userBalanceTop">Balance
                                     <a href="#" class="tokenFromBalance" target="_blank">0</a>
-                                    <a href="#" class="tokenFromBalanceDeposit iconButton disabled" title="Deposit token"><i class="fas fa-wallet"></i></a>
-                                    <a href="#" class="tokenFromBalanceWithdraw  iconButton disabled" title="Withdraw token"><i class="fas fa-sign-out-alt"></i></a>
-                                </span>
+                                   </span>
                                 <span class="exchange-form__price-value "></span>
                             </div>
                         </div>
@@ -157,7 +158,6 @@
                             <div class="exchange-form__price">
                                 <span class="exchange-form__price-title userBalanceBottom">Balance
                                     <a href="#" class="tokenToBalance" target="_blank">0</a>
-                                    <a href="#" class="tokenToBalanceWithdraw  iconButton disabled" title="Withdraw token"><i class="fas fa-sign-out-alt"></i></a>
                                 </span>
                                 <span class="exchange-form__price-value "></span>
                             </div>
@@ -321,6 +321,10 @@
                             <div class="liquidity-prices__item">
                                 <p class="liquidity-prices__item-title currentPoolTo">&nbsp;</p>
                                 <p class="liquidity-prices__item-description currentPoolToSymbol">&nbsp;</p>
+                            </div>
+                            <div class="liquidity-prices__item">
+                                <p class="liquidity-prices__item-title currentPoolLp">&nbsp;</p>
+                                <p class="liquidity-prices__item-description">LP</p>
                             </div>
                           <!--  <div class="liquidity-prices__item">
                                 <p class="liquidity-prices__item-title">0.01%</p>
@@ -853,12 +857,12 @@
                     <div class="account-info">
                         <p class="account-info__title connectedWithExtraTon">
                                 <span class="account-info__logo-container">
-                                    <img class="account-info__logo" src="img/extraton.png" alt="">
+                                    <img class="account-info__logo" src="img/tonwallet.svg" alt="">
                                 </span>
-                            Connected with extraTON
+                            Connected with TONWallet
                         </p>
-                        <button class="button button_l-blue button_m account-info__change connectExtratonButton">Connect extraTON</button>
-                        <a href="https://extraton.io/" target="_blank" class="button button_l-blue button_m account-info__change installExtraton" style="display: none">Get extraTON extension</a>
+                        <button class="button button_l-blue button_m account-info__change connectExtratonButton">Connect TONWallet</button>
+                        <a href="https://tonwallet.io/" target="_blank" class="button button_l-blue button_m account-info__change installExtraton" style="display: none">Get TONWallet extension</a>
                         <br>
                         <button class="button button_l-blue button_m account-info__change connectSeed">Enter private or seed (not recommended)</button>
                         <div class="account-info__token">
@@ -928,11 +932,11 @@
                 </div>
                 <div class="swap-confirm__footer">
                     <div class="exchange-info">
-                        <div class="exchange-info__item">
+                       <!-- <div class="exchange-info__item">
                             <span class="exchange-info__item-title">Price</span>
                             <span class="exchange-info__item-value exchangeRate">0.000861081 ETH per USDT</span>
-                            <!-- <i class="exchange-form__price-syncing"></i> -->
-                        </div>
+
+                        </div> -->
                         <div class="exchange-info__item">
                             <i class="exchange-settings__info"></i>
                             <span class="exchange-info__item-title">Minimum received</span>
@@ -1083,7 +1087,7 @@
 
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/8.0.2/bignumber.min.js" integrity="sha512-7UzDjRNKHpQnkh1Wf1l6i/OPINS9P2DDzTwQNX79JxfbInCXGpgI1RPb3ZD+uTP3O5X7Ke4e0+cxt2TxV7n0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/vendor.min.js"></script>
     <script src="js/thirdparty/eventemitter3.min.js"></script>
     <script src="js/main.js"></script>

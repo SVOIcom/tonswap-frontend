@@ -49,13 +49,11 @@ let currentNetworkAddress = '';
 
     /**
      * Initialize TON
-     * @type {ExtraTon}
+     * @type {TonWallet}
      */
     let TON = null;
     try {
-        if(CONFIG.disableExtraTON) {
-            throw 'ExtraTon disabled';
-        }
+
         TON = await getProvider().init();
         $('.connectExtratonButton').hide();
 
@@ -64,8 +62,9 @@ let currentNetworkAddress = '';
         $('.connectSeed').hide();
 
     } catch (e) {
-        if(!CONFIG.disableExtraTON) {
-            await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
+        console.log(e);
+        if(!CONFIG.disableTONWallet) {
+            await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <a href="https://tonwallet.io" target="_blank">Get TONWallet now</a>');
         }
         TON = await getProvider({
             network: CONFIG.defaultNetwork,
@@ -85,11 +84,11 @@ let currentNetworkAddress = '';
 
         $('.connectExtratonButton').click(async () => {
             try {
-                //If extraTON connected make reload
+                //If TONWallet connected make reload
                 TON = await getProvider().init();
                 document.location.reload();
             } catch (e) {
-                await popups.error('It seems the extraTON browser extension was not found. We strongly recommend using extraTON as your FreeTON connection provider. However, you can use your private key directly.');
+                await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <a href="https://tonwallet.io" target="_blank">Get TONWallet now</a>');
             }
         });
 
