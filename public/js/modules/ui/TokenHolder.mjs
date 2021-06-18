@@ -49,7 +49,7 @@ class TokenHolder extends EventEmitter3 {
         }
         let token = await this.tokenList.getTokenByRootAddress(rootAddress);
         this.address = rootAddress;
-        this.element.html(`<img src="${token.icon}" alt="" data-address="${token.symbol}">${token.symbol}<i></i>`);
+        this.element.html(`<img src="${token.icon}" alt="" data-address="${token.symbol}"><span class="tokenHolderText">${token.symbol}</span><i></i>`);
         this.element.addClass('exchange-form__input-select_selected');
     }
 

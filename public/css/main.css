@@ -9194,3 +9194,9 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+.tokenHolderText{
+    width: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

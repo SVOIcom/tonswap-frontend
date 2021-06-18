@@ -118,7 +118,8 @@
 				{"name":"tokenAmount","type":"uint128"},
 				{"components":[{"name":"tr1","type":"address"},{"name":"tw1","type":"address"},{"name":"tr2","type":"address"},{"name":"tw2","type":"address"}],"name":"lpwi","type":"tuple"},
 				{"name":"walletAddress","type":"address"},
-				{"name":"tokensBurnt","type":"bool"}
+				{"name":"tokensBurnt","type":"bool"},
+				{"name":"send_gas_to","type":"address"}
 			],
 			"outputs": [
 			]
@@ -130,7 +131,8 @@
 				{"name":"tokenRoot","type":"address"},
 				{"name":"tokenWallet","type":"address"},
 				{"name":"lpWalletAddress","type":"address"},
-				{"name":"tokensBurnt","type":"bool"}
+				{"name":"tokensBurnt","type":"bool"},
+				{"name":"send_gas_to","type":"address"}
 			],
 			"outputs": [
 			]
@@ -140,7 +142,8 @@
 			"inputs": [
 				{"components":[{"name":"tr1","type":"address"},{"name":"tw1","type":"address"},{"name":"tr2","type":"address"},{"name":"tw2","type":"address"}],"name":"lpwi","type":"tuple"},
 				{"name":"t1Amount","type":"uint128"},
-				{"name":"t2Amount","type":"uint128"}
+				{"name":"t2Amount","type":"uint128"},
+				{"name":"send_gas_to","type":"address"}
 			],
 			"outputs": [
 			]
@@ -182,7 +185,7 @@
 				{"name":"token_root","type":"address"},
 				{"name":"amount","type":"uint128"},
 				{"name":"sender_wallet","type":"address"},
-				{"name":"sender_address","type":"address"}
+				{"name":"original_gas_to","type":"address"}
 			],
 			"outputs": [
 			]
@@ -195,7 +198,8 @@
 				{"name":"sender_public_key","type":"uint256"},
 				{"name":"amount","type":"uint128"},
 				{"name":"sender_wallet","type":"address"},
-				{"name":"sender_address","type":"address"}
+				{"name":"sender_address","type":"address"},
+				{"name":"original_gas_to","type":"address"}
 			],
 			"outputs": [
 			]
@@ -209,7 +213,8 @@
 				{"name":"sender_public_key","type":"uint256"},
 				{"name":"amount","type":"uint128"},
 				{"name":"sender_wallet","type":"address"},
-				{"name":"sender_address","type":"address"}
+				{"name":"sender_address","type":"address"},
+				{"name":"original_gas_to","type":"address"}
 			],
 			"outputs": [
 			]
@@ -220,7 +225,7 @@
 				{"name":"args","type":"cell"},
 				{"name":"amount","type":"uint128"},
 				{"name":"sender_wallet","type":"address"},
-				{"name":"sender_address","type":"address"},
+				{"name":"original_gas_to","type":"address"},
 				{"name":"tokensBurnt","type":"bool"}
 			],
 			"outputs": [
@@ -232,7 +237,7 @@
 				{"name":"args","type":"cell"},
 				{"name":"amount","type":"uint128"},
 				{"name":"sender_wallet","type":"address"},
-				{"name":"sender_address","type":"address"},
+				{"name":"original_gas_to","type":"address"},
 				{"name":"tokensBurnt","type":"bool"}
 			],
 			"outputs": [

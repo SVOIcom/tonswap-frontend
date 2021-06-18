@@ -844,7 +844,8 @@ class UI extends EventEmitter3 {
     async createNewPair() {
         let tokens = await this.getInvestTokens();
 
-        if(tokens.from.rootAddress && tokens.to.rootAddress) {
+        console.log(tokens.from.rootAddress, tokens.to.rootAddress);
+        if(tokens.from.rootAddress === tokens.to.rootAddress) {
             await popups.error(`'Can't create pair with same tokens`);
             return;
         }
