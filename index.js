@@ -24,7 +24,7 @@ const path = require('path');
 
 app.use(express.static('public'));
 
-app.disable('view cache');
+//app.disable('view cache');
 
 app.use('/modules/freeton', express.static('node_modules/freeton/src'));
 app.use('/modules/ton-client-web-js', express.static('node_modules/ton-client-web-js/'));
