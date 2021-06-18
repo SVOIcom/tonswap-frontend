@@ -1092,6 +1092,14 @@
     <script src="js/thirdparty/eventemitter3.min.js"></script>
     <script src="js/main.js"></script>
     <script src="ton/main.js"></script>
+    <script>
+        try {
+            window.TONClient.setWasmOptions = () => {
+            };
+        }catch (e) {
+            
+        }
+    </script>
     <script src="js/app.mjs" type="module"></script>
 
 </body>
