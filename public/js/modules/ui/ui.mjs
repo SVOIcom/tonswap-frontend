@@ -168,18 +168,18 @@ class UI extends EventEmitter3 {
 
 
         //Load tokens list
-        this.tokensList = await new TokensList().load(this.ton.network);
+        this.tokensList = await new TokensList(undefined, this.ton).load(this.ton.network);
         console.log(await this.tokensList.getTokens());
 
         //Load tokens lists on page
         tokenList.load(await this.tokensList.getTokens());
 
         //Initialize token holders
-        this.tokenHolderFrom = new TokenHolder($('.tokenHolderFrom'), this.tokensList);
-        this.tokenHolderTo = new TokenHolder($('.tokenHolderTo'), this.tokensList);
+        this.tokenHolderFrom = new TokenHolder($('.tokenHolderFrom'), this.tokensList, this.ton);
+        this.tokenHolderTo = new TokenHolder($('.tokenHolderTo'), this.tokensList, this.ton);
 
-        this.tokenHolderToInvest = new TokenHolder($('.tokenHolderToInvest'), this.tokensList);
-        this.tokenHolderFromInvest = new TokenHolder($('.tokenHolderFromInvest'), this.tokensList);
+        this.tokenHolderToInvest = new TokenHolder($('.tokenHolderToInvest'), this.tokensList, this.ton);
+        this.tokenHolderFromInvest = new TokenHolder($('.tokenHolderFromInvest'), this.tokensList, this.ton);
 
         //Reverse button
         $('.reverseExchange').click(async () => {
@@ -492,6 +492,7 @@ class UI extends EventEmitter3 {
                 let pairInfo;
                 try {
                     pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
+                    console.log('INVEST PAIR INFO', pairInfo,tokens.from.rootAddress,  tokens.to.rootAddress)
                 } catch (e) {
                     $('.currentPoolFrom,.currentPoolTo').text('Pair not found');
                     $('.plusInLiquidity').show();
@@ -526,7 +527,7 @@ class UI extends EventEmitter3 {
                 //If initiator - from form
                 if(initiator === 'from' || initiator === '') {
                     let otherToken = await pairContract.getAnotherTokenProvidingAmount(tokens.from.rootAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals));
-                    if(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.from.decimals) !== 0) {
+                    if(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.from.decimals) !== utils.unsignedNumberToSigned(0, tokens.from.decimals)) {
                         $('.investToAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.from.decimals)));
                     }
                 }
@@ -534,7 +535,7 @@ class UI extends EventEmitter3 {
                 //If initiator to form
                 if(initiator === 'to') {
                     let otherToken = await pairContract.getAnotherTokenProvidingAmount(tokens.to.rootAddress, utils.numberToUnsignedNumber(tokens.toAmount, tokens.to.decimals));
-                    if(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.to.decimals) !== 0) {
+                    if(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.to.decimals) !== utils.unsignedNumberToSigned(0, tokens.to.decimals)) {
                         $('.investFromAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.to.decimals)));
                     }
                 }
@@ -543,33 +544,49 @@ class UI extends EventEmitter3 {
                 //In pool balances
 
                 const lpToken = await new TokenRootContract(this.ton, this.config).init(pairInfo.lpTokenRoot);
-                const lpTokenWallet = await new TokenWalletContract(this.ton, this.config).init(await lpToken.getWalletAddress());
-                const lpDetails = await lpToken.getDetails();
-                const poolPercentage = BigNumber(await lpTokenWallet.getBalance()).div(lpDetails.total_supply).times(100).toFixed();
-                console.log(lpToken);
 
-                let exchangeRateData = await pairContract.getCurrentExchangeRate();
-                let fromPool = exchangeRateData.lp1;
-                let toPool = exchangeRateData.lp2;
-                if(tokens.from.rootAddress !== pairInfo.tokenRoot1) {
-                    fromPool = exchangeRateData.lp2;
-                    toPool = exchangeRateData.lp1;
+                try {
+                    const lpTokenWallet = await new TokenWalletContract(this.ton, this.config).init(await lpToken.getWalletAddress());
+                    const lpDetails = await lpToken.getDetails();
+                    const poolPercentage = BigNumber(await lpTokenWallet.getBalance()).div(lpDetails.total_supply).times(100).toFixed();
+                    console.log(lpToken);
+
+                    let exchangeRateData = await pairContract.getCurrentExchangeRate();
+                    let fromPool = exchangeRateData.lp1;
+                    let toPool = exchangeRateData.lp2;
+                    if(tokens.from.rootAddress !== pairInfo.tokenRoot1) {
+                        fromPool = exchangeRateData.lp2;
+                        toPool = exchangeRateData.lp1;
+                    }
+
+
+                    $('.currentPoolLp').text(
+                        utils.unsignedNumberToSigned(await lpTokenWallet.getBalance(), Number(lpDetails.decimals))
+                        + ' ' +
+                        poolPercentage
+                        + '%'
+                    );
+
+                    console.log('LP BALANCE', await lpTokenWallet.getBalance());
+
+                    $('.currentPoolFrom').text(utils.unsignedNumberToSigned(BigNumber(fromPool).times(poolPercentage), tokens.from.decimals));
+                    $('.currentPoolTo').text(utils.unsignedNumberToSigned(BigNumber(toPool).times(poolPercentage), tokens.to.decimals));
+                }catch (e) {
+                    console.log(e);
+                    $('.currentPoolLp').text(0);
+                    $('.currentPoolFrom').text(0);
+                    $('.currentPoolTo').text(0);
                 }
 
 
-                $('.currentPoolLp').text(
-                    utils.unsignedNumberToSigned(await lpTokenWallet.getBalance(), Number(lpDetails.decimals))
-                    + ' ' +
-                    poolPercentage
-                    + '%'
-                );
 
-                console.log('LP BALANCE', await lpTokenWallet.getBalance());
+
+
+
 
                 $('.currentPoolFromSymbol').text(tokens.from.symbol);
                 $('.currentPoolToSymbol').text(tokens.to.symbol);
-                $('.currentPoolFrom').text(utils.unsignedNumberToSigned(BigNumber(fromPool).times(poolPercentage), tokens.from.decimals));
-                $('.currentPoolTo').text(utils.unsignedNumberToSigned(BigNumber(toPool).times(poolPercentage), tokens.to.decimals));
+
                 //$('.currentPoolFrom').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance[tokens.from.rootAddress], tokens.from.decimals)));
                 //$('.currentPoolTo').text(utils.showToken(utils.unsignedNumberToSigned(userPairBalance[tokens.to.rootAddress], tokens.to.decimals)));
 
@@ -717,6 +734,7 @@ class UI extends EventEmitter3 {
                 toWalletTokenAddress = pairInfo.tokenWallet1;
             }
 
+            console.log('PROVIDING INFO', tokens.fromAmount, tokens.toAmount)
 
             //Providing liquidity
             let providingResult1 = await fromTokenWallet.transfer(fromWalletTokenAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals), provideLiquidityPayload);

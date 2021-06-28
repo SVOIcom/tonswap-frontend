@@ -175,6 +175,46 @@ const utils = {
         }).join(""));
     },
 
+    /**
+     * Async JSONP
+     * @async
+     * @param url
+     * @param callback
+     * @returns {Promise<unknown>}
+     */
+    jsonp(url, callback = "jsonpCallback_" + String(Math.round(Math.random() * 100000))) {
+        return new Promise((resolve, reject) => {
+            try {
+                let script = document.createElement("script");
+
+                window[callback] = function (data) {
+                    window[callback] = undefined;
+                    resolve(data);
+                };
+                script.src = `${url}?callback=${callback}`;
+                document.body.appendChild(script);
+            } catch (e) {
+                reject(e);
+            }
+        });
+    },
+    /**
+     * Hex encoded string to string
+     * @param {string} hexString
+     * @returns {string}
+     */
+    hex2String(hexString) {
+        return Buffer.from(hexString, 'hex').toString();
+    },
+
+    /**
+     * String to hex string
+     * @param {string} str
+     * @returns {string}
+     */
+    string2Hex(str) {
+        return Buffer.from(str, 'utf8').toString('hex');
+    },
 
     /**
      * Create tvm cell payload with public key
