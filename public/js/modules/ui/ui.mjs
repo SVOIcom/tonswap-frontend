@@ -578,12 +578,6 @@ class UI extends EventEmitter3 {
                     $('.currentPoolTo').text(0);
                 }
 
-
-
-
-
-
-
                 $('.currentPoolFromSymbol').text(tokens.from.symbol);
                 $('.currentPoolToSymbol').text(tokens.to.symbol);
 
@@ -722,6 +716,21 @@ class UI extends EventEmitter3 {
             //Get sender and getter wallets token wallet
             const fromTokenWallet = await new TokenWalletContract(this.ton, this.config).init(await fromToken.getWalletAddress());
             const toTokenWallet = await new TokenWalletContract(this.ton, this.config).init(await toToken.getWalletAddress());
+
+
+            if(await fromTokenWallet.getContractBalance() < 2e9){
+                await popups.error(`First token wallet balance less than 2 TON. Top up the balance of the token wallet at least to 2 TON for the operation`);
+                waiter.hide();
+                return ;
+            }
+
+            if(await toTokenWallet.getContractBalance() < 2e9){
+                await popups.error(`Second token wallet balance less than 2 TON. Top up the balance of the token wallet at least to 2 TON for the operation`);
+                waiter.hide();
+                return ;
+            }
+
+
 
             //Detect from token wallet
             let toWalletTokenAddress = null;
