@@ -121,7 +121,7 @@ class Contract {
         console.log('DEPLOY METHOD', params);
         let message = await this.parent.provider.contracts.createRunMessage(params);
         let transaction = await this.parent.provider.contracts.sendMessage(message.message);
-        //console.log('TX', transaction);
+        console.log('TX', transaction);
 
         let result = await this.parent.provider.contracts.waitForRunTransaction(message, transaction);
 
