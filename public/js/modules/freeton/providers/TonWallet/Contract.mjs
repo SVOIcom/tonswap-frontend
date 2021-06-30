@@ -135,6 +135,12 @@ class Contract {
         return result;
     }
 
+    /**
+     * Get call payload
+     * @param method
+     * @param args
+     * @returns {Promise<*>}
+     */
     async deployPayload(method, args = {}) {
 
         const ton = await getTONClient();

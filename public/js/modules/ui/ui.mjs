@@ -879,8 +879,12 @@ class UI extends EventEmitter3 {
 
         let waiter = await popups.waiting('Creating...');
         try {
-            console.log('PAYLOAD',await this.swapRoot.deploySwapPairPayload(tokens.from.rootAddress, tokens.to.rootAddress)); return;
-            let result = await this.swapRoot.deploySwapPair(tokens.from.rootAddress, tokens.to.rootAddress);
+            const payload = await this.swapRoot.deploySwapPairPayload(tokens.from.rootAddress, tokens.to.rootAddress);
+
+            let result = await this.ton.walletTransfer(this.config.pairRootAddress, 11e9 ,payload)
+
+
+           // let result = await this.swapRoot.deploySwapPair(tokens.from.rootAddress, tokens.to.rootAddress);
             console.log(result);
             await popups.error(`Success! Txid: ${utils.getTxId(result)}`, '<i class="fas fa-retweet"></i>');
         } catch (e) {

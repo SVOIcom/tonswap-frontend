@@ -181,6 +181,17 @@ class TonWallet extends EventEmitter3 {
     }
 
     /**
+     * Make wallet transfer
+     * @param to
+     * @param amount
+     * @param payload
+     * @returns {Promise<*>}
+     */
+    async walletTransfer(to, amount, payload = '') {
+        return await this.provider.accounts.walletTransfer((await this.getKeypair()).public, (await this.getWallet()).address, to, amount, payload);
+    }
+
+    /**
      * Create contract instance by ABI
      * @param {object} abi
      * @param {string} address
