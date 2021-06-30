@@ -137,12 +137,13 @@ class Contract {
 
     async deployPayload(method, args = {}) {
 
+        const ton = await getTONClient();
 
         const callSet = {
             function_name: method,
             input: args
         }
-        const encoded_msg = await this.ton.abi.encode_message_body({
+        const encoded_msg = await ton.abi.encode_message_body({
             abi: JSON.stringify(this.abi),
             call_set: callSet,
             is_internal: true,
