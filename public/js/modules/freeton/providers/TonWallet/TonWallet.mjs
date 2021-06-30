@@ -19,12 +19,12 @@ import utils from "../../../utils.mjs";
 
 
 const NETWORKS = {
-    main: 'main.ton.dev',
+    main: 'main2.ton.dev',
     test: 'net.ton.dev'
 };
 
 const REVERSE_NETWORKS = {
-    'main.ton.dev': 'main',
+    'main2.ton.dev': 'main',
     'net.ton.dev': 'test'
 }
 

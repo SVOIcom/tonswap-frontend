@@ -47,7 +47,7 @@ export default {
 
 
 //Server address used by default
-    defaultNetworkServer: 'main.ton.dev',
+    defaultNetworkServer: 'main2.ton.dev',
     //Name of network used by default
     defaultNetwork: 'main',
 
