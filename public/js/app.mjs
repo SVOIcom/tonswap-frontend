@@ -130,5 +130,7 @@ let currentNetworkAddress = '';
     //Initialize dialog hide
     loadingPopup.hide();
 
+    //TonWallet bug workaround
+    await TON.provider.setServers(TON.networkServer)
 
 })()
