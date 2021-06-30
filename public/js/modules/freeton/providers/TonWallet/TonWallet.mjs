@@ -24,6 +24,7 @@ const NETWORKS = {
 };
 
 const REVERSE_NETWORKS = {
+    'main.ton.dev': 'main',
     'main2.ton.dev': 'main',
     'net.ton.dev': 'test'
 }
