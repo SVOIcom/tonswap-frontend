@@ -50,7 +50,7 @@ class TonWallet extends EventEmitter3 {
         this.walletContract = null;
         this.walletBalance = 0;
 
-        this.network = 'test';
+        this.network = 'main';
 
     }
 
