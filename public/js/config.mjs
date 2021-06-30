@@ -24,7 +24,7 @@ export default {
     },
     //Main network config
     main: {
-        pairRootAddress: '0:',
+        pairRootAddress: '0:fcf5a5b14ad033b07a24df255baa12601905a788f6bdc326fd6680d1366c9d6e',
     },
 
     //Locals dev networks config
@@ -47,9 +47,9 @@ export default {
 
 
 //Server address used by default
-    defaultNetworkServer: 'net.ton.dev',
+    defaultNetworkServer: 'main.ton.dev',
     //Name of network used by default
-    defaultNetwork: 'test',
+    defaultNetwork: 'main',
 
     //Disable browser extension
     disableTONWallet: false
