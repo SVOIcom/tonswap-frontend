@@ -120,7 +120,7 @@ class Contract {
         };
         console.log('DEPLOY METHOD', params);
         let message = await this.parent.provider.contracts.createRunMessage(params);
-        console.log('MESSAGE', message, await this.parent.provider );
+        console.log('MESSAGE', message, await this.parent.provider);
         let transaction = await this.parent.provider.contracts.sendMessage(message.message);
         console.log('TX', transaction);
 
@@ -129,6 +129,26 @@ class Contract {
         result.tx = transaction;
 
         return result;
+    }
+
+    async deployPayload(method, args = {}) {
+
+
+        const callSet = {
+            function_name: method,
+            input: args
+        }
+        const encoded_msg = await this.ton.abi.encode_message_body({
+            abi: JSON.stringify(this.abi),
+            call_set: callSet,
+            is_internal: true,
+            signer: {
+                type: 'None'
+            }
+        });
+
+        return encoded_msg.body;
+
     }
 
 }
