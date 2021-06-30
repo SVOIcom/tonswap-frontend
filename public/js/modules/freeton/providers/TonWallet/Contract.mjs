@@ -144,7 +144,10 @@ class Contract {
             input: args
         }
         const encoded_msg = await ton.abi.encode_message_body({
-            abi: JSON.stringify(this.abi),
+            abi: {
+                type: 'Json',
+                value: JSON.stringify(this.abi)
+            },
             call_set: callSet,
             is_internal: true,
             signer: {
