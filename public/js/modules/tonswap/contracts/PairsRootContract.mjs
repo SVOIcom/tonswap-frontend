@@ -62,7 +62,7 @@ class PairsRootContract {
     }
 
     async deploySwapPairPayload(tokenRoot1, tokenRoot2) {
-        return await this.contract.deploySwapPair.deployPayload({
+        return await this.contract.deploySwapPair.payload({
             tokenRootContract1: tokenRoot1,
             tokenRootContract2: tokenRoot2
         });

@@ -43,6 +43,10 @@ class Contract {
             this[name].deploy = async function (args = undefined) {
                 return await that.deployMethod(name, args);
             }
+
+            this[name].payload = async function (args = undefined) {
+                return await that.deployPayload(name, args);
+            }
         }
     }
 
