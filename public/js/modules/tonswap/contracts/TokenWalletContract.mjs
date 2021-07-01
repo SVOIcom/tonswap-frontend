@@ -59,6 +59,17 @@ class TokenWalletContract {
             payload
         });
     }
+
+    async transferPayload(to, tokens, payload, grams = 2e8,) {
+        return await this.contract.transfer.payload({
+            to,
+            grams,
+            tokens: (tokens),
+            notify_receiver: true,
+            send_gas_to: '0:0000000000000000000000000000000000000000000000000000000000000000',
+            payload
+        });
+    }
 }
 
 

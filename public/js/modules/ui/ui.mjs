@@ -441,7 +441,10 @@ class UI extends EventEmitter3 {
             const tokenSenderWallet = await new TokenWalletContract(this.ton, this.config).init(await senderToken.getWalletAddress());
 
             //Transfer with swap payload
-            let swapResult = await tokenSenderWallet.transfer(toWalletTokenAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals), swapPayload);
+            let swapPayload2 = await tokenSenderWallet.transferPayload(toWalletTokenAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals), swapPayload);
+
+            let swapResult = await this.ton.walletTransfer(await senderToken.getWalletAddress(), 2e8, swapPayload2);
+
             console.log('SWAP RESULT', swapResult);
 
             await popups.error(`Success!<br>The swap is still in progress. After the completion of the swap, the tokens will appear on your wallet.`, '<i class="fas fa-retweet"></i>');
@@ -492,7 +495,7 @@ class UI extends EventEmitter3 {
                 let pairInfo;
                 try {
                     pairInfo = await this.swapRoot.getPairInfo(tokens.from.rootAddress, tokens.to.rootAddress);
-                    console.log('INVEST PAIR INFO', pairInfo,tokens.from.rootAddress,  tokens.to.rootAddress)
+                    console.log('INVEST PAIR INFO', pairInfo, tokens.from.rootAddress, tokens.to.rootAddress)
                 } catch (e) {
                     $('.currentPoolFrom,.currentPoolTo').text('Pair not found');
                     $('.plusInLiquidity').show();
@@ -525,18 +528,26 @@ class UI extends EventEmitter3 {
                 //TODO Add all decimals
                 console.log('INITIATOR', initiator);
                 //If initiator - from form
+
+                //Здесь, мы вычисляем сколько второго токена надо вложить, соответственно инициатор - поле сверху, вывыодим вполе внизу, decimals Для второго токена
                 if(initiator === 'from' || initiator === '') {
                     let otherToken = await pairContract.getAnotherTokenProvidingAmount(tokens.from.rootAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals));
-                    if(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.from.decimals) !== utils.unsignedNumberToSigned(0, tokens.from.decimals)) {
-                        $('.investToAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.from.decimals)));
+                    if(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.to.decimals) !== utils.unsignedNumberToSigned(0, tokens.to.decimals)) {
+
+                        console.log('FROM TOKEN', tokens.from, otherToken.anotherTokenAmount)
+                        $('.investToAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.to.decimals)));
                     }
                 }
 
                 //If initiator to form
+                //А здесь ввод токена снизу, вычисляем токен сверху
                 if(initiator === 'to') {
-                    let otherToken = await pairContract.getAnotherTokenProvidingAmount(tokens.to.rootAddress, utils.numberToUnsignedNumber(tokens.toAmount, tokens.to.decimals));
-                    if(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.to.decimals) !== utils.unsignedNumberToSigned(0, tokens.to.decimals)) {
-                        $('.investFromAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.to.decimals)));
+                    let otherToken = await pairContract.getAnotherTokenProvidingAmount(tokens.from.rootAddress, utils.numberToUnsignedNumber(tokens.toAmount, tokens.from.decimals));
+                    if(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.from.decimals) !== utils.unsignedNumberToSigned(0, tokens.from.decimals)) {
+
+                        console.log('TO TOKEN', tokens.to, otherToken.anotherTokenAmount)
+
+                        $('.investFromAmount').val(utils.showToken(utils.unsignedNumberToSigned(otherToken.anotherTokenAmount, tokens.from.decimals)));
                     }
                 }
 
@@ -571,7 +582,7 @@ class UI extends EventEmitter3 {
 
                     $('.currentPoolFrom').text(utils.unsignedNumberToSigned(BigNumber(fromPool).times(poolPercentage), tokens.from.decimals));
                     $('.currentPoolTo').text(utils.unsignedNumberToSigned(BigNumber(toPool).times(poolPercentage), tokens.to.decimals));
-                }catch (e) {
+                } catch (e) {
                     console.log(e);
                     $('.currentPoolLp').text(0);
                     $('.currentPoolFrom').text(0);
@@ -655,10 +666,10 @@ class UI extends EventEmitter3 {
 
             if(pairInfo.tokenRoot1 === tokens.from.rootAddress) {
                 $('.addLiquidityFromAmountFinal').text(utils.unsignedNumberToSigned(finalAmounts.providedFirstTokenAmount, tokens.from.decimals));
-                $('.addLiquidityToAmountFinal').text(utils.unsignedNumberToSigned(finalAmounts.providedSecondTokenAmount, tokens.from.decimals));
+                $('.addLiquidityToAmountFinal').text(utils.unsignedNumberToSigned(finalAmounts.providedSecondTokenAmount, tokens.to.decimals));
             } else {
                 $('.addLiquidityFromAmountFinal').text(utils.unsignedNumberToSigned(finalAmounts.providedSecondTokenAmount, tokens.from.decimals));
-                $('.addLiquidityToAmountFinal').text(utils.unsignedNumberToSigned(finalAmounts.providedFirstTokenAmount, tokens.from.decimals));
+                $('.addLiquidityToAmountFinal').text(utils.unsignedNumberToSigned(finalAmounts.providedFirstTokenAmount, tokens.to.decimals));
             }
 
 
@@ -718,18 +729,23 @@ class UI extends EventEmitter3 {
             const toTokenWallet = await new TokenWalletContract(this.ton, this.config).init(await toToken.getWalletAddress());
 
 
-            if(await fromTokenWallet.getContractBalance() < 2e9){
+            /*if(await fromTokenWallet.getContractBalance() < 2e9) {
                 await popups.error(`First token wallet balance less than 2 TON. Top up the balance of the token wallet at least to 2 TON for the operation`);
                 waiter.hide();
-                return ;
+                return;
             }
 
-            if(await toTokenWallet.getContractBalance() < 2e9){
+            if(await toTokenWallet.getContractBalance() < 2e9) {
                 await popups.error(`Second token wallet balance less than 2 TON. Top up the balance of the token wallet at least to 2 TON for the operation`);
                 waiter.hide();
-                return ;
-            }
+                return;
+            }*/
 
+            if(this.ton.walletBalance < 1e9 + 2e8 ){
+                await popups.error(`Insufficient funds for providing liquidity. Top up the balance of the wallet at least to 1.5 TON for the operation`);
+                waiter.hide();
+                return;
+            }
 
 
             //Detect from token wallet
@@ -746,10 +762,15 @@ class UI extends EventEmitter3 {
             console.log('PROVIDING INFO', tokens.fromAmount, tokens.toAmount)
 
             //Providing liquidity
-            let providingResult1 = await fromTokenWallet.transfer(fromWalletTokenAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals), provideLiquidityPayload);
+            const providingPayload1 = await fromTokenWallet.transferPayload(fromWalletTokenAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals), provideLiquidityPayload);
+            //let providingResult1 = await fromTokenWallet.transfer(fromWalletTokenAddress, utils.numberToUnsignedNumber(tokens.fromAmount, tokens.from.decimals), provideLiquidityPayload);
+            let providingResult1 = await this.ton.walletTransfer(await fromToken.getWalletAddress(), 2e8, providingPayload1)
+
             console.log('PROV1 RESULT', providingResult1);
 
-            let providingResult2 = await toTokenWallet.transfer(toWalletTokenAddress, utils.numberToUnsignedNumber(tokens.toAmount, tokens.to.decimals), provideLiquidityPayload, 1e9);
+            const providingPayload2 = await toTokenWallet.transferPayload(toWalletTokenAddress, utils.numberToUnsignedNumber(tokens.toAmount, tokens.to.decimals), provideLiquidityPayload, 1e9);
+            //let providingResult2 = await toTokenWallet.transfer(toWalletTokenAddress, utils.numberToUnsignedNumber(tokens.toAmount, tokens.to.decimals), provideLiquidityPayload, 1e9);
+            let providingResult2 = await this.ton.walletTransfer(await toToken.getWalletAddress(), 1e9, providingPayload2)
             console.log('PROV2 RESULT', providingResult2);
 
 
@@ -881,10 +902,10 @@ class UI extends EventEmitter3 {
         try {
             const payload = await this.swapRoot.deploySwapPairPayload(tokens.from.rootAddress, tokens.to.rootAddress);
 
-            let result = await this.ton.walletTransfer(this.config.pairRootAddress, 11e9 ,payload)
+            let result = await this.ton.walletTransfer(this.config.pairRootAddress, 11e9, payload)
 
 
-           // let result = await this.swapRoot.deploySwapPair(tokens.from.rootAddress, tokens.to.rootAddress);
+            // let result = await this.swapRoot.deploySwapPair(tokens.from.rootAddress, tokens.to.rootAddress);
             console.log(result);
             await popups.error(`Success! Txid: ${utils.getTxId(result)}`, '<i class="fas fa-retweet"></i>');
         } catch (e) {
