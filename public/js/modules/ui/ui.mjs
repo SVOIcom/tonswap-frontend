@@ -580,8 +580,8 @@ class UI extends EventEmitter3 {
 
                     console.log('LP BALANCE', await lpTokenWallet.getBalance());
 
-                    $('.currentPoolFrom').text(utils.unsignedNumberToSigned(BigNumber(fromPool).times(poolPercentage), tokens.from.decimals));
-                    $('.currentPoolTo').text(utils.unsignedNumberToSigned(BigNumber(toPool).times(poolPercentage), tokens.to.decimals));
+                    $('.currentPoolFrom').text(utils.unsignedNumberToSigned(BigNumber(fromPool).times(poolPercentage/100), tokens.from.decimals));
+                    $('.currentPoolTo').text(utils.unsignedNumberToSigned(BigNumber(toPool).times(poolPercentage/100), tokens.to.decimals));
                 } catch (e) {
                     console.log(e);
                     $('.currentPoolLp').text(0);
@@ -741,7 +741,7 @@ class UI extends EventEmitter3 {
                 return;
             }*/
 
-            if(this.ton.walletBalance < 1e9 + 2e8 ){
+            if(this.ton.walletBalance < 1e9 + 2e8) {
                 await popups.error(`Insufficient funds for providing liquidity. Top up the balance of the wallet at least to 1.5 TON for the operation`);
                 waiter.hide();
                 return;
@@ -836,7 +836,9 @@ class UI extends EventEmitter3 {
              console.log(result);*/
 
             //TODO check wallet balance
-            let withdrawResult = await lpTokenWallet.transfer(pairInfo.lpTokenWallet, await lpTokenWallet.getBalance(), withdrawPayload, 1e9);
+            let withdrawPayload2 = await lpTokenWallet.transferPayload(pairInfo.lpTokenWallet, await lpTokenWallet.getBalance(), withdrawPayload, 1e9);
+
+            let withdrawResult = await this.ton.walletTransfer(await lpToken.getWalletAddress(), 2e8, withdrawPayload2);
 
             console.log('WITHDRAW RESULT', withdrawResult);
 
