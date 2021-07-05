@@ -838,7 +838,7 @@ class UI extends EventEmitter3 {
             //TODO check wallet balance
             let withdrawPayload2 = await lpTokenWallet.transferPayload(pairInfo.lpTokenWallet, await lpTokenWallet.getBalance(), withdrawPayload, 1e9);
 
-            let withdrawResult = await this.ton.walletTransfer(await lpToken.getWalletAddress(), 2e8, withdrawPayload2);
+            let withdrawResult = await this.ton.walletTransfer(await lpToken.getWalletAddress(), 1e9, withdrawPayload2);
 
             console.log('WITHDRAW RESULT', withdrawResult);
 
