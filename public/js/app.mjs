@@ -73,7 +73,7 @@ const TON_WALLET_MIN_VERSION = '0.0.5';
     } catch (e) {
         console.log(e);
         if(!CONFIG.disableTONWallet) {
-            await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <a href="https://tonwallet.io" target="_blank">Get TONWallet now</a>');
+            await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <br><br><a href="https://tonwallet.io" target="_blank" style="text-decoration: underline">Get TONWallet now</a>');
         }
         TON = await getProvider({
             network: CONFIG.defaultNetwork,
@@ -99,7 +99,7 @@ const TON_WALLET_MIN_VERSION = '0.0.5';
                 TON = await getProvider().init();
                 document.location.reload();
             } catch (e) {
-                await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <a href="https://tonwallet.io" target="_blank">Get TONWallet now</a>');
+                await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <br><br><a href="https://tonwallet.io" target="_blank" style="text-decoration: underline">Get TONWallet now</a>');
             }
         });
 
