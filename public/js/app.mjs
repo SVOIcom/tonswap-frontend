@@ -24,6 +24,8 @@ import CONFIG from "./config.mjs";
 
 let currentNetworkAddress = '';
 
+const TON_WALLET_MIN_VERSION = '0.0.5';
+
 
 //Go async
 (async () => {
@@ -55,6 +57,9 @@ let currentNetworkAddress = '';
     try {
 
         TON = await getProvider().init();
+        if(await TON.provider.extension.getVersion() < TON_WALLET_MIN_VERSION){
+            await popups.error(`It seems you use TONWallet older than ${TON_WALLET_MIN_VERSION} version. Please, update your TONWallet before using SWAP. <br><br><a href="https://tonwallet.io" target="_blank" style="text-decoration: underline">Get TONWallet now</a>`);
+        }
         $('.connectExtratonButton').hide();
 
         $('.connectWalletButton').hide();
@@ -70,6 +75,8 @@ let currentNetworkAddress = '';
             network: CONFIG.defaultNetwork,
             networkServer: CONFIG.defaultNetworkServer
         }, PROVIDERS.TonWeb).init();
+
+
 
         $('.connectedWithExtraTon').hide();
         $('.installExtraton').show();
