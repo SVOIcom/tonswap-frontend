@@ -1800,7 +1800,7 @@ b, strong {
 }
 
 .exchange-form__input-select_selected {
-    font-size: calc(15px + 5 * ((100vw - 320px) / 960));
+    font-size: 13px; /*calc(15px + 5 * ((100vw - 320px) / 960));*/
     line-height: calc(21px + 5 * ((100vw - 320px) / 960));
 }
 
@@ -1821,14 +1821,14 @@ b, strong {
 @media screen and (min-width: 1280px) {
 
     .exchange-form__input-select_selected {
-        font-size: 20px;
+        font-size: 13px;
     }
 }
 
 @media screen and (max-width: 320px) {
 
     .exchange-form__input-select_selected {
-        font-size: 15px;
+        font-size: 13px;
     }
 }
 
@@ -8179,8 +8179,8 @@ b, strong {
     }
 
     .dark_theme .footer {
-        background: #0c1321;
-        border-color: #10235c
+        background: #060606;
+        border-color: #ebad44;
     }
 }
 
