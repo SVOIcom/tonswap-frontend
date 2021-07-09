@@ -57,7 +57,11 @@ const TON_WALLET_MIN_VERSION = '0.0.5';
     try {
 
         TON = await getProvider().init();
-        if(await TON.provider.extension.getVersion() < TON_WALLET_MIN_VERSION){
+        try {
+            if(await TON.provider.extension.getVersion() < TON_WALLET_MIN_VERSION) {
+            throw 'InvalidVersion';
+            }
+        }catch (e) {
             await popups.error(`It seems you use TONWallet older than ${TON_WALLET_MIN_VERSION} version. Please, update your TONWallet before using SWAP. <br><br><a href="https://tonwallet.io" target="_blank" style="text-decoration: underline">Get TONWallet now</a>`);
         }
         $('.connectExtratonButton').hide();
