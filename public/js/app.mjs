@@ -41,9 +41,9 @@ let currentNetworkAddress = '';
      * Configuration
      */
     //Disable dark theme if white enabled
-    if(!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+   /* if(!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         darkside.makeLight();
-    }
+    }*/
 
     let loadingPopup = await popups.waiting('Initialize...');
 
