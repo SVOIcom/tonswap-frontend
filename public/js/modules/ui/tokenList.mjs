@@ -28,6 +28,11 @@ class TokenList extends EventEmitter3 {
         let that = this;
 
         let html = `<ul class="select-token__list" id="currencyList">`;
+
+        html += `<li class="select-token__list-item addCustomToken">
+            <span>➕ Add custom token </span>
+        </li>`;
+
         for (let token of tokens) {
             html += `<li class="select-token__list-item selectToken" data-fancybox-close data-address="${token.rootAddress}" style="">
                                 <img src="${token.icon}" alt="">
@@ -35,9 +40,7 @@ class TokenList extends EventEmitter3 {
                      </li>`;
         }
 
-        html += `<li class="select-token__list-item addCustomToken">
-            <span>➕ Add custom token </span>
-        </li>`;
+
 
         html += `</ul>`;
         $(element).html(html);
