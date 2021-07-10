@@ -924,7 +924,7 @@ class UI extends EventEmitter3 {
 
             // let result = await this.swapRoot.deploySwapPair(tokens.from.rootAddress, tokens.to.rootAddress);
             console.log(result);
-            await popups.error(`Success! Txid: ${utils.getTxId(result)}`, '<i class="fas fa-retweet"></i>');
+            await popups.error(`Success! Txid: ${utils.getTxId(result)} <br><br>Pair will be created in about 5 minutes`, '<i class="fas fa-retweet"></i>');
         } catch (e) {
             console.log('Pair creating error', e);
             await popups.error(`'Pair creating error: ${e.message}`);
