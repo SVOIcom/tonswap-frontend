@@ -286,7 +286,16 @@ class UI extends EventEmitter3 {
         }, 30000);
 
 
+        //Network selctor
+        $('.selectBlockchain').click(async ()=>{
+            await popups.error(`Right now we only support the FreeTON blockchain network. Support for other blockchain platforms will be added soon.`, '<i class="fas fa-wallet"></i>')
+        })
+
+
         $('.accountLink').attr('href', 'https://' + (await this.ton.getNetwork()).explorer + '/accounts/accountDetails?id=' + (await this.ton.getWallet()).address);
+
+
+
 
         return this;
 

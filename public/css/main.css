@@ -1821,14 +1821,14 @@ b, strong {
 @media screen and (min-width: 1280px) {
 
     .exchange-form__input-select_selected {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 
 @media screen and (max-width: 320px) {
 
     .exchange-form__input-select_selected {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 
@@ -4602,7 +4602,7 @@ b, strong {
 }
 
 .error__icon {
-    color: #419bd2;
+    color: #fdb414;
     /*background-image: url("../img/error/error.svg");*/
     font-size: 60pt;
     background-position: center center;
