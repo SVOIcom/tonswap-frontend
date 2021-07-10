@@ -909,6 +909,12 @@ class UI extends EventEmitter3 {
             return;
         }
 
+        if(this.ton.walletBalance < 11e9) {
+            await popups.error(`Insufficient funds for creating pair. Top up the balance of the wallet at least to 11 TON for the operation`);
+            //waiter.hide();
+            return;
+        }
+
         let waiter = await popups.waiting('Creating...');
         try {
             const payload = await this.swapRoot.deploySwapPairPayload(tokens.from.rootAddress, tokens.to.rootAddress);
