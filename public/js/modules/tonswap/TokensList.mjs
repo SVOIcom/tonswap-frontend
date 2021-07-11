@@ -17,7 +17,7 @@ import TokenRootContract from "./contracts/TokenRootContract.mjs";
  */
 
 const TONSWAP_EXPLORERS_TOKEN_LIST = {
-    main: 'https://mainexplorer.tonswap.com/api/tokens',
+    main: 'https://swap-explorer.block-chain.com/api/tokens',
     test: 'https://explorer.tonswap.com/api/tokens'
 }
 
