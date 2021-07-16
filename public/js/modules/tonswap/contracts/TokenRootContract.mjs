@@ -42,12 +42,26 @@ class TokenRootContract {
         return (await this.contract.getDetails({_answer_id: 0})).value0;
     }
 
+    /*
     async getWalletAddress() {
         let pubkey = '0x' + (await this.ton.getKeypair()).public;
         return (await this.contract.getWalletAddress({
             _answer_id: 0,
             wallet_public_key_: pubkey,
             owner_address_: '0:0000000000000000000000000000000000000000000000000000000000000000'
+        })).value0;
+    } */
+
+    /**
+     * Get token wallet
+     * @returns {Promise<*>}
+     */
+    async getWalletAddress() {
+        let multisigWalletAddress = (await this.ton.getWallet()).address;
+        return (await this.contract.getWalletAddress({
+            _answer_id: 0,
+            wallet_public_key_: '0x0000000000000000000000000000000000000000000000000000000000000000',
+            owner_address_: multisigWalletAddress
         })).value0;
     }
 

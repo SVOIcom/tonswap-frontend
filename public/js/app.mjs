@@ -24,6 +24,8 @@ import CONFIG from "./config.mjs";
 
 let currentNetworkAddress = '';
 
+const TON_WALLET_MIN_VERSION = '0.0.5';
+
 
 //Go async
 (async () => {
@@ -41,9 +43,9 @@ let currentNetworkAddress = '';
      * Configuration
      */
     //Disable dark theme if white enabled
-    if(!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+   /* if(!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         darkside.makeLight();
-    }
+    }*/
 
     let loadingPopup = await popups.waiting('Initialize...');
 
@@ -55,6 +57,13 @@ let currentNetworkAddress = '';
     try {
 
         TON = await getProvider().init();
+        try {
+            if(await TON.provider.extension.getVersion() < TON_WALLET_MIN_VERSION) {
+            throw 'InvalidVersion';
+            }
+        }catch (e) {
+            await popups.error(`It seems you use TONWallet older than ${TON_WALLET_MIN_VERSION} version. Please, update your TONWallet before using SWAP. <br><br><a href="https://tonwallet.io" target="_blank" style="text-decoration: underline">Get TONWallet now</a>`);
+        }
         $('.connectExtratonButton').hide();
 
         $('.connectWalletButton').hide();
@@ -64,12 +73,14 @@ let currentNetworkAddress = '';
     } catch (e) {
         console.log(e);
         if(!CONFIG.disableTONWallet) {
-            await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <a href="https://tonwallet.io" target="_blank">Get TONWallet now</a>');
+            await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <br><br><a href="https://tonwallet.io" target="_blank" style="text-decoration: underline">Get TONWallet now</a>');
         }
         TON = await getProvider({
             network: CONFIG.defaultNetwork,
             networkServer: CONFIG.defaultNetworkServer
         }, PROVIDERS.TonWeb).init();
+
+
 
         $('.connectedWithExtraTon').hide();
         $('.installExtraton').show();
@@ -88,7 +99,7 @@ let currentNetworkAddress = '';
                 TON = await getProvider().init();
                 document.location.reload();
             } catch (e) {
-                await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <a href="https://tonwallet.io" target="_blank">Get TONWallet now</a>');
+                await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <br><br><a href="https://tonwallet.io" target="_blank" style="text-decoration: underline">Get TONWallet now</a>');
             }
         });
 
@@ -130,5 +141,7 @@ let currentNetworkAddress = '';
     //Initialize dialog hide
     loadingPopup.hide();
 
+    //TonWallet bug workaround
+    await TON.provider.setServers(TON.networkServer)
 
 })()

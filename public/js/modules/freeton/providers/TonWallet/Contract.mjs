@@ -43,6 +43,10 @@ class Contract {
             this[name].deploy = async function (args = undefined) {
                 return await that.deployMethod(name, args);
             }
+
+            this[name].payload = async function (args = undefined) {
+                return await that.deployPayload(name, args);
+            }
         }
     }
 
@@ -120,14 +124,45 @@ class Contract {
         };
         console.log('DEPLOY METHOD', params);
         let message = await this.parent.provider.contracts.createRunMessage(params);
+        console.log('MESSAGE', message, await this.parent.provider);
         let transaction = await this.parent.provider.contracts.sendMessage(message.message);
-        //console.log('TX', transaction);
+        console.log('TX', transaction);
 
         let result = await this.parent.provider.contracts.waitForRunTransaction(message, transaction);
 
         result.tx = transaction;
 
         return result;
+    }
+
+    /**
+     * Get call payload
+     * @param method
+     * @param args
+     * @returns {Promise<*>}
+     */
+    async deployPayload(method, args = {}) {
+
+        const ton = await getTONClient();
+
+        const callSet = {
+            function_name: method,
+            input: args
+        }
+        const encoded_msg = await ton.abi.encode_message_body({
+            abi: {
+                type: 'Json',
+                value: JSON.stringify(this.abi)
+            },
+            call_set: callSet,
+            is_internal: true,
+            signer: {
+                type: 'None'
+            }
+        });
+
+        return encoded_msg.body;
+
     }
 
 }

@@ -6,6 +6,9 @@
     |_|  \____/|_| \_|_____/ \_/\_/ \__,_| .__/
                                          | |
                                          |_| */
+import utils from "../utils.mjs";
+import TokenRootContract from "./contracts/TokenRootContract.mjs";
+
 /**
  * @name TONSwap project - tonswap.com
  * @copyright SVOI.dev Labs - https://svoi.dev
@@ -13,14 +16,19 @@
  * @version 1.0
  */
 
+const TONSWAP_EXPLORERS_TOKEN_LIST = {
+    main: 'https://swap-explorer.block-chain.com/api/tokens',
+    test: 'https://explorer.tonswap.com/api/tokens'
+}
 
 class TokensList {
-    constructor(listUrl = '/json/tokensList.json') {
+    constructor(listUrl = '/json/tokensList.json', ton) {
         this.listUrl = listUrl;
         this.name = '';
         this.version = '';
         this.url = '';
         this.tokens = [];
+        this.ton = ton;
     }
 
     /**
@@ -41,7 +49,18 @@ class TokensList {
             }
         }
 
-        this.tokens = newTokens;
+        let explorerTokens = await utils.jsonp(TONSWAP_EXPLORERS_TOKEN_LIST[network]);
+
+        for (let token of explorerTokens) {
+            token.rootAddress = token.tokenRoot;
+            token.icon = token.tokenIcon;
+            token.symbol = token.ticker;
+        }
+
+        console.log(explorerTokens);
+
+        this.tokens = [...newTokens, ...explorerTokens];
+
 
         return this;
     }
@@ -65,6 +84,20 @@ class TokensList {
                 return token;
             }
         }
+
+        //If no token in list, get info from blockchain
+
+        const senderToken = await new TokenRootContract(this.ton, null).init(rootAddress);
+        const tokenInfo = await senderToken.getDetails();
+        return {
+            "rootAddress": rootAddress,
+            "name": utils.hex2String(tokenInfo.name),
+            "symbol": utils.hex2String(tokenInfo.symbol),
+            "decimals": Number(tokenInfo.decimals),
+            "icon": ""
+        };
+
+
     }
 }
 

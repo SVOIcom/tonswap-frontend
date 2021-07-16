@@ -13,8 +13,8 @@
  * @version 1.0
  */
 
-class TokenList extends EventEmitter3{
-    keyup () {
+class TokenList extends EventEmitter3 {
+    keyup() {
 
         let value = $(this).val().toLowerCase();
 
@@ -23,11 +23,16 @@ class TokenList extends EventEmitter3{
         });
     }
 
-    load (tokens = [], element = $('.tokensList')) {
+    load(tokens = [], element = $('.tokensList')) {
 
         let that = this;
 
         let html = `<ul class="select-token__list" id="currencyList">`;
+
+        html += `<li class="select-token__list-item addCustomToken">
+            <span>➕ Add custom token </span>
+        </li>`;
+
         for (let token of tokens) {
             html += `<li class="select-token__list-item selectToken" data-fancybox-close data-address="${token.rootAddress}" style="">
                                 <img src="${token.icon}" alt="">
@@ -35,25 +40,55 @@ class TokenList extends EventEmitter3{
                      </li>`;
         }
 
+
+
         html += `</ul>`;
         $(element).html(html);
 
-        $('.fromList').find('.selectToken').click(function (){
+        $('.addCustomToken').click(function () {
+            let rootAddress = prompt('Token root address');
+            if(!rootAddress) {
+                return;
+            }
+            console.log($(this));
+
+
+            if($(this).closest('.fromList').length === 1) {
+                console.log(1);
+                that.emit('fromTokenChange', rootAddress);
+            }
+            if($(this).closest('.toList').length === 1) {
+                console.log(2);
+                that.emit('toTokenChange', rootAddress);
+            }
+            if($(this).closest('.fromListInvest').length === 1) {
+                console.log(3);
+                that.emit('fromTokenInvestChange', rootAddress);
+            }
+            if($(this).closest('.toListInvest').length === 1) {
+                console.log(4);
+                that.emit('toTokenInvestChange', rootAddress);
+            }
+
+            $.fancybox.close({});
+        });
+
+        $('.fromList').find('.selectToken').click(function () {
             let rootAddress = $(this).data('address');
             that.emit('fromTokenChange', rootAddress);
         });
 
-        $('.toList').find('.selectToken').click(function (){
+        $('.toList').find('.selectToken').click(function () {
             let rootAddress = $(this).data('address');
             that.emit('toTokenChange', rootAddress);
         });
 
-        $('.fromListInvest').find('.selectToken').click(function (){
+        $('.fromListInvest').find('.selectToken').click(function () {
             let rootAddress = $(this).data('address');
             that.emit('fromTokenInvestChange', rootAddress);
         });
 
-        $('.toListInvest').find('.selectToken').click(function (){
+        $('.toListInvest').find('.selectToken').click(function () {
             let rootAddress = $(this).data('address');
             that.emit('toTokenInvestChange', rootAddress);
         });
@@ -65,7 +100,6 @@ let tokenList = new TokenList();
 
 //Initialize token lists
 $('.tokenSelectListInput').keyup(tokenList.keyup);
-
 
 
 export default tokenList;

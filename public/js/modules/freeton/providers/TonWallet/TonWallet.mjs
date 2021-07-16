@@ -19,12 +19,13 @@ import utils from "../../../utils.mjs";
 
 
 const NETWORKS = {
-    main: 'main.ton.dev',
+    main: 'main2.ton.dev',
     test: 'net.ton.dev'
 };
 
 const REVERSE_NETWORKS = {
     'main.ton.dev': 'main',
+    'main2.ton.dev': 'main',
     'net.ton.dev': 'test'
 }
 
@@ -50,7 +51,7 @@ class TonWallet extends EventEmitter3 {
         this.walletContract = null;
         this.walletBalance = 0;
 
-        this.network = 'test';
+        this.network = 'main';
 
     }
 
@@ -177,6 +178,17 @@ class TonWallet extends EventEmitter3 {
             wallet.balance = await this.walletContract.getBalance();
         }
         return wallet;
+    }
+
+    /**
+     * Make wallet transfer
+     * @param to
+     * @param amount
+     * @param payload
+     * @returns {Promise<*>}
+     */
+    async walletTransfer(to, amount, payload = '') {
+        return await this.provider.accounts.walletTransfer((await this.getKeypair()).public, (await this.getWallet()).address, to, amount, payload);
     }
 
     /**

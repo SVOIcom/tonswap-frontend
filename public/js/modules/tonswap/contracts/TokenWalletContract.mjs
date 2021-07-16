@@ -41,8 +41,27 @@ class TokenWalletContract {
         return ((await this.contract.balance({_answer_id: 0})).value0);
     }
 
+    /**
+     * Returns contract TON blance
+     * @returns {Promise<*>}
+     */
+    async getContractBalance(){
+        return await this.contract.getBalance();
+    }
+
     async transfer(to, tokens, payload, grams = 2e8,) {
         return await this.contract.transfer.deploy({
+            to,
+            grams,
+            tokens: (tokens),
+            notify_receiver: true,
+            send_gas_to: '0:0000000000000000000000000000000000000000000000000000000000000000',
+            payload
+        });
+    }
+
+    async transferPayload(to, tokens, payload, grams = 2e8,) {
+        return await this.contract.transfer.payload({
             to,
             grams,
             tokens: (tokens),
