@@ -15,16 +15,19 @@
 
 import TonWeb from "./providers/TonWeb/TonWeb.mjs";
 import TonWallet from "./providers/TonWallet/TonWallet.mjs";
+import CrystalWallet from "./providers/CrystalWallet/CrystalWallet.mjs";
 
 const PROVIDERS = {
     TonWallet: 'tonwallet',
     TonWeb: 'tonweb',
+    CrystalWallet: 'crystalwallet',
 };
 
 
 const PROVIDERS_INSTANCES = {
     tonweb: TonWeb,
     tonwallet: TonWallet,
+    crystalwallet: CrystalWallet
 }
 
 

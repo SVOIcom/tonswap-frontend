@@ -1,0 +1,57 @@
+{
+  "_from": "ton-inpage-provider@^0.1.17",
+  "_id": "ton-inpage-provider@0.1.17",
+  "_inBundle": false,
+  "_integrity": "sha512-MXQ98saXT6M8SEiYZlcGgeNjmjhgD9dZ9tQMW5vQ/AdeEo+K1IeRWpSUH0OnpIm82OdOJQj3yMqqxOjBPLZthw==",
+  "_location": "/ton-inpage-provider",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "ton-inpage-provider@^0.1.17",
+    "name": "ton-inpage-provider",
+    "escapedName": "ton-inpage-provider",
+    "rawSpec": "^0.1.17",
+    "saveSpec": null,
+    "fetchSpec": "^0.1.17"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ton-inpage-provider/-/ton-inpage-provider-0.1.17.tgz",
+  "_shasum": "1f899a948d969c1685c7ca3e6856929f986d18af",
+  "_spec": "ton-inpage-provider@^0.1.17",
+  "_where": "C:\\Users\\DaTa\\Desktop\\JS\\test\\tonswap-frontend",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/broxus/ton-inpage-provider/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Web3-like interface to TON provided by TON Crystal Wallet browser extension",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "typedoc": "^0.20.36",
+    "typescript": "^4.2.4"
+  },
+  "files": [
+    "/dist"
+  ],
+  "homepage": "https://github.com/broxus/ton-inpage-provider#readme",
+  "license": "GPL-3.0",
+  "main": "dist/index.js",
+  "name": "ton-inpage-provider",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/broxus/ton-inpage-provider.git"
+  },
+  "scripts": {
+    "build": "typedoc && tsc",
+    "lint": "eslint"
+  },
+  "types": "dist/index.d.ts",
+  "version": "0.1.17"
+}

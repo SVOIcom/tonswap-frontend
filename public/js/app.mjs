@@ -26,6 +26,8 @@ let currentNetworkAddress = '';
 
 const TON_WALLET_MIN_VERSION = '0.0.5';
 
+console.log("123-2");
+
 
 //Go async
 (async () => {
@@ -54,6 +56,12 @@ const TON_WALLET_MIN_VERSION = '0.0.5';
      * @type {TonWallet}
      */
     let TON = null;
+    console.log("asdasd")
+    window.testCrystalTON = await getProvider({
+        network: CONFIG.defaultNetwork,
+        networkServer: CONFIG.defaultNetworkServer
+    }, PROVIDERS.CrystalWallet).init();
+    console.log("/asdasd")
     try {
 
         TON = await getProvider().init();
