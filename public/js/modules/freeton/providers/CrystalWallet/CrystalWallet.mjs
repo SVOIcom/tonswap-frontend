@@ -27,8 +27,27 @@ import ton, { hasTonProvider, Address } from './ton-inpage-provider/dist/index.j
  const REVERSE_NETWORKS = {
      'main.ton.dev': 'main',
      'main2.ton.dev': 'main',
-     'net.ton.dev': 'test'
+     'net.ton.dev': 'test',
+
+     'Mainnet (GQL 3)': 'main',
+     'Mainnet (GQL 2)': 'main',
+     'Mainnet (GQL 1)': 'main',
+     'Mainnet (ADNL)': 'main',
+     'Testnet': 'test',
+     'fld.ton.dev': 'test'
+
  }
+
+ const NETWORKS_COMPILABILITY = {
+
+    'Mainnet (GQL 3)': 'main2.ton.dev',
+    'Mainnet (GQL 2)': 'main2.ton.dev',
+    'Mainnet (GQL 1)': 'main2.ton.dev',
+    'Mainnet (ADNL)': 'main2.ton.dev',
+    'Testnet': 'net.ton.dev',
+    'fld.ton.dev': 'net.ton.dev'
+
+}
  
  const EXPLORERS = {
      test: 'net.ton.live',
@@ -42,7 +61,7 @@ import ton, { hasTonProvider, Address } from './ton-inpage-provider/dist/index.j
   */
  class CrystalWallet extends EventEmitter3 {
      constructor(options = {network: 'main',
-                            networkServer: 'main2.ton.dev',}) {
+                            networkServer: '',}) {
 
          super();
          this.options = options;
@@ -53,6 +72,7 @@ import ton, { hasTonProvider, Address } from './ton-inpage-provider/dist/index.j
  
          this.walletContract = null;
          this.walletBalance = 0;
+         this.lastWalletAdderss = null
  
          this.network = options.network;
  
@@ -66,19 +86,88 @@ import ton, { hasTonProvider, Address } from './ton-inpage-provider/dist/index.j
 
          //Detect is CrystallWallet exists
          if (!(await hasTonProvider())) {
-            throw new Error('CrystallWallet extension not found')
+            throw new Error('CrystallWallet extension not found');
           }
         await ton.ensureInitialized();
         
-        this.provider = await window.getTONWeb();
+        // this.provider = await window.getTONWeb();
 
         this.provider = ton
 
-        this.getPermissions();
+        await this.disconnect();
+
+        await this.getPermissions();
 
         console.log((await ton.getProviderState()));
 
-         return this;
+        this.networkServer = await this.getCurrentNetwork();
+
+        //Create "oldschool" ton provider
+        this.ton = await TONClient.create({
+            servers: [NETWORKS_COMPILABILITY[this.networkServer]] 
+        });
+
+        this.network = REVERSE_NETWORKS[this.networkServer];
+
+        //Changes watchdog timer
+        const syncNetwork = async () => {
+            console.log("checkNetwork-")
+
+            //Watch for network changed
+            let networkServer = (await this.getCurrentNetwork());
+            if(this.networkServer !== networkServer) {
+                if(this.networkServer !== null) {
+                    this.emit('networkChanged', networkServer, this.networkServer, this,);
+                }
+
+                this.network = REVERSE_NETWORKS[networkServer];
+                if(!this.network) {
+                    this.network = networkServer;
+                }
+                this.networkServer = networkServer;
+
+                this.ton = await TONClient.create({
+                    servers: [NETWORKS_COMPILABILITY[this.networkServer]] 
+                });
+
+                console.log("checkNetwork+")
+            }
+
+            //Watch for account changed
+            let pubkey = (await this.getKeypair()).public
+            if(this.pubkey !== pubkey) {
+                if(this.pubkey !== null) {
+                    this.emit('pubkeyChanged', pubkey, this,);
+                }
+                this.pubkey = pubkey;
+            }
+
+            //Watch for vallet address changed
+            let WalletAdderss = (await this.getWallet()).address
+            if(this.lastWalletAdderss !== WalletAdderss) {
+                if(this.lastWalletAdderss !== null) {
+                    this.emit('addressChanged', pubkey, this,);
+                }
+                this.lastWalletAdderss = WalletAdderss;
+            }
+
+            //Watch for wallet balance changed
+            let wallet = await this.getWallet()
+            let newBalance = wallet.balance;
+            //console.log(this.walletBalance, newBalance);
+            if(this.walletBalance !== newBalance) {
+                this.emit('balanceChanged', newBalance, wallet, this,);
+                this.walletBalance = newBalance;
+
+                console.log("balance_changed")
+            }
+
+        };
+        this.watchdogTimer = setInterval(syncNetwork, 1000);
+        await syncNetwork();
+
+        return this;
+
      }
 
      async getPermissions(permissions = ['tonClient', 'accountInteraction']) {
@@ -129,9 +218,12 @@ import ton, { hasTonProvider, Address } from './ton-inpage-provider/dist/index.j
 
         if(wallet.address) {
 
+
             if(!this.walletContract) {
                 this.walletContract = await this.loadContract('/contracts/abi/SafeMultisigWallet.abi.json', wallet.address);
             }
+
+
             //Load user wallet (potentially compatible with SafeMiltisig)
             wallet.contract = this.walletContract;
             wallet.balance = await this.walletContract.getBalance();
@@ -147,6 +239,34 @@ import ton, { hasTonProvider, Address } from './ton-inpage-provider/dist/index.j
          return currentNetwork;
      }
 
+     async disconnect(){
+        await ton.rawApi.disconnect();
+     }
+
+    /**
+     * Create contract instance by ABI
+     * @param {object} abi
+     * @param {string} address
+     * @returns {Promise<Contract>}
+     */
+    async initContract(abi, address) {
+        return new Contract(abi, address, this.ton, this);
+    }
+     
+    /**
+     * Load contract ABI by URL or abi
+     * @param {string|object} abiJson
+     * @param {string} address
+     * @returns {Promise<Contract>}
+     */
+    async loadContract(abiJson, address) {
+        if(typeof abiJson === 'string') {
+            abiJson = await ((await fetch(abiJson))).json();
+        }
+
+        return this.initContract(abiJson, address)
+    }
+
      /**
       * Make wallet transfer
       * @param to
@@ -159,7 +279,7 @@ import ton, { hasTonProvider, Address } from './ton-inpage-provider/dist/index.j
 
         // let parsedPayload = JSON.parse(payload);
 
-        let walletAddress = this.getWalletAddress();
+        let walletAddress = (await this.getWallet()).address;
 
 
         // sendMessageExample

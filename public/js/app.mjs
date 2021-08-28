@@ -149,7 +149,14 @@ console.log("123-2");
     //Initialize dialog hide
     loadingPopup.hide();
 
-    //TonWallet bug workaround
-    await TON.provider.setServers(TON.networkServer)
+    try{
+        
+        //TonWallet bug workaround
+        await TON.provider.setServers(TON.networkServer)
+
+    } catch (e) {
+        console.log(e)
+    }
+
 
 })()
