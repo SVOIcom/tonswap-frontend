@@ -1,5 +1,5 @@
 ![photo_2020-12-15_20-21-41](https://user-images.githubusercontent.com/18599919/111032509-ac9fbd80-841d-11eb-9639-843ef2d758b3.jpg)
-# TONSwap Frontend
+# TONSwap Frontend FINAL
 
 You can see deployed version at [http://swap.tonswap.com](http://swap.tonswap.com)
 
@@ -10,11 +10,11 @@ The interface supports connection to the FreeTON network using the extraTON exte
 
 ## Defaults
 
-For now frontend use provided devnet by default network: https://devnet.tonswap.com
+SWAP.block-chain.com use [TONConnect](https://github.com/SVOIcom/ton-provider) for connection support of various browser wallets:
+* TONWallet
+* Broxus Crystal Wallet
 
-If the extraTON extension is enabled, you can only connect to the networks provided by the extension.
 
-The default server can be changed in the **public/js/config.js** file
 
 ## Bulding
 
