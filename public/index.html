@@ -858,13 +858,14 @@
                 <div class="account__body">
                     <div class="account-info">
                         <p class="account-info__title connectedWithExtraTon">
-                                <span class="account-info__logo-container">
-                                    <img class="account-info__logo" src="img/tonwallet.svg" alt="">
-                                </span>
-                            Connected with TONWallet
+                                Connected account <span class="accountAddress"></span>
                         </p>
-                        <button class="button button_l-blue button_m account-info__change connectExtratonButton">Connect TONWallet</button>
-                        <a href="https://tonwallet.io/" target="_blank" class="button button_l-blue button_m account-info__change installExtraton" style="display: none">Get TONWallet extension</a>
+                        <button class="button button_l-blue button_m account-info__change " style="width: 100%;" onclick="connectTonWallet()"> <img src="https://swap.block-chain.com/img/tonwallet.svg" style="max-width: 30px;"> Connect TONWallet</button>
+                        <button class="button button_l-blue button_m account-info__change " style="width: 100%;" onclick="connectCrystalWallet()"><img src="https://raw.githubusercontent.com/broxus/ton-wallet-crystal-browser-extension/master/src/popup/icons/icon128.png"
+                                                                                                                                  style="max-width: 30px;"> Connect Crystal Wallet</button>
+                        <a href="https://tonwallet.io/" target="_blank" class="button button_l-blue button_m account-info__change installExtraton" style="display: none; width: 100%">Get TONWallet extension</a>
+                        <br>
+                        <button class="button button_l-blue button_m account-info__change" onclick="disconnectWallet()">Disconnect</button>
                         <br>
                         <button class="button button_l-blue button_m account-info__change connectSeed">Enter private or seed (not recommended)</button>
                         <div class="account-info__token">

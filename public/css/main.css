@@ -1460,6 +1460,7 @@ b, strong {
     vertical-align: middle;
     margin-left: 3px;
     border-radius: 100%;
+    background-size: cover;
 }
 
 .header__more {

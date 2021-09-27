@@ -16,7 +16,7 @@
 import darkside from './modules/darkside.mjs';
 import popups from './modules/popups/popups.mjs';
 import {default as globalize} from './modules/provideGlobal.mjs';
-import {default as getProvider, PROVIDERS} from "./modules/freeton/getProvider.mjs";
+import {default as getProvider, PROVIDERS, UTILS} from "https://tonconnect.svoi.dev/freeton/getProvider.mjs";
 import ui from "./modules/ui/ui.mjs";
 import updater from "./modules/ui/updater.mjs";
 import CONFIG from "./config.mjs";
@@ -50,10 +50,102 @@ const TON_WALLET_MIN_VERSION = '0.0.5';
     let loadingPopup = await popups.waiting('Initialize...');
 
     /**
+     * Disconnect wallets
+     * @returns {Promise<void>}
+     */
+    window.disconnectWallet = async function () {
+        delete localStorage.wallet;
+        await TON.revokePermissions();
+        window.location.href = window.location.href;
+        window.location.reload();
+    }
+
+    /**
+     * Connect crystalWallet
+     * @returns {Promise<void>}
+     */
+    window.connectCrystalWallet = async function () {
+        localStorage.wallet = PROVIDERS.CrystalWallet;
+        window.location.href = window.location.href;
+    }
+
+    /**
+     * Connect TonWallet
+     * @returns {Promise<void>}
+     */
+    window.connectTonWallet = async function () {
+        localStorage.wallet = PROVIDERS.TonWallet;
+        window.location.href = window.location.href;
+        window.location.reload();
+    }
+
+    window.connectTonWeb = async function () {
+        localStorage.wallet = PROVIDERS.TonWeb;
+        window.location.href = window.location.href;
+        window.location.reload();
+    }
+
+
+    /**
      * Initialize TON
      * @type {TonWallet}
      */
     let TON = null;
+    try {
+
+        if(!localStorage.wallet) {
+            throw 'NoWalletSelected';
+        }
+
+        //Initialize provider
+        TON = await getProvider({}, localStorage.wallet)//.init();
+        await TON.requestPermissions();
+        await TON.start();
+
+        let wallet = await TON.getWallet();
+
+        $('.accountAddress').text(UTILS.shortenPubkey(wallet.address));
+        $('.header__account-icon').css('background-image',`url(${TON.getIconUrl()})`)
+        //$('#connectWalletButton').html(`<img src="${TON.getIconUrl()}" style="height: 30px;"> &nbsp;` + utils.shortenPubkey(wallet.address));
+
+    } catch (e) {
+        console.log(e);
+        TON = await getProvider({
+            network: CONFIG.defaultNetwork,
+            networkServer: CONFIG.defaultNetworkServer
+        }, PROVIDERS.TonBackendWeb);
+        await TON.requestPermissions();
+        await TON.start();
+
+
+        $('.connectedWithExtraTon').hide();
+        $('.installExtraton').show();
+        $('.connectSeed').show();
+
+        $('.connectSeed').click(async () => {
+            await popups.getKeys();
+
+            $('.connectWalletButton').hide();
+            $('.swapButton, .createPoolButton').show();
+        });
+
+       /* $('.connectExtratonButton').click(async () => {
+            try {
+                //If TONWallet connected make reload
+                TON = await getProvider().init();
+                document.location.reload();
+            } catch (e) {
+                await popups.error('It seems the TONWallet browser extension was not found. TONWallet required for FreeTON connection. <br><br><a href="https://tonwallet.io" target="_blank" style="text-decoration: underline">Get TONWallet now</a>');
+            }
+        });*/
+
+    }
+
+    /**
+     * Initialize TON
+     * @type {TonWallet}
+     */
+    /*let TON = null;
     try {
 
         TON = await getProvider().init();
@@ -104,7 +196,7 @@ const TON_WALLET_MIN_VERSION = '0.0.5';
         });
 
 
-    }
+    }*/
     globalize.makeVisible(TON, 'TON');
 
     //Start UI updater
@@ -142,6 +234,9 @@ const TON_WALLET_MIN_VERSION = '0.0.5';
     loadingPopup.hide();
 
     //TonWallet bug workaround
-    await TON.provider.setServers(TON.networkServer)
+    try {
+        await TON.provider.setServers(TON.networkServer)
+    }catch (e) {
+    }
 
 })()
