@@ -89,7 +89,9 @@ class UI extends EventEmitter3 {
 
                 //Set exchange rates
                 let exchangeRate = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, utils.numberToUnsignedNumber(exchangeInfo.fromAmount, exchangeInfo.from.decimals));
+                let exchangeRateFromTo = await pairContract.getExchangeRate(exchangeInfo.to.rootAddress, utils.numberToUnsignedNumber(exchangeInfo.toAmount, exchangeInfo.to.decimals));
                 let exchangeRateForOne = await pairContract.getExchangeRate(exchangeInfo.from.rootAddress, 1000000000);
+
 
                 console.log('INITIATOR', initiator);
                 //If initiator - from form
@@ -100,9 +102,11 @@ class UI extends EventEmitter3 {
 
                 //If initiator to form
                 if(initiator === 'to') {
-                    $('.fromAmount').val(utils.showToken(Number(exchangeInfo.toAmount) / utils.unsignedNumberToSigned(Number(exchangeRateForOne.targetTokenAmount) / 1000000000)));
-                    await this.updateView('from');
-                    return;
+                    //$('.fromAmount').val(utils.showToken(Number(exchangeInfo.toAmount) / utils.unsignedNumberToSigned(Number(exchangeRateForOne.targetTokenAmount) / 1000000000)));
+                   console.log(exchangeRateFromTo);
+                    $('.fromAmount').val(utils.showToken(utils.unsignedNumberToSigned(exchangeRateFromTo.targetTokenAmount, exchangeInfo.from.decimals)));
+                    //await this.updateView('from');
+                    //return;
                 }
 
                 $('.minimumReceived').text(`${utils.unsignedNumberToSigned(exchangeRate.targetTokenAmount, exchangeInfo.to.decimals)} ${exchangeInfo.to.symbol}`)
